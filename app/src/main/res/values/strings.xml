@@ -2,4 +2,9 @@
     <string name="app_name">Cebreja</string>
     <string name="textLogin">Login</string>
     <string name="button">Entrar</string>
+    <string name="milhares_de_cervejas_para_avaliar">Milhares de cervejas para avaliar!</string>
+    <string name="gr_tis_no_cebreja">Grátis no Cebreja.</string>
+    <string name="entrar">Entrar</string>
+    <string name="inscreva_se_gr_tis">Inscreva-se grátis</string>
+    <string name="todo">TODO</string>
 </resources>
