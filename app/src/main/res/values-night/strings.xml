@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="milhares_de_cervejas_para_avaliar">Milhares de cervejas para avaliar!</string>
-    <string name="inscreva_se_gr_tis">Inscreva-se grátis!</string>
+    <string name="beer">Milhares de cervejas para avaliar!</string>
+    <string name="signin">Inscreva-se grátis!</string>
     <string name="todo">TODO</string>
 </resources>
