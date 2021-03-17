@@ -68,8 +68,6 @@
         android:ems="10"
         android:background="@drawable/bg_edit_text"
         android:inputType="textPassword" />
-
-
     <Button
         android:id="@+id/btnPageLogin"
         android:layout_width="match_parent"
