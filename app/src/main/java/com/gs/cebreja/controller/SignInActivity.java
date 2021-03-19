@@ -13,6 +13,6 @@ public class SignInActivity extends MainActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-        SetupUI.set(findViewById(R.id.loginPage), SignInActivity.this);
+        SetupUI.set(findViewById(R.id.SignInPage), SignInActivity.this);
     }
 }
