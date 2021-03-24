@@ -11,12 +11,13 @@ import com.gs.cebreja.R;
 
 public class IndexActivity extends MainActivity {
 
-    private Button btnSignIn, btnLogin;
+    private Button btnSignUp, btnLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
+
 
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(
@@ -28,8 +29,8 @@ public class IndexActivity extends MainActivity {
             }
         );
 
-        btnSignIn = (Button) findViewById(R.id.btnSignIn);
-        btnSignIn.setOnClickListener(
+        btnSignUp = (Button) findViewById(R.id.btnSignUp);
+        btnSignUp.setOnClickListener(
             new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -38,5 +39,6 @@ public class IndexActivity extends MainActivity {
             }
         );
     }
+
 
 }
