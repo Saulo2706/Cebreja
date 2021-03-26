@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.gs.cebreja.controller.IndexActivity;
@@ -19,10 +20,12 @@ public class SetupUI {
         InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(
                 Activity.INPUT_METHOD_SERVICE
         );
-        inputMethodManager.hideSoftInputFromWindow(
-                activity.getCurrentFocus().getWindowToken(),
-                0
-        );
+        if(inputMethodManager.isAcceptingText()){
+            inputMethodManager.hideSoftInputFromWindow(
+                    activity.getCurrentFocus().getWindowToken(),
+                    0
+            );
+        }
     }
 
     public static void set(View view, Activity activity) {

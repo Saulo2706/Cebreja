@@ -7,12 +7,14 @@
     <string name="username">E-mail</string>
     <string name="first_name">Nome</string>
     <string name="second_name">Sobrenome</string>
+    <string name="enter_full_name">Nome Completo</string>
+    <string name="next">Proximo</string>
     <string name="cpf">CPF</string>
     <string name="dt_nascimento">Data Nascimento</string>
     <string name="sign_up">Inscreva-se grátis</string>
+    <string name="create_account">Criar conta</string>
     <string name="signin_layer">Registrar</string>
     <string name="password_login">Senha</string>
     <string name="remember_me">Lembrar-me</string>
     <string name="forget_password">Esqueci a senha</string>
-    <string name="todo">TODO</string>
 </resources>
