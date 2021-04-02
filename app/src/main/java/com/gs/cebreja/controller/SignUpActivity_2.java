@@ -27,7 +27,7 @@ public class SignUpActivity_2 extends MainActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        changeActivity(SignUpActivity_2.this, SignUpActivity.class);
+                        onBackPressed();
                     }
                 }
         );

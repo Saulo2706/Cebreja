@@ -15,6 +15,7 @@ public class LoginActivity extends MainActivity {
 
     private EditText editTextEmailAddress, editTextPassword;
     private ImageButton login_back_button;
+    private Button btn_forget_password, btnSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,12 +23,36 @@ public class LoginActivity extends MainActivity {
         setContentView(R.layout.activity_login);
         SetupUI.set(findViewById(R.id.loginPage), LoginActivity.this);
 
+
+        //Botão Registrar
+        btnSignUp =(Button) findViewById(R.id.btnSignUp);
+        btnSignUp.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        changeActivity(LoginActivity.this, SignUpActivity.class);
+                    }
+                }
+        );
+
+        //Botão esqueci senha
+        btn_forget_password =(Button) findViewById(R.id.btn_forget_password);
+        btn_forget_password.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        changeActivity(LoginActivity.this, ForgetPasswordActivity.class);
+                    }
+                }
+        );
+
+        //Botão voltar
         login_back_button = (ImageButton) findViewById(R.id.login_back_button);
         login_back_button.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        changeActivity(LoginActivity.this, IndexActivity.class);
+                        onBackPressed();
                     }
                 }
         );

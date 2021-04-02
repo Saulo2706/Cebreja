@@ -16,7 +16,7 @@ import static androidx.core.content.ContextCompat.startActivity;
 
 public class SetupUI {
 
-    private static void hideSoftKeyboard(Activity activity) {
+    public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(
                 Activity.INPUT_METHOD_SERVICE
         );
