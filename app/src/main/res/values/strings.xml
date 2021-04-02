@@ -17,4 +17,9 @@
     <string name="password_login">Senha</string>
     <string name="remember_me">Lembrar-me</string>
     <string name="forget_password">Esqueci a senha</string>
+    <string name="finish_register">Finalizar Cadastro</string>
+    <string name="forget_password_detail">Coloque seu email para enviarmos o código verificador!</string>
+    <string name="forget_password_code_insert">Insira abaixo o codigo enviado ao seu e-mail!</string>
+    <string name="new_credentials">Nova Senha!</string>
+    <string name="new_credentials_detail">Insira sua nova credencial abaixo e confirme!</string>
 </resources>

@@ -13,7 +13,7 @@ import com.gs.cebreja.R;
 
 public class LoginActivity extends MainActivity {
 
-    EditText editTextEmailAddress, editTextPassword;
+    private EditText editTextEmailAddress, editTextPassword;
     private ImageButton login_back_button;
 
     @Override
@@ -22,6 +22,15 @@ public class LoginActivity extends MainActivity {
         setContentView(R.layout.activity_login);
         SetupUI.set(findViewById(R.id.loginPage), LoginActivity.this);
 
+        login_back_button = (ImageButton) findViewById(R.id.login_back_button);
+        login_back_button.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        changeActivity(LoginActivity.this, IndexActivity.class);
+                    }
+                }
+        );
 
 
         editTextPassword = (EditText)findViewById(R.id.editTextPassword);
