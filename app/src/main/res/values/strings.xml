@@ -22,4 +22,10 @@
     <string name="forget_password_code_insert">Insira abaixo o codigo enviado ao seu e-mail!</string>
     <string name="new_credentials">Nova Senha!</string>
     <string name="new_credentials_detail">Insira sua nova credencial abaixo e confirme!</string>
+    <string name="title_activity_forget_password_message">ForgetPasswordMessageActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 </resources>

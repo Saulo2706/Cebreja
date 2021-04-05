@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,8 @@ public class ForgetPasswordCodeVerifyActivity extends MainActivity {
     private ImageButton forget_password_back_btn;
     private Button forget_password_next_btn;
     private EditText code1,code2,code3,code4,code5;
+    private int previousLength;
+    private boolean backSpace;
 
 
     @Override
@@ -34,44 +37,88 @@ public class ForgetPasswordCodeVerifyActivity extends MainActivity {
 
         code1.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
-                code2.requestFocus();
-            }
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                backSpace = previousLength > s.length();
+                if (backSpace) {
+                    code1.requestFocus();
+                }
+                else {
+                    code2.requestFocus();
+                }
 
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                previousLength = s.length();
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
         });
         code2.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
-                code3.requestFocus();
+                backSpace = previousLength > s.length();
+                if (backSpace) {
+                    code1.requestFocus();
+                }else{
+                    code3.requestFocus();
+                }
+
             }
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                previousLength = s.length();
+            }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
         code3.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
-                code4.requestFocus();
+                backSpace = previousLength > s.length();
+                if (backSpace) {
+                    code2.requestFocus();
+                }else{
+                    code4.requestFocus();
+                }
+
             }
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                previousLength = s.length();
+            }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
         code4.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
-                code5.requestFocus();
+                backSpace = previousLength > s.length();
+                if (backSpace) {
+                    code3.requestFocus();
+                }else{
+                    code5.requestFocus();
+                }
+
             }
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                previousLength = s.length();
+            }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
         code5.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
-                SetupUI.hideSoftKeyboard(ForgetPasswordCodeVerifyActivity.this);
-                //CODIGO VERIFICADOR
-                String code = code1.getText().toString() + code2.getText().toString() + code3.getText().toString() + code4.getText().toString() + code5.getText().toString();
-                System.out.println(code);
+
+                backSpace = previousLength > s.length();
+                if (backSpace) {
+                    code4.requestFocus();
+                }else{
+                    SetupUI.hideSoftKeyboard(ForgetPasswordCodeVerifyActivity.this);
+                    //CODIGO VERIFICADOR
+                    String code = code1.getText().toString().toUpperCase() + code2.getText().toString().toUpperCase() + code3.getText().toString().toUpperCase() + code4.getText().toString().toUpperCase() + code5.getText().toString().toUpperCase();
+                    System.out.println(code);
+                }
+
+
             }
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                previousLength = s.length();
+            }
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });

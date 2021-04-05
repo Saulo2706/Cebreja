@@ -31,5 +31,16 @@ public class ForgetPasswordResetActivity extends MainActivity {
                     }
                 }
         );
+
+        //Botão proximo
+        set_new_password_btn = (Button) findViewById(R.id.set_new_password_btn);
+        set_new_password_btn.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        changeActivity(ForgetPasswordResetActivity.this, ForgetPasswordMessageActivity.class);
+                    }
+                }
+        );
     }
 }
