@@ -15,7 +15,7 @@ public class LoginActivity extends MainActivity {
 
     private EditText editTextEmailAddress, editTextPassword;
     private ImageButton login_back_button;
-    private Button btn_forget_password, btnSignUp;
+    private Button btn_forget_password, btnSignUp, btnLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +23,16 @@ public class LoginActivity extends MainActivity {
         setContentView(R.layout.activity_login);
         SetupUI.set(findViewById(R.id.loginPage), LoginActivity.this);
 
+        //Botão Login
+        btnLogin =(Button) findViewById(R.id.btnLogin);
+        btnLogin.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        changeActivity(LoginActivity.this, RankingActivity.class);
+                    }
+                }
+        );
 
         //Botão Registrar
         btnSignUp =(Button) findViewById(R.id.btnSignUp);
@@ -30,6 +40,7 @@ public class LoginActivity extends MainActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
                         changeActivity(LoginActivity.this, SignUpActivity.class);
                     }
                 }

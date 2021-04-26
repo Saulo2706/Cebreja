@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item>
+            <menu>
+                <item
+                    android:id="@+id/nav_profile_settings"
+                    android:title="Definições do perfil"
+                    android:icon="@drawable/manage_profile"/>
+                <item
+                    android:id="@+id/nav_favorite_beers"
+                    android:title="Cervejas Favoritas"
+                    android:icon="@drawable/star_icon"/>
+            </menu>
+        </item>
+    </group>
+
+    <group android:checkableBehavior="single">
+        <item>
+            <menu>
+                <item
+                    android:id="@+id/nav_logout"
+                    android:title="Sair"
+                    android:icon="@drawable/logout"/>
+            </menu>
+        </item>
+    </group>
+
+</menu>
