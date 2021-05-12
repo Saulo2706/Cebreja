@@ -7,7 +7,9 @@ import com.gs.cebreja.util.SetupUI;
 
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
@@ -18,7 +20,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 
 
-public class RankingActivity extends MainActivity {
+public class RankingActivity extends MainActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
@@ -35,10 +37,13 @@ public class RankingActivity extends MainActivity {
 
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
 
 
 
@@ -58,4 +63,28 @@ public class RankingActivity extends MainActivity {
     }
 
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Intent intent;
+
+        switch (item.getItemId()){
+            case R.id.nav_ranking:
+                intent = new Intent (RankingActivity.this,RankingActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_profile_settings:
+                 intent = new Intent (RankingActivity.this,ManagementProfile.class);
+                 startActivity(intent);
+                break;
+            case R.id.nav_favorite_beers:
+                intent = new Intent (RankingActivity.this,FavoriteBeers.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_logout:
+                intent = new Intent (RankingActivity.this,IndexActivity.class);
+                startActivity(intent);
+                break;
+        }
+        return false;
+    }
 }
