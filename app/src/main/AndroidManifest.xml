@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Cebreja">
-        <activity android:name=".controller.FavoriteBeers"></activity>
+        <activity android:name=".controller.SolicitationActivity"></activity>
+        <activity android:name=".controller.FavoriteBeers" />
         <activity android:name=".controller.ManagementProfile" />
         <activity android:name=".controller.RankingActivity" />
         <activity android:name=".controller.ForgetPasswordResetActivity" />

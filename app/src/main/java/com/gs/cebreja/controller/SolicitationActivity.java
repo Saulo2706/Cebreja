@@ -1,11 +1,9 @@
 package com.gs.cebreja.controller;
 
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
-import com.gs.cebreja.R;
-import com.gs.cebreja.util.SetupUI;
-
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,14 +11,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
-import androidx.annotation.NonNull;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
+import com.gs.cebreja.util.SetupUI;
+import com.gs.cebreja.R;
 
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 
+public class SolicitationActivity extends MainActivity implements NavigationView.OnNavigationItemSelectedListener  {
 
-
-public class RankingActivity extends MainActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     ImageButton menuIcon;
@@ -28,10 +26,9 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ranking);
-        SetupUI.set(findViewById(R.id.rankingPage), RankingActivity.this);
+        setContentView(R.layout.activity_solicitation);
 
-        drawerLayout = findViewById(R.id.rankingPage);
+        drawerLayout = findViewById(R.id.solicitationsPage);
         navigationView = findViewById(R.id.nav_view);
         menuIcon = (ImageButton) findViewById(R.id.menu_icon);
 
@@ -40,26 +37,24 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_menu);
 
-        bottomNavigationView.setSelectedItemId(R.id.ranking);
+        bottomNavigationView.setSelectedItemId(R.id.solicitacoes);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.solicitacoes:
-                        startActivity(new Intent(getApplicationContext()
-                        ,SolicitationActivity.class));
-                        overridePendingTransition(0,0);
                         return true;
                     case R.id.ranking:
+                        startActivity(new Intent(getApplicationContext()
+                                ,RankingActivity.class));
+                        overridePendingTransition(0,0);
                         return true;
                 }
                 return false;
             }
         });
-
     }
-
     private void navigationDrawer() {
 
         navigationView.bringToFront();
@@ -94,19 +89,19 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
 
         switch (item.getItemId()){
             case R.id.nav_ranking:
-                intent = new Intent (RankingActivity.this,RankingActivity.class);
+                intent = new Intent (SolicitationActivity.this,RankingActivity.class);
                 startActivity(intent);
                 break;
             case R.id.nav_profile_settings:
-                 intent = new Intent (RankingActivity.this,ManagementProfile.class);
-                 startActivity(intent);
+                intent = new Intent (SolicitationActivity.this,ManagementProfile.class);
+                startActivity(intent);
                 break;
             case R.id.nav_favorite_beers:
-                intent = new Intent (RankingActivity.this,FavoriteBeers.class);
+                intent = new Intent (SolicitationActivity.this,FavoriteBeers.class);
                 startActivity(intent);
                 break;
             case R.id.nav_logout:
-                intent = new Intent (RankingActivity.this,IndexActivity.class);
+                intent = new Intent (SolicitationActivity.this,IndexActivity.class);
                 startActivity(intent);
                 break;
         }
