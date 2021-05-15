@@ -40,7 +40,28 @@
             android:clickable="true"
             android:src="@drawable/drawer_icon" />
 
+
     </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerviwe_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/beer_item"
+            android:background="@color/white"
+            />
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -59,8 +80,6 @@
 
         </com.google.android.material.bottomnavigation.BottomNavigationView>
     </RelativeLayout>
-
-</LinearLayout>
 
 
 

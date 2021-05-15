@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.gs.cebreja.util.SetupUI;
 import com.gs.cebreja.R;
@@ -21,7 +22,9 @@ public class SolicitationActivity extends MainActivity implements NavigationView
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    ImageButton menuIcon;
+    private ImageButton menuIcon;
+    private FloatingActionButton fab;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,16 @@ public class SolicitationActivity extends MainActivity implements NavigationView
         drawerLayout = findViewById(R.id.solicitationsPage);
         navigationView = findViewById(R.id.nav_view);
         menuIcon = (ImageButton) findViewById(R.id.menu_icon);
+        fab = findViewById(R.id.add_btn);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext()
+                        ,AddBeerActivity.class));
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            }
+        });
 
 
         navigationDrawer();
@@ -48,7 +61,7 @@ public class SolicitationActivity extends MainActivity implements NavigationView
                     case R.id.ranking:
                         startActivity(new Intent(getApplicationContext()
                                 ,RankingActivity.class));
-                        overridePendingTransition(0,0);
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                         return true;
                 }
                 return false;

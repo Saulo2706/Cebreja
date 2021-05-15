@@ -49,7 +49,7 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
                     case R.id.solicitacoes:
                         startActivity(new Intent(getApplicationContext()
                         ,SolicitationActivity.class));
-                        overridePendingTransition(0,0);
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                         return true;
                     case R.id.ranking:
                         return true;
