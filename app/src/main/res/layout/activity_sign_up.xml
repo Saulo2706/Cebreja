@@ -61,6 +61,7 @@
 
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextFirstName"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/muli_semibold"
@@ -88,6 +89,7 @@
 
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextLastName"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/muli_semibold"
@@ -116,6 +118,7 @@
 
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextEmailAddress"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/muli_semibold"
@@ -145,6 +148,7 @@
 
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextPassword"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fontFamily="@font/muli_semibold"

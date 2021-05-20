@@ -23,13 +23,26 @@ public class LoginActivity extends MainActivity {
         setContentView(R.layout.activity_login);
         SetupUI.set(findViewById(R.id.loginPage), LoginActivity.this);
 
+
+        editTextPassword = (EditText)findViewById(R.id.editTextPassword);
+        editTextEmailAddress = (EditText)findViewById(R.id.editTextEmailAddress);
+
         //Botão Login
         btnLogin =(Button) findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        changeActivity(LoginActivity.this, RankingActivity.class);
+                        if(editTextEmailAddress.length() == 0){
+                            editTextEmailAddress.setError("Email não pode ser vazio!");
+                        }else if(!editTextEmailAddress.getText().toString().trim().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")){
+                            editTextEmailAddress.setError("Email invalido!");
+                        }else if(editTextPassword.length() == 0){
+                            editTextPassword.setError("Senha não pode ser vazia!");
+                        }else{
+                            System.out.println("EMAIL: " + editTextEmailAddress.getText().toString() + " SENHA: "+editTextPassword.getText().toString());
+                            changeActivity(LoginActivity.this, RankingActivity.class);
+                        }
                     }
                 }
         );
@@ -69,8 +82,6 @@ public class LoginActivity extends MainActivity {
         );
 
 
-        editTextPassword = (EditText)findViewById(R.id.editTextPassword);
-        editTextEmailAddress = (EditText)findViewById(R.id.editTextEmailAddress);
 
     }
 

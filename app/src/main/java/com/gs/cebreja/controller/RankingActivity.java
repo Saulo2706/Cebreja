@@ -17,13 +17,21 @@ import androidx.annotation.NonNull;
 
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class RankingActivity extends MainActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     ImageButton menuIcon;
+
+    RecyclerView recyclerView;
+    List<DetailsBeer> beerList;
+    MyAdapter myAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +43,18 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
         navigationView = findViewById(R.id.nav_view);
         menuIcon = (ImageButton) findViewById(R.id.menu_icon);
 
+        recyclerView = findViewById(R.id.recyclerview);
+        beerList = new ArrayList<>();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+
+        //passando dados para a recycler
+        for(int i = 0; i<=10; i++){
+            DetailsBeer details = new DetailsBeer("Cerveja"+i, "descricao"+i);
+            beerList.add(details);
+        }
+        myAdapter = new MyAdapter(beerList);
+        recyclerView.setAdapter(myAdapter);
 
         navigationDrawer();
 
