@@ -1,6 +1,4 @@
-package com.gs.cebreja.controller;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.gs.cebreja.activity;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,12 +11,10 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.gs.cebreja.R;
+import com.gs.cebreja.model.User;
 import com.gs.cebreja.util.SetupUI;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 public class SignUpActivity_2 extends MainActivity{
 
@@ -36,6 +32,8 @@ public class SignUpActivity_2 extends MainActivity{
 
         radioGroup = (RadioGroup)findViewById(R.id.radio_group);
         datePicker = findViewById(R.id.age_picker);
+        //Recebendo dados do objeto vindo da tela anterior!
+        User user = getIntent().getParcelableExtra("user");
 
         //BOTÃO DE VOLTAR
         signup_back_button = (ImageButton) findViewById(R.id.signup_back_button);
@@ -55,8 +53,6 @@ public class SignUpActivity_2 extends MainActivity{
                     @Override
                     public void onClick(View v) {
                         String radiovalue =((RadioButton)findViewById(radioGroup.getCheckedRadioButtonId())).getText().toString();
-
-
 
                         String date = String.valueOf(datePicker.getYear());
                         date += "-" + String.valueOf(datePicker.getMonth()+1);

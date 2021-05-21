@@ -1,4 +1,4 @@
-package com.gs.cebreja.controller;
+package com.gs.cebreja.activity;
 
 
 import com.gs.cebreja.R;

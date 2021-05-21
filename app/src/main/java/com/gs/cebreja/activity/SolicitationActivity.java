@@ -1,11 +1,8 @@
-package com.gs.cebreja.controller;
+package com.gs.cebreja.activity;
 
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
-import com.gs.cebreja.R;
-import com.gs.cebreja.util.SetupUI;
-
+import androidx.annotation.NonNull;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,73 +10,62 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
-import androidx.annotation.NonNull;
-
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import com.gs.cebreja.R;
 
 
-public class RankingActivity extends MainActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class SolicitationActivity extends MainActivity implements NavigationView.OnNavigationItemSelectedListener  {
+
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    ImageButton menuIcon;
+    private ImageButton menuIcon;
+    private FloatingActionButton fab;
 
-    RecyclerView recyclerView;
-    List<DetailsBeer> beerList;
-    MyAdapter myAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ranking);
-        SetupUI.set(findViewById(R.id.rankingPage), RankingActivity.this);
+        setContentView(R.layout.activity_solicitation);
 
-        drawerLayout = findViewById(R.id.rankingPage);
+        drawerLayout = findViewById(R.id.solicitationsPage);
         navigationView = findViewById(R.id.nav_view);
         menuIcon = (ImageButton) findViewById(R.id.menu_icon);
+        fab = findViewById(R.id.add_btn);
 
-        recyclerView = findViewById(R.id.recyclerview);
-        beerList = new ArrayList<>();
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext()
+                        ,AddBeerActivity.class));
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            }
+        });
 
-        //passando dados para a recycler
-        for(int i = 0; i<=10; i++){
-            DetailsBeer details = new DetailsBeer("Cerveja"+i, "descricao"+i);
-            beerList.add(details);
-        }
-        myAdapter = new MyAdapter(beerList);
-        recyclerView.setAdapter(myAdapter);
 
         navigationDrawer();
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_menu);
 
-        bottomNavigationView.setSelectedItemId(R.id.ranking);
+        bottomNavigationView.setSelectedItemId(R.id.solicitacoes);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.solicitacoes:
-                        startActivity(new Intent(getApplicationContext()
-                        ,SolicitationActivity.class));
-                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                         return true;
                     case R.id.ranking:
+                        startActivity(new Intent(getApplicationContext()
+                                ,RankingActivity.class));
+                        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                         return true;
                 }
                 return false;
             }
         });
-
     }
-
     private void navigationDrawer() {
 
         navigationView.bringToFront();
@@ -114,19 +100,19 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
 
         switch (item.getItemId()){
             case R.id.nav_ranking:
-                intent = new Intent (RankingActivity.this,RankingActivity.class);
+                intent = new Intent (SolicitationActivity.this,RankingActivity.class);
                 startActivity(intent);
                 break;
             case R.id.nav_profile_settings:
-                 intent = new Intent (RankingActivity.this,ManagementProfile.class);
-                 startActivity(intent);
+                intent = new Intent (SolicitationActivity.this, ManagementProfileActivity.class);
+                startActivity(intent);
                 break;
             case R.id.nav_favorite_beers:
-                intent = new Intent (RankingActivity.this,FavoriteBeers.class);
+                intent = new Intent (SolicitationActivity.this, FavoriteBeersActivity.class);
                 startActivity(intent);
                 break;
             case R.id.nav_logout:
-                intent = new Intent (RankingActivity.this,IndexActivity.class);
+                intent = new Intent (SolicitationActivity.this,IndexActivity.class);
                 startActivity(intent);
                 break;
         }

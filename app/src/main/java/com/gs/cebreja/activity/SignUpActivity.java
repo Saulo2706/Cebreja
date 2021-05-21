@@ -1,30 +1,41 @@
-package com.gs.cebreja.controller;
+package com.gs.cebreja.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 
 import com.gs.cebreja.R;
+import com.gs.cebreja.controller.LoginController;
+import com.gs.cebreja.controller.SignUpController;
+import com.gs.cebreja.model.User;
 import com.gs.cebreja.util.SetupUI;
+import com.gs.cebreja.view.ILoginView;
+import com.gs.cebreja.view.IRegisterView;
 
-public class SignUpActivity extends MainActivity {
+public class SignUpActivity extends MainActivity implements IRegisterView {
 
     private Button btnNextSignUp, btnLoginSignUp;
     private ImageButton signup_back_button;
-    private EditText editTextEmailAddress,editTextPassword,editTextLastName,editTextFirstName;
+    private EditText email,password,LastName,FirstName;
+    private SignUpController signUpPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         SetupUI.set(findViewById(R.id.signUpPage), SignUpActivity.this);
-        editTextFirstName = (EditText)findViewById(R.id.editTextFirstName);
-        editTextLastName = (EditText)findViewById(R.id.editTextLastName);
-        editTextPassword = (EditText)findViewById(R.id.editTextPassword);
-        editTextEmailAddress = (EditText)findViewById(R.id.editTextEmailAddress);
+
+        FirstName = (EditText)findViewById(R.id.editTextFirstName);
+        LastName = (EditText)findViewById(R.id.editTextLastName);
+        password = (EditText)findViewById(R.id.editTextPassword);
+        email = (EditText)findViewById(R.id.editTextEmailAddress);
+
+        signUpPresenter = new SignUpController(this);
 
         //BOTÃO DE VOLTAR
         signup_back_button = (ImageButton) findViewById(R.id.signup_back_button);
@@ -43,19 +54,8 @@ public class SignUpActivity extends MainActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(editTextFirstName.length() == 0){
-                            editTextFirstName.setError("Nome não pode ser vazio!");
-                        }else if(editTextLastName.length() == 0){
-                            editTextLastName.setError("Sobrenome não pode ser vazio!");
-                        }else if(editTextEmailAddress.length() == 0){
-                            editTextEmailAddress.setError("Email não pode ser vazio!");
-                        }else if(!editTextEmailAddress.getText().toString().trim().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")){
-                            editTextEmailAddress.setError("Email invalido!");
-                        }else if(editTextPassword.length() == 0){
-                            editTextPassword.setError("Senha não pode ser vazia!");
-                        }else {
-                            changeActivity(SignUpActivity.this, SignUpActivity_2.class);
-                        }
+                        signUpPresenter.OnRegister(FirstName.getText().toString().trim(),LastName.getText().toString().trim(),email.getText().toString().trim(),password.getText().toString().trim());
+
                     }
                 }
         );
@@ -70,5 +70,19 @@ public class SignUpActivity extends MainActivity {
                     }
                 }
         );
+    }
+
+    @Override
+    public void OnRegisterSuccess(String message) {
+        //Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+        User user = new User(FirstName.getText().toString().trim(),LastName.getText().toString().trim(),email.getText().toString().trim(),password.getText().toString().trim());
+        Intent intent = new Intent(SignUpActivity.this, SignUpActivity_2.class);
+        intent.putExtra("user", user);
+        startActivity(intent);
+    }
+
+    @Override
+    public void OnRegisterError(String message) {
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 }

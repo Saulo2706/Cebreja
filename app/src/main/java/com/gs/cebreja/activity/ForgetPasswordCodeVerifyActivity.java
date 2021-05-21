@@ -1,11 +1,8 @@
-package com.gs.cebreja.controller;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.gs.cebreja.activity;
 
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;

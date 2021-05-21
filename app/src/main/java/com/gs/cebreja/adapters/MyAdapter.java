@@ -1,4 +1,4 @@
-package com.gs.cebreja.controller;
+package com.gs.cebreja.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,14 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gs.cebreja.R;
+import com.gs.cebreja.model.Beer;
 
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
-    private List<DetailsBeer> beerList;
+    private List<Beer> beerList;
 
-    public MyAdapter(List<DetailsBeer> beerList) {
+    public MyAdapter(List<Beer> beerList) {
         this.beerList = beerList;
     }
 

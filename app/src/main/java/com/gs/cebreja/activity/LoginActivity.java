@@ -1,21 +1,23 @@
-package com.gs.cebreja.controller;
+package com.gs.cebreja.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.gs.cebreja.controller.LoginController;
 import com.gs.cebreja.util.SetupUI;
 import com.gs.cebreja.R;
+import com.gs.cebreja.view.ILoginView;
 
-public class LoginActivity extends MainActivity {
+public class LoginActivity extends MainActivity implements ILoginView {
 
-    private EditText editTextEmailAddress, editTextPassword;
+    private EditText email, password;
     private ImageButton login_back_button;
     private Button btn_forget_password, btnSignUp, btnLogin;
+    private LoginController loginPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,28 +25,20 @@ public class LoginActivity extends MainActivity {
         setContentView(R.layout.activity_login);
         SetupUI.set(findViewById(R.id.loginPage), LoginActivity.this);
 
-
-        editTextPassword = (EditText)findViewById(R.id.editTextPassword);
-        editTextEmailAddress = (EditText)findViewById(R.id.editTextEmailAddress);
+        email = (EditText)findViewById(R.id.editTextEmailAddress);
+        password = (EditText)findViewById(R.id.editTextPassword);
+        loginPresenter = new LoginController(this);
 
         //Botão Login
         btnLogin =(Button) findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(
                 new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(editTextEmailAddress.length() == 0){
-                            editTextEmailAddress.setError("Email não pode ser vazio!");
-                        }else if(!editTextEmailAddress.getText().toString().trim().matches("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")){
-                            editTextEmailAddress.setError("Email invalido!");
-                        }else if(editTextPassword.length() == 0){
-                            editTextPassword.setError("Senha não pode ser vazia!");
-                        }else{
-                            System.out.println("EMAIL: " + editTextEmailAddress.getText().toString() + " SENHA: "+editTextPassword.getText().toString());
-                            changeActivity(LoginActivity.this, RankingActivity.class);
-                        }
+                @Override
+                public void onClick(View v) {
+                    loginPresenter.OnLogin(email.getText().toString().trim(),password.getText().toString().trim());
                     }
                 }
+
         );
 
         //Botão Registrar
@@ -53,7 +47,6 @@ public class LoginActivity extends MainActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         changeActivity(LoginActivity.this, SignUpActivity.class);
                     }
                 }
@@ -83,6 +76,17 @@ public class LoginActivity extends MainActivity {
 
 
 
+    }
+
+    @Override
+    public void OnLoginSuccess(String message) {
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+        changeActivity(LoginActivity.this, RankingActivity.class);
+    }
+
+    @Override
+    public void OnLoginError(String message) {
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 
 }

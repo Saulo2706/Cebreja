@@ -1,6 +1,4 @@
-package com.gs.cebreja.controller;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.gs.cebreja.activity;
 
 import android.os.Bundle;
 import android.view.View;

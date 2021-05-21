@@ -7,7 +7,7 @@
     android:background="@color/white"
     android:padding="30dp"
     android:id="@+id/manageProfile"
-    tools:context=".controller.ManagementProfile">
+    tools:context=".activity.ManagementProfileActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

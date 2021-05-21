@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".controller.RankingActivity"
+    tools:context=".activity.RankingActivity"
     android:id="@+id/solicitationsPage"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">

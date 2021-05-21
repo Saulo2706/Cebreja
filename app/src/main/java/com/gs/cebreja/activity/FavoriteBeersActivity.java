@@ -1,10 +1,10 @@
-package com.gs.cebreja.controller;
+package com.gs.cebreja.activity;
 
 import com.gs.cebreja.R;
 
 import android.os.Bundle;
 
-public class FavoriteBeers extends MainActivity {
+public class FavoriteBeersActivity extends MainActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

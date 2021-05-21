@@ -1,4 +1,4 @@
-package com.gs.cebreja.controller;
+package com.gs.cebreja.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
