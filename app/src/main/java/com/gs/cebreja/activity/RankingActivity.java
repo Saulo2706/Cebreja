@@ -6,6 +6,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.gs.cebreja.R;
 import com.gs.cebreja.adapters.MyAdapter;
 import com.gs.cebreja.model.Beer;
+import com.gs.cebreja.model.User;
 import com.gs.cebreja.util.SetupUI;
 
 
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -27,23 +29,31 @@ import java.util.List;
 
 
 public class RankingActivity extends MainActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private TextView navUsername, navEmail;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    ImageButton menuIcon;
-
-    RecyclerView recyclerView;
-    List<Beer> beerList;
-    MyAdapter myAdapter;
+    private ImageButton menuIcon;
+    private RecyclerView recyclerView;
+    private List<Beer> beerList;
+    private MyAdapter myAdapter;
+    private View headerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ranking);
         SetupUI.set(findViewById(R.id.rankingPage), RankingActivity.this);
+        User user = getIntent().getParcelableExtra("user");
 
         drawerLayout = findViewById(R.id.rankingPage);
         navigationView = findViewById(R.id.nav_view);
+        headerView = navigationView.getHeaderView(0);
+        navUsername = headerView.findViewById(R.id.UserName);
+        navEmail = headerView.findViewById(R.id.Email);
         menuIcon = (ImageButton) findViewById(R.id.menu_icon);
+
+        navUsername.setText(user.getFirstName());
+        navEmail.setText(user.getEmail());
 
         recyclerView = findViewById(R.id.recyclerview);
         beerList = new ArrayList<>();

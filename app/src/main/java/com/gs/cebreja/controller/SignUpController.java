@@ -31,12 +31,14 @@ public class SignUpController {
             registerView.OnRegisterError("Senha não pode ficar em branco!");
         }else  if(registerCode == 4){
             registerView.OnRegisterError("Senha menor que 9 digitos!");
-        }else  if(registerCode == 5){
-            registerView.OnRegisterError("Usuario menor de 18 anos!");
         }else {
             registerView.OnRegisterSuccess("Login efetuado com sucesso");
         }
 
+    }
+
+    public void OnRegister_2(){
+        registerView.OnRegisterSuccess("Login efetuado com sucesso");
     }
 
 

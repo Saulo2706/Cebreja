@@ -1,6 +1,7 @@
 package com.gs.cebreja.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,17 +12,20 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.gs.cebreja.R;
+import com.gs.cebreja.controller.SignUpController;
 import com.gs.cebreja.model.User;
 import com.gs.cebreja.util.SetupUI;
+import com.gs.cebreja.view.IRegisterView;
 
 import java.util.Calendar;
 
-public class SignUpActivity_2 extends MainActivity{
+public class SignUpActivity_2 extends MainActivity implements IRegisterView {
 
     private ImageButton signup_back_button;
     private Button btnLoginSignUp, btnFinishRegister;
     private RadioGroup radioGroup;
     private DatePicker datePicker;
+    private SignUpController signUpPresenter;
 
 
     @Override
@@ -32,8 +36,8 @@ public class SignUpActivity_2 extends MainActivity{
 
         radioGroup = (RadioGroup)findViewById(R.id.radio_group);
         datePicker = findViewById(R.id.age_picker);
-        //Recebendo dados do objeto vindo da tela anterior!
-        User user = getIntent().getParcelableExtra("user");
+
+        signUpPresenter = new SignUpController(this);
 
         //BOTÃO DE VOLTAR
         signup_back_button = (ImageButton) findViewById(R.id.signup_back_button);
@@ -52,26 +56,14 @@ public class SignUpActivity_2 extends MainActivity{
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String radiovalue =((RadioButton)findViewById(radioGroup.getCheckedRadioButtonId())).getText().toString();
-
-                        String date = String.valueOf(datePicker.getYear());
-                        date += "-" + String.valueOf(datePicker.getMonth()+1);
-                        date += "-" + String.valueOf(datePicker.getDayOfMonth());
-
                         if(OldAgeValidade(datePicker.getDayOfMonth(),datePicker.getMonth()+1,datePicker.getYear())){
-                            System.out.println("Radio Val: "+ radiovalue + " Dt. Nascimento: " + date);
+                            signUpPresenter.OnRegister_2();
                         }else {
                             Context contexto = getApplicationContext();
                             String texto = "Idade menor que 18 anos!";
-                            int duracao = Toast.LENGTH_SHORT;
-
-                            Toast toast = Toast.makeText(contexto, texto,duracao);
+                            Toast toast = Toast.makeText(contexto,texto,Toast.LENGTH_SHORT);
                             toast.show();
                         }
-
-
-
-                        //changeActivity(SignUpActivity_2.this, LoginActivity.class);
                     }
                 }
         );
@@ -89,6 +81,27 @@ public class SignUpActivity_2 extends MainActivity{
 
 
 
+    }
+
+    @Override
+    public void OnRegisterSuccess(String message) {
+        //Recebendo dados do objeto vindo da tela anterior!
+        User user = getIntent().getParcelableExtra("user");
+        String date = String.valueOf(datePicker.getYear());
+        date += "-" + String.valueOf(datePicker.getMonth()+1);
+        date += "-" + String.valueOf(datePicker.getDayOfMonth());
+
+        user.setBirthDate(date);
+        user.setGender(((RadioButton)findViewById(radioGroup.getCheckedRadioButtonId())).getText().toString());
+
+        Intent intent = new Intent(SignUpActivity_2.this, RankingActivity.class);
+        intent.putExtra("user", user);
+        startActivity(intent);
+    }
+
+    @Override
+    public void OnRegisterError(String message) {
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 
     private boolean OldAgeValidade(int diaN, int mesN, int anoN){

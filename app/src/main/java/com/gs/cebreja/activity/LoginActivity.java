@@ -1,5 +1,6 @@
 package com.gs.cebreja.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.gs.cebreja.controller.LoginController;
+import com.gs.cebreja.model.User;
 import com.gs.cebreja.util.SetupUI;
 import com.gs.cebreja.R;
 import com.gs.cebreja.view.ILoginView;
@@ -81,7 +83,10 @@ public class LoginActivity extends MainActivity implements ILoginView {
     @Override
     public void OnLoginSuccess(String message) {
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
-        changeActivity(LoginActivity.this, RankingActivity.class);
+        User user = new User(email.getText().toString().trim(),password.getText().toString().trim());
+        Intent intent = new Intent(LoginActivity.this, RankingActivity.class);
+        intent.putExtra("user", user);
+        startActivity(intent);
     }
 
     @Override
