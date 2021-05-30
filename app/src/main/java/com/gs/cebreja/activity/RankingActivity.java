@@ -4,7 +4,7 @@ package com.gs.cebreja.activity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.gs.cebreja.R;
-import com.gs.cebreja.adapters.MyAdapter;
+import com.gs.cebreja.adapters.MyAdapterRanking;
 import com.gs.cebreja.model.Beer;
 import com.gs.cebreja.model.User;
 import com.gs.cebreja.util.SetupUI;
@@ -28,14 +28,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class RankingActivity extends MainActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class RankingActivity extends MainActivity implements NavigationView.OnNavigationItemSelectedListener{
     private TextView navUsername, navEmail;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ImageButton menuIcon;
     private RecyclerView recyclerView;
+    private MyAdapterRanking.RecyclerViewClickListner listner;
     private List<Beer> beerList;
-    private MyAdapter myAdapter;
+    private MyAdapterRanking myAdapterRanking;
     private View headerView;
 
     @Override
@@ -55,6 +56,7 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
         navUsername.setText(user.getFirstName());
         navEmail.setText(user.getEmail());
 
+        setOnClickListener();
         recyclerView = findViewById(R.id.recyclerview);
         beerList = new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -62,11 +64,12 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
 
         //passando dados para a recycler
         for(int i = 0; i<=10; i++){
-            Beer details = new Beer("Cerveja"+i, "descricao"+i);
+            Beer details = new Beer(i,"Cerveja"+i, "descricao"+i);
             beerList.add(details);
         }
-        myAdapter = new MyAdapter(beerList);
-        recyclerView.setAdapter(myAdapter);
+
+        myAdapterRanking = new MyAdapterRanking(beerList, listner);
+        recyclerView.setAdapter(myAdapterRanking);
 
         navigationDrawer();
 
@@ -88,6 +91,17 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
             }
         });
 
+    }
+
+    private void setOnClickListener() {
+        listner = new MyAdapterRanking.RecyclerViewClickListner() {
+            @Override
+            public void onClick(View v, int position) {
+                Intent intent = new Intent(getApplicationContext(), BeerActivity.class);
+                intent.putExtra("titleBeer",beerList.get(position).getTitle());
+                startActivity(intent);
+            }
+        };
     }
 
     private void navigationDrawer() {

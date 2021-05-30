@@ -1,5 +1,6 @@
 package com.gs.cebreja.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -21,7 +22,7 @@ public class SignUpActivity extends MainActivity implements IRegisterView {
 
     private Button btnNextSignUp, btnLoginSignUp;
     private ImageButton signup_back_button;
-    private EditText email,password,LastName,FirstName;
+    private EditText email,password,LastName,FirstName, passwordConfirm;
     private SignUpController signUpPresenter;
 
     @Override
@@ -34,6 +35,7 @@ public class SignUpActivity extends MainActivity implements IRegisterView {
         LastName = (EditText)findViewById(R.id.editTextLastName);
         password = (EditText)findViewById(R.id.editTextPassword);
         email = (EditText)findViewById(R.id.editTextEmailAddress);
+        passwordConfirm = (EditText)findViewById(R.id.editTextConfirmPassword);
 
         signUpPresenter = new SignUpController(this);
 
@@ -54,8 +56,14 @@ public class SignUpActivity extends MainActivity implements IRegisterView {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        signUpPresenter.OnRegister(FirstName.getText().toString().trim(),LastName.getText().toString().trim(),email.getText().toString().trim(),password.getText().toString().trim());
-
+                        if (password.getText().toString().trim().equals(passwordConfirm.getText().toString().trim())){
+                            signUpPresenter.OnRegister(FirstName.getText().toString().trim(),LastName.getText().toString().trim(),email.getText().toString().trim(),password.getText().toString().trim());
+                        }else {
+                            Context contexto = getApplicationContext();
+                            String texto = "Senhas não conferem!";
+                            Toast toast = Toast.makeText(contexto,texto,Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
                     }
                 }
         );

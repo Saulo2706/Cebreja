@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ingredientBeer"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="5dp"
+        android:hint="Ingrediente"
+        android:textColorHint="@color/black"
+        app:boxStrokeColor="@color/black"
+        app:boxStrokeWidthFocused="2dp"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/black"
+        app:hintTextColor="@color/black"
+        app:startIconDrawable="@drawable/ingredientes_icon"
+        app:startIconTint="@color/black">
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextIngredientBeer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/muli_semibold"
+            android:inputType="text"
+            android:textColor="@color/black"
+            android:textCursorDrawable="@null" />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/qtdBeer"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_weight="1"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:hint="Posição"
+        android:textColorHint="@color/black"
+        app:boxStrokeColor="@color/black"
+        app:boxStrokeWidthFocused="2dp"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/black"
+        app:hintTextColor="@color/black"
+        app:startIconDrawable="@drawable/position_icon"
+        app:startIconTint="@color/black">
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextqtdBeer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/muli_semibold"
+            android:inputType="number"
+            android:textColor="@color/black"
+            android:textCursorDrawable="@null" />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <ImageView
+        android:id="@+id/imageRemove"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_close"
+        app:tint="@color/black" />
+
+</LinearLayout>
+

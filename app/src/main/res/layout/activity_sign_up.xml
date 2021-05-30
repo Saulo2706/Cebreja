@@ -159,6 +159,35 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/signup_password_confirm"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Confirmação de senha"
+                android:textColorHint="@color/black"
+                app:boxStrokeColor="@color/black"
+                app:boxStrokeWidthFocused="2dp"
+                app:endIconTint="@color/black"
+                app:hintTextColor="@color/black"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/black"
+                app:startIconDrawable="@drawable/field_password_icon"
+                app:startIconTint="@color/black">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextConfirmPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/muli_semibold"
+                    android:inputType="textPassword"
+                    android:textColor="@color/black"
+                    android:textCursorDrawable="@null" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
 
         </LinearLayout>
 

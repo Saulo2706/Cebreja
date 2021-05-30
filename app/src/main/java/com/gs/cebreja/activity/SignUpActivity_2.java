@@ -90,7 +90,6 @@ public class SignUpActivity_2 extends MainActivity implements IRegisterView {
         String date = String.valueOf(datePicker.getYear());
         date += "-" + String.valueOf(datePicker.getMonth()+1);
         date += "-" + String.valueOf(datePicker.getDayOfMonth());
-
         user.setBirthDate(date);
         user.setGender(((RadioButton)findViewById(radioGroup.getCheckedRadioButtonId())).getText().toString());
 

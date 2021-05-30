@@ -13,13 +13,16 @@ import com.gs.cebreja.model.Beer;
 
 import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyViewHolder> {
 
     private List<Beer> beerList;
+    private RecyclerViewClickListner listner;
 
-    public MyAdapter(List<Beer> beerList) {
+    public MyAdapterRanking(List<Beer> beerList, RecyclerViewClickListner listner) {
         this.beerList = beerList;
+        this.listner = listner;
     }
+
 
     @NonNull
     @Override
@@ -34,7 +37,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.name_Beer.setText(beerList.get(position).getTitle());
         holder.desc_Beer.setText(beerList.get(position).getDescription());
     }
@@ -44,17 +47,27 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         return beerList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public interface RecyclerViewClickListner{
+        void onClick(View v, int position);
+    }
 
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView name_Beer;
         TextView desc_Beer;
 
         public MyViewHolder(@NonNull View itemView){
             super(itemView);
-
             name_Beer = itemView.findViewById(R.id.name_Beer);
             desc_Beer = itemView.findViewById(R.id.desc_Beer);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View itemView) {
+            listner.onClick(itemView, getAdapterPosition());
         }
     }
+
+
 
 }

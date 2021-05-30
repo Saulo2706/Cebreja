@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.regex.Pattern;
 
 public class User implements Parcelable {
+    private int id;
     private String email, password, firstName, lastName,gender,BirthDate;
 
     public User(String email, String password) {
@@ -46,6 +47,14 @@ public class User implements Parcelable {
 
     public String getGender() {
         return gender;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getBirthDate() {
