@@ -80,8 +80,9 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.solicitacoes:
-                        startActivity(new Intent(getApplicationContext()
-                        ,SolicitationActivity.class));
+                        Intent intent = new Intent(RankingActivity.this, SolicitationActivity.class);
+                        intent.putExtra("user", user);
+                        startActivity(intent);
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                         return true;
                     case R.id.ranking:

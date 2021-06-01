@@ -9,11 +9,13 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.gs.cebreja.R;
+import com.gs.cebreja.model.User;
 
 
 public class SolicitationActivity extends MainActivity implements NavigationView.OnNavigationItemSelectedListener  {
@@ -21,6 +23,8 @@ public class SolicitationActivity extends MainActivity implements NavigationView
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ImageButton menuIcon;
+    private View headerView;
+    private TextView navUsername, navEmail;
     private FloatingActionButton fab;
 
 
@@ -28,11 +32,19 @@ public class SolicitationActivity extends MainActivity implements NavigationView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_solicitation);
+        User user = getIntent().getParcelableExtra("user");
 
         drawerLayout = findViewById(R.id.solicitationsPage);
         navigationView = findViewById(R.id.nav_view);
+        headerView = navigationView.getHeaderView(0);
+        navUsername = headerView.findViewById(R.id.UserName);
+        navEmail = headerView.findViewById(R.id.Email);
         menuIcon = (ImageButton) findViewById(R.id.menu_icon);
         fab = findViewById(R.id.add_btn);
+
+
+        navUsername.setText(user.getFirstName());
+        navEmail.setText(user.getEmail());
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,8 +69,9 @@ public class SolicitationActivity extends MainActivity implements NavigationView
                     case R.id.solicitacoes:
                         return true;
                     case R.id.ranking:
-                        startActivity(new Intent(getApplicationContext()
-                                ,RankingActivity.class));
+                        Intent intent = new Intent(SolicitationActivity.this, RankingActivity.class);
+                        intent.putExtra("user", user);
+                        startActivity(intent);
                         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                         return true;
                 }
