@@ -12,11 +12,13 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -29,6 +31,7 @@ import com.gs.cebreja.view.ILoginView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,8 +41,6 @@ public class LoginActivity extends MainActivity implements ILoginView {
     private ImageButton login_back_button;
     private Button btn_forget_password, btnSignUp, btnLogin;
     private LoginController loginPresenter;
-    RequestQueue requestQueue;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,7 +103,7 @@ public class LoginActivity extends MainActivity implements ILoginView {
     public void post_request(String email, String password) {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://54.232.167.108:8080/auth/signin";
+        String url ="http://54.94.67.112:8080/auth/signin";
 
         JSONObject json = new JSONObject();
         try {
@@ -113,34 +114,46 @@ public class LoginActivity extends MainActivity implements ILoginView {
             e.printStackTrace();
         }
 
-        // Request a string response from the provided URL.
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(LoginActivity.this,response.toString(),Toast.LENGTH_LONG).show();
+
+
+                        Toast.makeText(LoginActivity.this,"Login efetuado com sucesso",Toast.LENGTH_LONG).show();
+                        //response.getString("token")
+                        User user = new User(email,password,"12345");
+                        Intent intent = new Intent(LoginActivity.this, RankingActivity.class);
+                        intent.putExtra("user", user);
+                        System.out.println(user.getToken());
+                        startActivity(intent);
+
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(LoginActivity.this,error.toString(),Toast.LENGTH_LONG).show();
-            }
-        });
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error.networkResponse != null) {
+                            if(error.networkResponse.statusCode == 500){
+                                Toast.makeText(LoginActivity.this,"Email ou senha inválidos",Toast.LENGTH_LONG).show();
+                            }else {
+                                Toast.makeText(LoginActivity.this,error.toString(),Toast.LENGTH_LONG).show();
+                            }
+
+                        }
+                    }
+                }
+
+        );
 
         queue.add(jsonObjectRequest);
-
     }
 
 
 
     @Override
     public void OnLoginSuccess(String message) {
-        //Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
-        //User user = new User(email.getText().toString().trim(),password.getText().toString().trim());
         post_request(email.getText().toString().trim(),password.getText().toString().trim());
-        //Intent intent = new Intent(LoginActivity.this, RankingActivity.class);
-        //intent.putExtra("user", user);
-        //startActivity(intent);
     }
 
     @Override

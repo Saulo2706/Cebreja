@@ -3,16 +3,24 @@ package com.gs.cebreja.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
+import android.util.JsonToken;
 import android.util.Patterns;
 
 import java.util.Calendar;
 import java.util.regex.Pattern;
 
 public class User implements Parcelable {
-    private int id;
+
+    private String jsonWebToken;
     private String email, password, firstName, lastName,gender,BirthDate;
 
     public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(String email, String password, String jsonWebToken) {
+        this.jsonWebToken = jsonWebToken;
         this.email = email;
         this.password = password;
     }
@@ -45,17 +53,21 @@ public class User implements Parcelable {
         }
     };
 
+    public User() {
+    }
+
+    public String getToken() {
+        return jsonWebToken;
+    }
+
+    public void setToken(String token) {
+        this.jsonWebToken = token;
+    }
+
     public String getGender() {
         return gender;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getBirthDate() {
         return BirthDate;

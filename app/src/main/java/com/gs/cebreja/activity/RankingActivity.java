@@ -44,7 +44,7 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ranking);
         SetupUI.set(findViewById(R.id.rankingPage), RankingActivity.this);
-        User user = getIntent().getParcelableExtra("user");
+        User user = getIntent().getExtras().getParcelable("user");
 
         drawerLayout = findViewById(R.id.rankingPage);
         navigationView = findViewById(R.id.nav_view);
@@ -52,6 +52,10 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
         navUsername = headerView.findViewById(R.id.UserName);
         navEmail = headerView.findViewById(R.id.Email);
         menuIcon = (ImageButton) findViewById(R.id.menu_icon);
+
+        System.out.println(user.getToken());
+        System.out.println(user.getPassword());
+        System.out.println(user.getEmail());
 
         navUsername.setText(user.getFirstName());
         navEmail.setText(user.getEmail());
