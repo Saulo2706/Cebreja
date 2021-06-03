@@ -3,6 +3,8 @@ package com.gs.cebreja.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,7 +15,7 @@ import com.gs.cebreja.model.Beer;
 
 import java.util.List;
 
-public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyViewHolder> {
+public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyViewHolder> implements Filterable {
 
     private List<Beer> beerList;
     private RecyclerViewClickListner listner;
@@ -45,6 +47,11 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
     @Override
     public int getItemCount() {
         return beerList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return null;
     }
 
     public interface RecyclerViewClickListner{

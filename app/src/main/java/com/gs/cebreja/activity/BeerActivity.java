@@ -3,6 +3,8 @@ package com.gs.cebreja.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.gs.cebreja.R;
@@ -14,15 +16,24 @@ public class BeerActivity extends MainActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beer);
 
+        //Botão voltar
+        ImageButton back_btn;
+        back_btn = findViewById(R.id.beer_back_btn);
+        back_btn.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onBackPressed();
+                    }
+                }
+        );
+
         TextView textView = findViewById(R.id.titleBeer);
-
         String titleBeer = "Titulo não inputado";
-
         Bundle extras = getIntent().getExtras();
         if(extras != null){
             titleBeer = extras.getString("titleBeer");
         }
-
         textView.setText(titleBeer);
     }
 }

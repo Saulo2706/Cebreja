@@ -47,6 +47,19 @@
             app:layout_constraintTop_toBottomOf="@+id/name_Beer" />
 
 
+
+        <ToggleButton
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="176dp"
+            android:textOn=""
+            android:textOff=""
+            android:background="@drawable/toggle_selector"
+            android:onClick="onCustomToggleClick"
+            app:layout_constraintStart_toEndOf="@+id/desc_Beer"
+            app:layout_constraintTop_toBottomOf="@+id/name_Beer"/>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

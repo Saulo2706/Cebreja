@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 
 public class User implements Parcelable {
 
+    public static String token;
     private String jsonWebToken;
     private String email, password, firstName, lastName,gender,BirthDate;
 

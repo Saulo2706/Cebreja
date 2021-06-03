@@ -12,13 +12,18 @@ import com.gs.cebreja.util.SetupUI;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,12 +37,14 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
     private TextView navUsername, navEmail;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private ImageButton menuIcon;
+    private ImageView menuIcon;
     private RecyclerView recyclerView;
     private MyAdapterRanking.RecyclerViewClickListner listner;
     private List<Beer> beerList;
     private MyAdapterRanking myAdapterRanking;
     private View headerView;
+    private Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,23 +52,21 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
         setContentView(R.layout.activity_ranking);
         SetupUI.set(findViewById(R.id.rankingPage), RankingActivity.this);
         User user = getIntent().getExtras().getParcelable("user");
+        user.setToken(User.token);
 
         drawerLayout = findViewById(R.id.rankingPage);
         navigationView = findViewById(R.id.nav_view);
         headerView = navigationView.getHeaderView(0);
         navUsername = headerView.findViewById(R.id.UserName);
         navEmail = headerView.findViewById(R.id.Email);
-        menuIcon = (ImageButton) findViewById(R.id.menu_icon);
-
-        System.out.println(user.getToken());
-        System.out.println(user.getPassword());
-        System.out.println(user.getEmail());
+        menuIcon = (ImageView) findViewById(R.id.menu_icon);
 
         navUsername.setText(user.getFirstName());
         navEmail.setText(user.getEmail());
 
         setOnClickListener();
         recyclerView = findViewById(R.id.recyclerview);
+        toolbar = findViewById(R.id.toolbar);
         beerList = new ArrayList<>();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
@@ -142,10 +147,6 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
         Intent intent;
 
         switch (item.getItemId()){
-            case R.id.nav_ranking:
-                intent = new Intent (RankingActivity.this,RankingActivity.class);
-                startActivity(intent);
-                break;
             case R.id.nav_profile_settings:
                  intent = new Intent (RankingActivity.this, ManagementProfileActivity.class);
                  startActivity(intent);
@@ -161,4 +162,11 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
         }
         return false;
     }
+
+
+    public void onCustomToggleClick(View view) {
+        //Toast.makeText(this, "CustomToggle", Toast.LENGTH_SHORT).show();
+    }
+
+
 }

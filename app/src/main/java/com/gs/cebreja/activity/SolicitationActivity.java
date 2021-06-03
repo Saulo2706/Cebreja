@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -22,7 +23,7 @@ public class SolicitationActivity extends MainActivity implements NavigationView
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    private ImageButton menuIcon;
+    private ImageView menuIcon;
     private View headerView;
     private TextView navUsername, navEmail;
     private FloatingActionButton fab;
@@ -33,13 +34,14 @@ public class SolicitationActivity extends MainActivity implements NavigationView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_solicitation);
         User user = getIntent().getParcelableExtra("user");
+        user.setToken(User.token);
 
         drawerLayout = findViewById(R.id.solicitationsPage);
         navigationView = findViewById(R.id.nav_view);
         headerView = navigationView.getHeaderView(0);
         navUsername = headerView.findViewById(R.id.UserName);
         navEmail = headerView.findViewById(R.id.Email);
-        menuIcon = (ImageButton) findViewById(R.id.menu_icon);
+        menuIcon = (ImageView) findViewById(R.id.menu_icon);
         fab = findViewById(R.id.add_btn);
 
 
@@ -49,8 +51,9 @@ public class SolicitationActivity extends MainActivity implements NavigationView
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext()
-                        ,AddBeerActivity.class));
+                Intent intent = new Intent(SolicitationActivity.this, AddBeerActivity.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
@@ -112,10 +115,6 @@ public class SolicitationActivity extends MainActivity implements NavigationView
         Intent intent;
 
         switch (item.getItemId()){
-            case R.id.nav_ranking:
-                intent = new Intent (SolicitationActivity.this,RankingActivity.class);
-                startActivity(intent);
-                break;
             case R.id.nav_profile_settings:
                 intent = new Intent (SolicitationActivity.this, ManagementProfileActivity.class);
                 startActivity(intent);

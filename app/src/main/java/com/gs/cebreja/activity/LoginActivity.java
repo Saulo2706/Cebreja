@@ -118,15 +118,17 @@ public class LoginActivity extends MainActivity implements ILoginView {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        try {
+                            User.token = response.getString("token");
+                            User user = new User(email,password,"token");
+                            Toast.makeText(LoginActivity.this,"Login efetuado com sucesso",Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(LoginActivity.this, RankingActivity.class);
+                            intent.putExtra("user", user);
+                            startActivity(intent);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
-
-                        Toast.makeText(LoginActivity.this,"Login efetuado com sucesso",Toast.LENGTH_LONG).show();
-                        //response.getString("token")
-                        User user = new User(email,password,"12345");
-                        Intent intent = new Intent(LoginActivity.this, RankingActivity.class);
-                        intent.putExtra("user", user);
-                        System.out.println(user.getToken());
-                        startActivity(intent);
 
                     }
                 },
