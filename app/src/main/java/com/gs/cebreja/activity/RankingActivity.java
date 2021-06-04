@@ -5,8 +5,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.gs.cebreja.R;
 import com.gs.cebreja.adapters.MyAdapterRanking;
+import com.gs.cebreja.mapper.BeerMapper;
 import com.gs.cebreja.model.Beer;
 import com.gs.cebreja.model.User;
+import com.gs.cebreja.network.ApiService;
+import com.gs.cebreja.network.response.BeersResult;
 import com.gs.cebreja.util.SetupUI;
 
 
@@ -17,20 +20,28 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class RankingActivity extends MainActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -38,21 +49,25 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ImageView menuIcon;
-    private RecyclerView recyclerView;
     private MyAdapterRanking.RecyclerViewClickListner listner;
     private List<Beer> beerList;
     private MyAdapterRanking myAdapterRanking;
     private View headerView;
     private Toolbar toolbar;
-
+    private SearchView searchView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private RecyclerView recyclerView;
+    private MyAdapterRanking beerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ranking);
         SetupUI.set(findViewById(R.id.rankingPage), RankingActivity.this);
+
         User user = getIntent().getExtras().getParcelable("user");
         user.setToken(User.token);
+
 
         drawerLayout = findViewById(R.id.rankingPage);
         navigationView = findViewById(R.id.nav_view);
@@ -60,28 +75,27 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
         navUsername = headerView.findViewById(R.id.UserName);
         navEmail = headerView.findViewById(R.id.Email);
         menuIcon = (ImageView) findViewById(R.id.menu_icon);
+        toolbar = findViewById(R.id.toolbar);
+        searchView = findViewById(R.id.searchToolbar);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+
 
         navUsername.setText(user.getFirstName());
         navEmail.setText(user.getEmail());
+        beerList = new ArrayList<>();
 
         setOnClickListener();
-        recyclerView = findViewById(R.id.recyclerview);
-        toolbar = findViewById(R.id.toolbar);
-        beerList = new ArrayList<>();
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
 
-        //passando dados para a recycler
-        for(int i = 0; i<=10; i++){
-            Beer details = new Beer(i,"Cerveja"+i, "descricao"+i);
-            beerList.add(details);
-        }
 
-        myAdapterRanking = new MyAdapterRanking(beerList, listner);
-        recyclerView.setAdapter(myAdapterRanking);
+        configuraAdapter();
+        obtemCervejas();
 
+
+        refreshRecycler();
+        searchRecycler();
+
+        //menu inferior
         navigationDrawer();
-
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_menu);
         bottomNavigationView.setSelectedItemId(R.id.ranking);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -100,7 +114,66 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
                 return false;
             }
         });
+    }
 
+    private void obtemCervejas(){
+        ApiService.getInstace()
+        .obterCervejas("5a6bcc702ae4115d39553c217a0bd8a6")
+        .enqueue(new Callback<BeersResult>() {
+            @Override
+            public void onResponse(Call<BeersResult> call, Response<BeersResult> response) {
+                if (response.isSuccessful()){
+                    final List<Beer> listBeers = BeerMapper.deResponseParaDominio(response.body().getResults());
+                    beerAdapter.setBeerList(listBeers);
+                }else{
+                    showError();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BeersResult> call, Throwable t) {
+                showError();
+            }
+        });
+    }
+
+    private void showError(){
+        Toast.makeText(this,"Erro ao obter lista de filmes",Toast.LENGTH_LONG).show();
+    }
+
+    private void configuraAdapter(){
+        recyclerView = findViewById(R.id.recyclerview);
+        beerAdapter = new MyAdapterRanking();
+        RecyclerView.LayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(beerAdapter);
+    }
+
+    private void refreshRecycler(){
+        //atualizando a pagina
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
+    private void searchRecycler(){
+        //busca
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
     }
 
     private void setOnClickListener() {

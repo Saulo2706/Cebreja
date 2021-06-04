@@ -4,23 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Beer {
-    private int id;
-    private String title,description,pais, typeBeer, brandBeer, packegeBeer;
+    private String title,description,pais, typeBeer, brandBeer, packegeBeer, caminhoPoster;
     private List<String> ingredients = new ArrayList<>();
 
-    public Beer(int id, String title, String description) {
-        this.id = id;
+    public Beer(String title, String description, String caminhoPoster) {
         this.title = title;
         this.description = description;
+        this.caminhoPoster = caminhoPoster;
     }
 
-    public int getId() {
-        return id;
+    public String getCaminhoPoster() {
+        return caminhoPoster;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public List<String> getIngredients() {
         return ingredients;

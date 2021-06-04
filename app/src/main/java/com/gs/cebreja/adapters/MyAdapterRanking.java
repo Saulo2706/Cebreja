@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,19 +13,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gs.cebreja.R;
 import com.gs.cebreja.model.Beer;
+import com.gs.cebreja.network.response.BeersResponse;
+import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyViewHolder> implements Filterable {
 
     private List<Beer> beerList;
+    private ImageView imagePosterBeer;
     private RecyclerViewClickListner listner;
 
-    public MyAdapterRanking(List<Beer> beerList, RecyclerViewClickListner listner) {
-        this.beerList = beerList;
-        this.listner = listner;
+    public MyAdapterRanking(){
+        beerList = new ArrayList<>();
     }
-
 
     @NonNull
     @Override
@@ -40,6 +44,7 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        holder.bind(beerList.get(position));
         holder.name_Beer.setText(beerList.get(position).getTitle());
         holder.desc_Beer.setText(beerList.get(position).getDescription());
     }
@@ -54,6 +59,8 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
         return null;
     }
 
+
+
     public interface RecyclerViewClickListner{
         void onClick(View v, int position);
     }
@@ -64,15 +71,30 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
 
         public MyViewHolder(@NonNull View itemView){
             super(itemView);
+
+
             name_Beer = itemView.findViewById(R.id.name_Beer);
             desc_Beer = itemView.findViewById(R.id.desc_Beer);
+            imagePosterBeer = itemView.findViewById(R.id.posterBeer);
+
+
             itemView.setOnClickListener(this);
+        }
+
+        public void bind(Beer beer){
+            name_Beer.setText(beer.getTitle());
+            Picasso.get().load("https://image.tmdb.org/t/p/original/" + beer.getCaminhoPoster()).into(imagePosterBeer);
         }
 
         @Override
         public void onClick(View itemView) {
             listner.onClick(itemView, getAdapterPosition());
         }
+    }
+
+    public void setBeerList(List<Beer> beerList) {
+        this.beerList = beerList;
+        notifyDataSetChanged();
     }
 
 
