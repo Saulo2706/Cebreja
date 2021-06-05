@@ -28,12 +28,5 @@ public class BeerActivity extends MainActivity {
                 }
         );
 
-        TextView textView = findViewById(R.id.titleBeer);
-        String titleBeer = "Titulo não inputado";
-        Bundle extras = getIntent().getExtras();
-        if(extras != null){
-            titleBeer = extras.getString("titleBeer");
-        }
-        textView.setText(titleBeer);
     }
 }

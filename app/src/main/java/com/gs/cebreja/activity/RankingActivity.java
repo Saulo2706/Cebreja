@@ -44,12 +44,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class RankingActivity extends MainActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class RankingActivity extends MainActivity implements NavigationView.OnNavigationItemSelectedListener, MyAdapterRanking.OnBeerClickedListner{
     private TextView navUsername, navEmail;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ImageView menuIcon;
-    private MyAdapterRanking.RecyclerViewClickListner listner;
     private List<Beer> beerList;
     private MyAdapterRanking myAdapterRanking;
     private View headerView;
@@ -83,8 +82,6 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
         navUsername.setText(user.getFirstName());
         navEmail.setText(user.getEmail());
         beerList = new ArrayList<>();
-
-        setOnClickListener();
 
 
         configuraAdapter();
@@ -143,7 +140,7 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
 
     private void configuraAdapter(){
         recyclerView = findViewById(R.id.recyclerview);
-        beerAdapter = new MyAdapterRanking();
+        beerAdapter = new MyAdapterRanking(this);
         RecyclerView.LayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
@@ -176,16 +173,6 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
         });
     }
 
-    private void setOnClickListener() {
-        listner = new MyAdapterRanking.RecyclerViewClickListner() {
-            @Override
-            public void onClick(View v, int position) {
-                Intent intent = new Intent(getApplicationContext(), BeerActivity.class);
-                intent.putExtra("titleBeer",beerList.get(position).getTitle());
-                startActivity(intent);
-            }
-        };
-    }
 
     private void navigationDrawer() {
 
@@ -242,4 +229,9 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
     }
 
 
+    @Override
+    public void onBeerClicked(Beer beer) {
+        Intent intent = new Intent(this, BeerActivity.class);
+        startActivity(intent);
+    }
 }
