@@ -5,20 +5,19 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.gs.cebreja.R;
 import com.gs.cebreja.adapters.MyAdapterRanking;
-import com.gs.cebreja.mapper.BeerMapper;
 import com.gs.cebreja.model.Beer;
 import com.gs.cebreja.model.User;
 import com.gs.cebreja.network.ApiService;
-import com.gs.cebreja.network.response.BeersResult;
+import com.gs.cebreja.network.response.BeerResponse;
+import com.gs.cebreja.network.response.BeerVoes;
+import com.gs.cebreja.network.response.Embedded;
 import com.gs.cebreja.util.SetupUI;
 
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -30,15 +29,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -115,27 +111,33 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
 
     private void obtemCervejas(){
         ApiService.getInstace()
-        .obterCervejas("5a6bcc702ae4115d39553c217a0bd8a6")
-        .enqueue(new Callback<BeersResult>() {
+        .obterCervejas("Bearer "+User.token)
+        .enqueue(new Callback<BeerResponse>() {
             @Override
-            public void onResponse(Call<BeersResult> call, Response<BeersResult> response) {
+            public void onResponse(Call<BeerResponse> call, Response<BeerResponse> response) {
                 if (response.isSuccessful()){
-                    final List<Beer> listBeers = BeerMapper.deResponseParaDominio(response.body().getResults());
-                    beerAdapter.setBeerList(listBeers);
+                    //final List<Beer> listBeers = BeerRankingMapper.deResponseParaDominio(response.body().getResults());
+                    //beerAdapter.setBeerList(listBeers);
+                    System.out.println(response.body().getEmbedded().getVoes().get(0).getName());
+                    //List<BeerVoes> embedded = response.body().getEmbedded().getVoes();
+                    //for (BeerVoes beer : embedded) {
+                    //    System.out.println(embedded.toString());
+                    //}
                 }else{
+                    System.out.println("Token: "+User.token + " Code response: "+response.code());
                     showError();
                 }
             }
 
             @Override
-            public void onFailure(Call<BeersResult> call, Throwable t) {
+            public void onFailure(Call<BeerResponse> call, Throwable t) {
                 showError();
             }
         });
     }
 
     private void showError(){
-        Toast.makeText(this,"Erro ao obter lista de filmes",Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"Erro ao obter lista de cervejas",Toast.LENGTH_LONG).show();
     }
 
     private void configuraAdapter(){

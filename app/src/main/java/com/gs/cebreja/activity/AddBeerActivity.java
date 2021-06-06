@@ -1,11 +1,15 @@
 package com.gs.cebreja.activity;
 
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.gs.cebreja.R;
 import com.gs.cebreja.model.User;
 import com.gs.cebreja.util.SetupUI;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -19,6 +23,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +33,10 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
 
     private AutoCompleteTextView paisBeerTextView,typeBeerTextView,brandTextView,packageTextView;
     private LinearLayout list_Ingredients;
-    private Button buttonAdd, FinishButton;
+    private Button buttonAdd,addImage, FinishButton;
     private TextView alcholicPercentage;
     private SeekBar barPercentageAlcholic;
+    private ImageView pickedImage;
 
     List<String> ingredientList = new ArrayList<>();
 
@@ -101,6 +108,19 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
         ArrayAdapter<String> adapter_package = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line, package_beer);
         packageTextView.setAdapter(adapter_package);
 
+        addImage = findViewById(R.id.addImage);
+        pickedImage = findViewById(R.id.pickedImage);
+
+
+
+        addImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImagePicker.Companion.with(AddBeerActivity.this).crop().compress(1024).maxResultSize(1080,1080).start();
+
+            }
+        });
+
 
         buttonAdd.setOnClickListener(this);
         FinishButton.setOnClickListener(this);
@@ -112,6 +132,14 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
     private static final String[] type_beer = new String[]{"Pilsen","Lager","Bock"};
     private static final String[] brand_beer = new String[]{"Skol","Patagonia","Amstel"};
     private static final String[] package_beer = new String[]{"Engradado","Litro","Latinha"};
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Uri uri = data.getData();
+        pickedImage.setImageURI(uri);
+    }
 
     @Override
     public void onClick(View v) {

@@ -29,4 +29,12 @@ public class BeerActivity extends MainActivity {
         );
 
     }
+
+    public void onCustomLikeToggleClick(View view) {
+        //Toast.makeText(this, "CustomToggle", Toast.LENGTH_SHORT).show();
+    }
+
+    public void onCustomFavToggleClick(View view) {
+        //Toast.makeText(this, "CustomToggle", Toast.LENGTH_SHORT).show();
+    }
 }
