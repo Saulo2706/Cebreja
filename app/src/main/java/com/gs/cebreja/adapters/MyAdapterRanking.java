@@ -7,6 +7,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,6 +48,10 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
         holder.bind(beerList.get(position));
         holder.name_Beer.setText(beerList.get(position).getTitle());
         holder.desc_Beer.setText(beerList.get(position).getDescription());
+        if (beerList.get(position).getLiked() == true){
+            holder.likeButton.setChecked(true);
+        }
+
     }
 
     @Override
@@ -63,6 +68,7 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
     static class MyViewHolder extends RecyclerView.ViewHolder{
         private TextView name_Beer;
         private TextView desc_Beer;
+        private ToggleButton likeButton;
         private ImageView imagePosterBeer;
         private Beer beer;
         public MyViewHolder(@NonNull View itemView){
@@ -71,6 +77,7 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
 
             name_Beer = itemView.findViewById(R.id.name_Beer);
             desc_Beer = itemView.findViewById(R.id.desc_Beer);
+            likeButton = itemView.findViewById(R.id.likeButton);
             imagePosterBeer = itemView.findViewById(R.id.posterBeer);
 
             itemView.setOnClickListener(new View.OnClickListener() {

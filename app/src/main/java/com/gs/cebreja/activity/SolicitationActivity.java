@@ -27,13 +27,13 @@ public class SolicitationActivity extends MainActivity implements NavigationView
     private View headerView;
     private TextView navUsername, navEmail;
     private FloatingActionButton fab;
-
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_solicitation);
-        User user = getIntent().getParcelableExtra("user");
+        user = getIntent().getParcelableExtra("user");
         user.setToken(User.token);
 
         drawerLayout = findViewById(R.id.solicitationsPage);
@@ -117,14 +117,17 @@ public class SolicitationActivity extends MainActivity implements NavigationView
         switch (item.getItemId()){
             case R.id.nav_profile_settings:
                 intent = new Intent (SolicitationActivity.this, ManagementProfileActivity.class);
+                intent.putExtra("user", user);
                 startActivity(intent);
                 break;
             case R.id.nav_favorite_beers:
                 intent = new Intent (SolicitationActivity.this, FavoriteBeersActivity.class);
+                intent.putExtra("user", user);
                 startActivity(intent);
                 break;
             case R.id.nav_logout:
                 intent = new Intent (SolicitationActivity.this,IndexActivity.class);
+                intent.putExtra("user", user);
                 startActivity(intent);
                 break;
         }

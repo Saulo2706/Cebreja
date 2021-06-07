@@ -12,20 +12,32 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.gs.cebreja.controller.LoginController;
+import com.gs.cebreja.mapper.UserLoginMapper;
 import com.gs.cebreja.model.User;
 
 
+import com.gs.cebreja.model.UserRole;
+import com.gs.cebreja.network.ApiService;
+import com.gs.cebreja.network.response.UserLoginResponse;
 import com.gs.cebreja.util.SetupUI;
 import com.gs.cebreja.R;
 import com.gs.cebreja.view.ILoginView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class LoginActivity extends MainActivity implements ILoginView {
@@ -43,6 +55,9 @@ public class LoginActivity extends MainActivity implements ILoginView {
         email = (EditText)findViewById(R.id.editTextEmailAddress);
         password = (EditText)findViewById(R.id.editTextPassword);
         loginPresenter = new LoginController(this);
+
+        email.setText("saulojr02@outlook.com");
+        password.setText("123456789");
 
         //Botão Login
         btnLogin =(Button) findViewById(R.id.btnLogin);
@@ -94,55 +109,35 @@ public class LoginActivity extends MainActivity implements ILoginView {
     }
 
     public void post_request(String email, String password) {
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://54.94.67.112:8080/auth/signin";
-
-        JSONObject json = new JSONObject();
-        try {
-            //input your API parameters
-            json.put("password", password);
-            json.put("email",email);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json,
-                new Response.Listener<JSONObject>() {
+        User user = new User(email,password);
+        ApiService.getInstaceLogin()
+                .obterDadosUser(user)
+                .enqueue(new Callback<UserLoginResponse>() {
                     @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            User.token = response.getString("token");
-                            User user = new User(email,password,"token");
+                    public void onResponse(Call<UserLoginResponse> call, Response<UserLoginResponse> response) {
+                        if (response.isSuccessful()){
+                            List<UserRole> userRoles = UserLoginMapper.deRolesParaDominio(response.body().getRoles());
+                            User user = new User(response.body().getEmail(),response.body().getFirstName(),response.body().getLastName(),response.body().getGender(),response.body().getBirthday(),response.body().getToken(),userRoles);
                             Toast.makeText(LoginActivity.this,"Login efetuado com sucesso",Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(LoginActivity.this, RankingActivity.class);
                             intent.putExtra("user", user);
                             startActivity(intent);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        }else {
+                            showError();
+                            System.out.println(response.code());
                         }
 
-
                     }
-                },
-                new Response.ErrorListener() {
+
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if (error.networkResponse != null) {
-                            if(error.networkResponse.statusCode == 500){
-                                Toast.makeText(LoginActivity.this,"Email ou senha inválidos",Toast.LENGTH_LONG).show();
-                            }else {
-                                Toast.makeText(LoginActivity.this,error.toString(),Toast.LENGTH_LONG).show();
-                            }
+                    public void onFailure(Call<UserLoginResponse> call, Throwable t) {
 
-                        }
                     }
-                }
+                });
 
-        );
-
-        queue.add(jsonObjectRequest);
     }
+
+
 
     private void showError(){
         Toast.makeText(this,"Email ou Senha invalidos!",Toast.LENGTH_LONG).show();

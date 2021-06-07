@@ -8,14 +8,23 @@
     android:layout_margin="5dp"
     app:cardElevation="5dp"
     >
+    <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/name_Beer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/muli_black"
+        android:layout_marginStart="10dp"
+        android:text="Titulo da cerveja"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
         <ImageView
+            android:layout_marginTop="20dp"
             android:id="@+id/posterBeer"
+            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="220dp"
             />
@@ -25,16 +34,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/posterBeer"
             android:id="@+id/ly">
-            <TextView
-                android:id="@+id/name_Beer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/muli_black"
-                android:layout_marginStart="10dp"
-                android:text="Titulo da cerveja"/>
-
             <ToggleButton
-                android:layout_marginLeft="30dp"
+                android:id="@+id/likeButton"
+                android:layout_marginStart="10dp"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/toggle_selector"
@@ -45,6 +47,7 @@
 
 
         <TextView
+            android:layout_marginTop="5dp"
             android:id="@+id/desc_Beer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

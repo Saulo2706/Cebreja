@@ -2,15 +2,15 @@ package com.gs.cebreja.activity;
 
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.internal.NavigationMenu;
 import com.google.android.material.navigation.NavigationView;
 import com.gs.cebreja.R;
 import com.gs.cebreja.adapters.MyAdapterRanking;
+import com.gs.cebreja.mapper.BeerRankingMapper;
 import com.gs.cebreja.model.Beer;
 import com.gs.cebreja.model.User;
 import com.gs.cebreja.network.ApiService;
-import com.gs.cebreja.network.response.BeerResponse;
-import com.gs.cebreja.network.response.BeerVoes;
-import com.gs.cebreja.network.response.Embedded;
+import com.gs.cebreja.network.response.BeerRankingResponse;
 import com.gs.cebreja.util.SetupUI;
 
 
@@ -39,7 +39,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
 public class RankingActivity extends MainActivity implements NavigationView.OnNavigationItemSelectedListener, MyAdapterRanking.OnBeerClickedListner{
     private TextView navUsername, navEmail;
     private DrawerLayout drawerLayout;
@@ -53,6 +52,8 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private MyAdapterRanking beerAdapter;
+    User user;
+    private int j = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +61,21 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
         setContentView(R.layout.activity_ranking);
         SetupUI.set(findViewById(R.id.rankingPage), RankingActivity.this);
 
-        User user = getIntent().getExtras().getParcelable("user");
+        user = getIntent().getExtras().getParcelable("user");
         user.setToken(User.token);
+        user.setRoles(User.roles);
 
+        for (int i = 0; i < user.roles.size(); i++){
+            j = user.getRoles().get(i).getId();
+        }
+
+        if (j == 1){
+            System.out.println("Admin");
+        }else if(j == 2){
+            System.out.println("Aprovador");
+        }else{
+            System.out.println("Usuario Comum");
+        }
 
         drawerLayout = findViewById(R.id.rankingPage);
         navigationView = findViewById(R.id.nav_view);
@@ -74,16 +87,12 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
         searchView = findViewById(R.id.searchToolbar);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
 
-
         navUsername.setText(user.getFirstName());
         navEmail.setText(user.getEmail());
         beerList = new ArrayList<>();
 
-
         configuraAdapter();
         obtemCervejas();
-
-
         refreshRecycler();
         searchRecycler();
 
@@ -112,17 +121,12 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
     private void obtemCervejas(){
         ApiService.getInstace()
         .obterCervejas("Bearer "+User.token)
-        .enqueue(new Callback<BeerResponse>() {
+        .enqueue(new Callback<BeerRankingResponse>() {
             @Override
-            public void onResponse(Call<BeerResponse> call, Response<BeerResponse> response) {
+            public void onResponse(Call<BeerRankingResponse> call, Response<BeerRankingResponse> response) {
                 if (response.isSuccessful()){
-                    //final List<Beer> listBeers = BeerRankingMapper.deResponseParaDominio(response.body().getResults());
-                    //beerAdapter.setBeerList(listBeers);
-                    System.out.println(response.body().getEmbedded().getVoes().get(0).getName());
-                    //List<BeerVoes> embedded = response.body().getEmbedded().getVoes();
-                    //for (BeerVoes beer : embedded) {
-                    //    System.out.println(embedded.toString());
-                    //}
+                    final List<Beer> listBeers = BeerRankingMapper.deBeerVoesParaDominio(response.body().getEmbedded().getVoes());
+                    beerAdapter.setBeerList(listBeers);
                 }else{
                     System.out.println("Token: "+User.token + " Code response: "+response.code());
                     showError();
@@ -130,7 +134,7 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
             }
 
             @Override
-            public void onFailure(Call<BeerResponse> call, Throwable t) {
+            public void onFailure(Call<BeerRankingResponse> call, Throwable t) {
                 showError();
             }
         });
@@ -211,14 +215,17 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
         switch (item.getItemId()){
             case R.id.nav_profile_settings:
                  intent = new Intent (RankingActivity.this, ManagementProfileActivity.class);
+                 intent.putExtra("user", user);
                  startActivity(intent);
                 break;
             case R.id.nav_favorite_beers:
                 intent = new Intent (RankingActivity.this, FavoriteBeersActivity.class);
+                intent.putExtra("user", user);
                 startActivity(intent);
                 break;
             case R.id.nav_logout:
                 intent = new Intent (RankingActivity.this,IndexActivity.class);
+                intent.putExtra("user", user);
                 startActivity(intent);
                 break;
         }

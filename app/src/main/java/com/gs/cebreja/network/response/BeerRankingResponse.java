@@ -3,10 +3,10 @@ import java.io.Serializable;
 import javax.annotation.Generated;
 
 @Generated("jsonschema2pojo")
-public class BeerResponse implements Serializable {
+public class BeerRankingResponse implements Serializable {
 
     @com.squareup.moshi.Json(name = "_embedded")
-    private Embedded embedded;
+    private BeerRankingEmbedded beerRankingEmbedded;
     @com.squareup.moshi.Json(name = "_links")
     private Links links;
     @com.squareup.moshi.Json(name = "page")
@@ -17,32 +17,32 @@ public class BeerResponse implements Serializable {
      * No args constructor for use in serialization
      *
      */
-    public BeerResponse() {
+    public BeerRankingResponse() {
     }
 
     /**
      *
      * @param links
      * @param page
-     * @param embedded
+     * @param beerRankingEmbedded
      */
-    public BeerResponse(Embedded embedded, Links links, Page page) {
+    public BeerRankingResponse(BeerRankingEmbedded beerRankingEmbedded, Links links, Page page) {
         super();
-        this.embedded = embedded;
+        this.beerRankingEmbedded = beerRankingEmbedded;
         this.links = links;
         this.page = page;
     }
 
-    public Embedded getEmbedded() {
-        return embedded;
+    public BeerRankingEmbedded getEmbedded() {
+        return beerRankingEmbedded;
     }
 
-    public void setEmbedded(Embedded embedded) {
-        this.embedded = embedded;
+    public void setEmbedded(BeerRankingEmbedded beerRankingEmbedded) {
+        this.beerRankingEmbedded = beerRankingEmbedded;
     }
 
-    public BeerResponse withEmbedded(Embedded embedded) {
-        this.embedded = embedded;
+    public BeerRankingResponse withEmbedded(BeerRankingEmbedded beerRankingEmbedded) {
+        this.beerRankingEmbedded = beerRankingEmbedded;
         return this;
     }
 
@@ -54,7 +54,7 @@ public class BeerResponse implements Serializable {
         this.links = links;
     }
 
-    public BeerResponse withLinks(Links links) {
+    public BeerRankingResponse withLinks(Links links) {
         this.links = links;
         return this;
     }
@@ -67,7 +67,7 @@ public class BeerResponse implements Serializable {
         this.page = page;
     }
 
-    public BeerResponse withPage(Page page) {
+    public BeerRankingResponse withPage(Page page) {
         this.page = page;
         return this;
     }
@@ -75,7 +75,7 @@ public class BeerResponse implements Serializable {
     @Override
     public String toString() {
         return "BeerResponse{" +
-                "embedded=" + embedded +
+                "embedded=" + beerRankingEmbedded +
                 ", links=" + links +
                 ", page=" + page +
                 '}';

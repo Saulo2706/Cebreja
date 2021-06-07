@@ -7,23 +7,29 @@ import android.util.JsonToken;
 import android.util.Patterns;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class User implements Parcelable {
 
     public static String token;
-    private String jsonWebToken;
-    private String email, password, firstName, lastName,gender,BirthDate;
+    public static List<UserRole> roles;
+    private String email, password, firstName, lastName,gender,birthDate;
+
 
     public User(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
-    public User(String email, String password, String jsonWebToken) {
-        this.jsonWebToken = jsonWebToken;
+    public User(String email, String firstName, String lastName, String gender, String birthDate,String token, List<UserRole> roles) {
         this.email = email;
-        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.birthDate = birthDate;
+        this.token = token;
+        this.roles = roles;
     }
 
     public User(String firstName, String lastName, String email, String password) {
@@ -39,7 +45,7 @@ public class User implements Parcelable {
         firstName = in.readString();
         lastName = in.readString();
         gender = in.readString();
-        BirthDate = in.readString();
+        birthDate = in.readString();
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -57,21 +63,28 @@ public class User implements Parcelable {
     public User() {
     }
 
-    public String getToken() {
-        return jsonWebToken;
+    public List<UserRole> getRoles() {
+        return roles;
     }
 
-    public void setToken(String token) {
-        this.jsonWebToken = token;
+    public void setRoles(List<UserRole> roles) {
+        this.roles = roles;
+    }
+
+    public static String getToken() {
+        return token;
+    }
+
+    public static void setToken(String token) {
+        User.token = token;
     }
 
     public String getGender() {
         return gender;
     }
 
-
     public String getBirthDate() {
-        return BirthDate;
+        return birthDate;
     }
 
     public void setGender(String gender) {
@@ -79,7 +92,7 @@ public class User implements Parcelable {
     }
 
     public void setBirthDate(String birthDate) {
-        BirthDate = birthDate;
+        birthDate = birthDate;
     }
 
     public String getFirstName() {
@@ -145,6 +158,19 @@ public class User implements Parcelable {
         dest.writeString(firstName);
         dest.writeString(lastName);
         dest.writeString(gender);
-        dest.writeString(BirthDate);
+        dest.writeString(birthDate);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "roles=" + roles +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", gender='" + gender + '\'' +
+                ", birthDate='" + birthDate + '\'' +
+                '}';
     }
 }

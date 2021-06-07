@@ -6,6 +6,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 public class ApiService {
     private static String BASE_URL = "http://54.94.67.112:8080/";
     private static BeersRankingService INSTANCE;
+    private static UserLoginService INSTANCE_LOGIN;
 
     public static BeersRankingService getInstace(){
         if(INSTANCE == null){
@@ -18,6 +19,19 @@ public class ApiService {
         }
 
         return INSTANCE;
+    }
+
+    public static UserLoginService getInstaceLogin(){
+        if(INSTANCE_LOGIN == null){
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(MoshiConverterFactory.create())
+                    .build();
+
+            INSTANCE_LOGIN = retrofit.create(UserLoginService.class);
+        }
+
+        return INSTANCE_LOGIN;
     }
 
 

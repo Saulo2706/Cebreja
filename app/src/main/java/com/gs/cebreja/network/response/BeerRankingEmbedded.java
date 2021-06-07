@@ -6,10 +6,10 @@ import javax.annotation.Generated;
 
 @Generated("jsonschema2pojo")
 
-public class Embedded implements Serializable{
+public class BeerRankingEmbedded implements Serializable{
 
     @com.squareup.moshi.Json(name = "beerVoes")
-    private List<BeerVoes> voes;
+    private List<BeerRankingVoes> voes;
     private final static long serialVersionUID = 2894582487142234724L;
 
 
@@ -17,27 +17,27 @@ public class Embedded implements Serializable{
      * No args constructor for use in serialization
      *
      */
-    public Embedded() {
+    public BeerRankingEmbedded() {
     }
 
     /**
      *
      * @param voes
      */
-    public Embedded(List<BeerVoes> voes) {
+    public BeerRankingEmbedded(List<BeerRankingVoes> voes) {
         super();
         this.voes = voes;
     }
 
-    public List<BeerVoes> getVoes() {
+    public List<BeerRankingVoes> getVoes() {
         return voes;
     }
 
-    public void setVoes(List<BeerVoes> voes) {
+    public void setVoes(List<BeerRankingVoes> voes) {
         this.voes = voes;
     }
 
-    public Embedded withVoes(List<BeerVoes> voes) {
+    public BeerRankingEmbedded withVoes(List<BeerRankingVoes> voes) {
         this.voes = voes;
         return this;
     }

@@ -6,7 +6,7 @@ import javax.annotation.Generated;
 
 
 @Generated("jsonschema2pojo")
-public class BeerVoes implements Serializable{
+public class BeerRankingVoes implements Serializable{
 
 
     @com.squareup.moshi.Json(name = "id")
@@ -27,7 +27,7 @@ public class BeerVoes implements Serializable{
      * No args constructor for use in serialization
      *
      */
-    public BeerVoes() {
+    public BeerRankingVoes() {
     }
 
     /**
@@ -39,7 +39,7 @@ public class BeerVoes implements Serializable{
      * @param photos
      * @param liked
      */
-    public BeerVoes(Long id, String name, String description, Boolean liked, List<Object> photos, Links links) {
+    public BeerRankingVoes(Long id, String name, String description, Boolean liked, List<Object> photos, Links links) {
         super();
         this.id = id;
         this.name = name;
@@ -57,7 +57,7 @@ public class BeerVoes implements Serializable{
         this.id = id;
     }
 
-    public BeerVoes withId(Long id) {
+    public BeerRankingVoes withId(Long id) {
         this.id = id;
         return this;
     }
@@ -70,7 +70,7 @@ public class BeerVoes implements Serializable{
         this.name = name;
     }
 
-    public BeerVoes withName(String name) {
+    public BeerRankingVoes withName(String name) {
         this.name = name;
         return this;
     }
@@ -83,7 +83,7 @@ public class BeerVoes implements Serializable{
         this.description = description;
     }
 
-    public BeerVoes withDescription(String description) {
+    public BeerRankingVoes withDescription(String description) {
         this.description = description;
         return this;
     }
@@ -96,7 +96,7 @@ public class BeerVoes implements Serializable{
         this.liked = liked;
     }
 
-    public BeerVoes withLiked(Boolean liked) {
+    public BeerRankingVoes withLiked(Boolean liked) {
         this.liked = liked;
         return this;
     }
@@ -109,7 +109,7 @@ public class BeerVoes implements Serializable{
         this.photos = photos;
     }
 
-    public BeerVoes withPhotos(List<Object> photos) {
+    public BeerRankingVoes withPhotos(List<Object> photos) {
         this.photos = photos;
         return this;
     }
@@ -122,7 +122,7 @@ public class BeerVoes implements Serializable{
         this.links = links;
     }
 
-    public BeerVoes withLinks(Links links) {
+    public BeerRankingVoes withLinks(Links links) {
         this.links = links;
         return this;
     }
