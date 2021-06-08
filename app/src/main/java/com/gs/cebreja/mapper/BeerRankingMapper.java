@@ -12,7 +12,7 @@ public class BeerRankingMapper {
         List<Beer> listBeer = new ArrayList<>();
 
         for (BeerRankingVoes beerRankingVoes : listBeerRankingVoes){
-            final Beer beer = new Beer(beerRankingVoes.getName(),beerRankingVoes.getDescription(),beerRankingVoes.getLiked());
+            final Beer beer = new Beer(beerRankingVoes.getId(),beerRankingVoes.getName(),beerRankingVoes.getDescription(),beerRankingVoes.getLiked());
             listBeer.add(beer);
         }
 

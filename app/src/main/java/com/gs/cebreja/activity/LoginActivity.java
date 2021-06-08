@@ -1,5 +1,6 @@
 package com.gs.cebreja.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -7,14 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.gs.cebreja.controller.LoginController;
 import com.gs.cebreja.mapper.UserLoginMapper;
 import com.gs.cebreja.model.User;
@@ -27,14 +25,8 @@ import com.gs.cebreja.util.SetupUI;
 import com.gs.cebreja.R;
 import com.gs.cebreja.view.ILoginView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,11 +38,19 @@ public class LoginActivity extends MainActivity implements ILoginView {
     private ImageButton login_back_button;
     private Button btn_forget_password, btnSignUp, btnLogin;
     private LoginController loginPresenter;
+    private ProgressDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         SetupUI.set(findViewById(R.id.loginPage), LoginActivity.this);
+
+        dialog = new ProgressDialog(LoginActivity.this);
+        dialog.setTitle("Realizando Login");
+        dialog.setMessage("Carregando Solicitação");
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
 
         email = (EditText)findViewById(R.id.editTextEmailAddress);
         password = (EditText)findViewById(R.id.editTextPassword);
@@ -65,6 +65,8 @@ public class LoginActivity extends MainActivity implements ILoginView {
                 new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    dialog.show();
                     loginPresenter.OnLogin(email.getText().toString().trim(),password.getText().toString().trim());
                     }
                 }
@@ -121,6 +123,7 @@ public class LoginActivity extends MainActivity implements ILoginView {
                             Toast.makeText(LoginActivity.this,"Login efetuado com sucesso",Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(LoginActivity.this, RankingActivity.class);
                             intent.putExtra("user", user);
+                            dialog.dismiss();
                             startActivity(intent);
                         }else {
                             showError();
@@ -152,6 +155,7 @@ public class LoginActivity extends MainActivity implements ILoginView {
     public void OnLoginError(String message) {
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
+
 
 }
 

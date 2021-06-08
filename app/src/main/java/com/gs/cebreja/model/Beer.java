@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Beer {
+    private Long id;
     private String title,description,pais, typeBeer, brandBeer, packegeBeer, caminhoPoster,status;
     private Boolean isLiked;
     private List<String> ingredients = new ArrayList<>();
 
-    public Beer(String title, String description, Boolean isLiked) {
+    public Beer(Long id,String title, String description, Boolean isLiked) {
+        this.id = id;
         this.title = title;
         this.isLiked = isLiked;
         this.description = description;

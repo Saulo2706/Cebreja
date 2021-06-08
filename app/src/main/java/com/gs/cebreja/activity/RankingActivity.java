@@ -67,15 +67,20 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
 
         for (int i = 0; i < user.roles.size(); i++){
             j = user.getRoles().get(i).getId();
+            if (j == 1){
+                System.out.println("Usuario Admin");
+            }
+
+            if(j == 2){
+                System.out.println("Usuario Aprovador");
+            }
         }
 
-        if (j == 1){
-            System.out.println("Admin");
-        }else if(j == 2){
-            System.out.println("Aprovador");
-        }else{
+        if(j > 2 || j<1){
             System.out.println("Usuario Comum");
         }
+
+
 
         drawerLayout = findViewById(R.id.rankingPage);
         navigationView = findViewById(R.id.nav_view);
@@ -169,6 +174,9 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+
+                System.out.println("cliquei no botão de pesquisa final");
+
                 return false;
             }
 
