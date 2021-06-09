@@ -46,12 +46,6 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.bind(beerList.get(position));
-        holder.name_Beer.setText(beerList.get(position).getTitle());
-        holder.desc_Beer.setText(beerList.get(position).getDescription());
-        if (beerList.get(position).getLiked() == true){
-            holder.likeButton.setChecked(true);
-        }
-
     }
 
     @Override
@@ -72,6 +66,7 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
         private ToggleButton likeButton;
         private ImageView imagePosterBeer;
         private Beer beer;
+
         public MyViewHolder(@NonNull View itemView){
             super(itemView);
 
@@ -93,7 +88,16 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
 
         public void bind(Beer beer){
             this.beer = beer;
-            Picasso.get().load("https://image.tmdb.org/t/p/original/" + beer.getCaminhoPoster()).into(imagePosterBeer);
+            name_Beer.setText(beer.getTitle());
+            desc_Beer.setText(beer.getDescription());
+            likeButton.setChecked(false);
+
+            if (beer.getLiked() == true){
+                likeButton.setChecked(true);
+            }
+            if (beer.getCaminhoPoster().size() > 0){
+                Picasso.get().load(beer.getCaminhoPoster().get(0)).into(imagePosterBeer);
+            }
         }
 
     }

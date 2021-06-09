@@ -13,7 +13,7 @@ public class BeerRankingMapper {
     public static List<Beer> deBeerVoesParaDominio(List<BeerRankingVoes> listBeerRankingVoes) {
         List<Beer> listBeer = new ArrayList<>();
         for (BeerRankingVoes beerRankingVoes : listBeerRankingVoes){
-            final Beer beer = new Beer(beerRankingVoes.getId(),beerRankingVoes.getName(),beerRankingVoes.getDescription(),beerRankingVoes.getLiked());
+            final Beer beer = new Beer(beerRankingVoes.getId(),beerRankingVoes.getName(),beerRankingVoes.getDescription(),beerRankingVoes.getLiked(),beerRankingVoes.getPhotos());
             listBeer.add(beer);
         }
         listBeerAdd = listBeer;
@@ -23,7 +23,7 @@ public class BeerRankingMapper {
     public static List<Beer> deBeerVoesParaDominioAdd(List<BeerRankingVoes> listBeerRankingVoes) {
 
         for (BeerRankingVoes beerRankingVoes : listBeerRankingVoes){
-            final Beer beer = new Beer(beerRankingVoes.getId(),beerRankingVoes.getName(),beerRankingVoes.getDescription(),beerRankingVoes.getLiked());
+            final Beer beer = new Beer(beerRankingVoes.getId(),beerRankingVoes.getName(),beerRankingVoes.getDescription(),beerRankingVoes.getLiked(),beerRankingVoes.getPhotos());
             listBeerAdd.add(beer);
         }
 
