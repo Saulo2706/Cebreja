@@ -8,9 +8,20 @@ public class Links implements Serializable{
 
     @Generated("jsonschema2pojo")
 
+    @Json(name = "first")
+    private First first;
+
+    @Json(name = "next")
+    private Next next;
+
+    @Json(name = "prev")
+    private Prev prev;
 
     @Json(name = "self")
     private Self self;
+
+    @Json(name = "last")
+    private Last last;
     private final static long serialVersionUID = 1581231359299364535L;
 
     /**
@@ -20,13 +31,39 @@ public class Links implements Serializable{
     public Links() {
     }
 
+
     /**
      *
+     * @param first
+     * @param next
+     * @param prev
      * @param self
+     * @param last
      */
-    public Links(Self self) {
-        super();
+
+    public Links(First first, Next next, Prev prev, Self self, Last last) {
+        this.first = first;
+        this.next = next;
+        this.prev = prev;
         this.self = self;
+        this.last = last;
+    }
+
+
+    public Next getNext() {
+        return next;
+    }
+
+    public Last getLast() {
+        return last;
+    }
+
+    public First getFirst() {
+        return first;
+    }
+
+    public Prev getPrev() {
+        return prev;
     }
 
     public Self getSelf() {
@@ -41,6 +78,8 @@ public class Links implements Serializable{
         this.self = self;
         return this;
     }
+
+
 
     @Override
     public String toString() {

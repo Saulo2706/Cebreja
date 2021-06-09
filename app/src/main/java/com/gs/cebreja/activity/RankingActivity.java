@@ -2,7 +2,6 @@ package com.gs.cebreja.activity;
 
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.internal.NavigationMenu;
 import com.google.android.material.navigation.NavigationView;
 import com.gs.cebreja.R;
 import com.gs.cebreja.adapters.MyAdapterRanking;
@@ -19,6 +18,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,15 +52,21 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private MyAdapterRanking beerAdapter;
+    private ProgressBar progressBar;
+    private GridLayoutManager layoutManager;
+    private int j,size = 0;
+    private long page_next, total_pages;
     User user;
-    private int j = 0;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ranking);
         SetupUI.set(findViewById(R.id.rankingPage), RankingActivity.this);
-
+        size = 10;
         user = getIntent().getExtras().getParcelable("user");
         user.setToken(User.token);
         user.setRoles(User.roles);
@@ -81,7 +87,7 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
         }
 
 
-
+        progressBar = findViewById(R.id.progressBar);
         drawerLayout = findViewById(R.id.rankingPage);
         navigationView = findViewById(R.id.nav_view);
         headerView = navigationView.getHeaderView(0);
@@ -95,11 +101,14 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
         navUsername.setText(user.getFirstName());
         navEmail.setText(user.getEmail());
         beerList = new ArrayList<>();
+        progressBar.setVisibility(View.VISIBLE);
 
         configuraAdapter();
-        obtemCervejas();
         refreshRecycler();
         searchRecycler();
+        obtemCervejas();
+
+
 
         //menu inferior
         navigationDrawer();
@@ -123,15 +132,20 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
         });
     }
 
+
+
     private void obtemCervejas(){
         ApiService.getInstace()
-        .obterCervejas("Bearer "+User.token)
+        .obterCervejas(0,size,"Bearer "+User.token)
         .enqueue(new Callback<BeerRankingResponse>() {
             @Override
             public void onResponse(Call<BeerRankingResponse> call, Response<BeerRankingResponse> response) {
                 if (response.isSuccessful()){
-                    final List<Beer> listBeers = BeerRankingMapper.deBeerVoesParaDominio(response.body().getEmbedded().getVoes());
-                    beerAdapter.setBeerList(listBeers);
+                    page_next = response.body().getPage().getNumber() + 1;
+                    total_pages = response.body().getPage().getTotalPages();
+                    List<Beer> listBeer = BeerRankingMapper.deBeerVoesParaDominio(response.body().getEmbedded().getVoes());
+                    beerAdapter.setBeerList(listBeer);
+                    progressBar.setVisibility(View.GONE);
                 }else{
                     System.out.println("Token: "+User.token + " Code response: "+response.code());
                     showError();
@@ -152,18 +166,52 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
     private void configuraAdapter(){
         recyclerView = findViewById(R.id.recyclerview);
         beerAdapter = new MyAdapterRanking(this);
-        RecyclerView.LayoutManager gridLayoutManager = new GridLayoutManager(this, 1);
-        recyclerView.setLayoutManager(gridLayoutManager);
+        layoutManager = new GridLayoutManager(this, 1);
+        recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(beerAdapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                    if (page_next < total_pages){
+                        //System.out.println();
+                        performPagination();
+                    }
+                }
+        });
     }
+
+
 
     private void refreshRecycler(){
         //atualizando a pagina
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                ApiService.getInstace()
+                        .obterCervejas(0,size,"Bearer "+User.token)
+                        .enqueue(new Callback<BeerRankingResponse>() {
+                            @Override
+                            public void onResponse(Call<BeerRankingResponse> call, Response<BeerRankingResponse> response) {
+                                if (response.isSuccessful()){
+                                    page_next = response.body().getPage().getNumber() + 1;
+                                    total_pages = response.body().getPage().getTotalPages();
+                                    BeerRankingMapper.listBeerAdd = new ArrayList<>();
+                                    List<Beer> listBeer = BeerRankingMapper.deBeerVoesParaDominio(response.body().getEmbedded().getVoes());
+                                    beerAdapter.setBeerList(listBeer);
+                                    progressBar.setVisibility(View.GONE);
+                                }else{
+                                    System.out.println("Token: "+User.token + " Code response: "+response.code());
+                                    showError();
+                                }
+                            }
 
+                            @Override
+                            public void onFailure(Call<BeerRankingResponse> call, Throwable t) {
+                                showError();
+                            }
+                        });
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -250,5 +298,36 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
     public void onBeerClicked(Beer beer) {
         Intent intent = new Intent(this, BeerActivity.class);
         startActivity(intent);
+    }
+
+    private void performPagination(){
+        progressBar.setVisibility(View.VISIBLE);
+        ApiService.getInstace()
+                .obterCervejas(page_next, size,"Bearer "+User.token)
+                .enqueue(new Callback<BeerRankingResponse>() {
+                    @Override
+                    public void onResponse(Call<BeerRankingResponse> call, Response<BeerRankingResponse> response) {
+                        if (response.isSuccessful()){
+                            if (page_next < total_pages){
+                                if(!response.body().getLinks().getPrev().equals(response.body().getLinks().getSelf())){
+                                    page_next = response.body().getPage().getNumber() + 1;
+                                    beerAdapter.setBeerList(BeerRankingMapper.deBeerVoesParaDominioAdd(response.body().getEmbedded().getVoes()));
+                                    progressBar.setVisibility(View.GONE);
+                                }else {
+                                    progressBar.setVisibility(View.GONE);
+                                    Toast.makeText(RankingActivity.this,"Isto é tudo por hoje!!",Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        }else{
+                            System.out.println("Token: "+User.token + " Code response: "+response.code());
+                            showError();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<BeerRankingResponse> call, Throwable t) {
+                        showError();
+                    }
+                });
     }
 }

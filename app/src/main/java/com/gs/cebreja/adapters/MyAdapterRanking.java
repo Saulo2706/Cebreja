@@ -65,6 +65,7 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
     }
 
 
+
     static class MyViewHolder extends RecyclerView.ViewHolder{
         private TextView name_Beer;
         private TextView desc_Beer;
@@ -102,9 +103,11 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
         notifyDataSetChanged();
     }
 
+
     public interface OnBeerClickedListner {
         void onBeerClicked(Beer beer);
     }
+
 
 
 

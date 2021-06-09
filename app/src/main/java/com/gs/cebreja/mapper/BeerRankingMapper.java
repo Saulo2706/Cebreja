@@ -8,14 +8,25 @@ import java.util.List;
 
 public class BeerRankingMapper {
 
+    public static List<Beer> listBeerAdd = new ArrayList<>();
+
     public static List<Beer> deBeerVoesParaDominio(List<BeerRankingVoes> listBeerRankingVoes) {
         List<Beer> listBeer = new ArrayList<>();
-
         for (BeerRankingVoes beerRankingVoes : listBeerRankingVoes){
             final Beer beer = new Beer(beerRankingVoes.getId(),beerRankingVoes.getName(),beerRankingVoes.getDescription(),beerRankingVoes.getLiked());
             listBeer.add(beer);
         }
-
+        listBeerAdd = listBeer;
         return listBeer;
+    }
+
+    public static List<Beer> deBeerVoesParaDominioAdd(List<BeerRankingVoes> listBeerRankingVoes) {
+
+        for (BeerRankingVoes beerRankingVoes : listBeerRankingVoes){
+            final Beer beer = new Beer(beerRankingVoes.getId(),beerRankingVoes.getName(),beerRankingVoes.getDescription(),beerRankingVoes.getLiked());
+            listBeerAdd.add(beer);
+        }
+
+        return listBeerAdd;
     }
 }
