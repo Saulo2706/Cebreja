@@ -57,10 +57,7 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
     private int j,size = 0;
     private long page_next, total_pages;
     User user;
-
-
-
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -170,12 +167,12 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(beerAdapter);
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                     if (page_next < total_pages){
-                        //System.out.println();
                         performPagination();
                     }
                 }

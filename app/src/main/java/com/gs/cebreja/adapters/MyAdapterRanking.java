@@ -91,7 +91,7 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
             name_Beer.setText(beer.getTitle());
             desc_Beer.setText(beer.getDescription());
             likeButton.setChecked(false);
-
+            imagePosterBeer.setImageResource(R.drawable.cebreja);
             if (beer.getLiked() == true){
                 likeButton.setChecked(true);
             }
