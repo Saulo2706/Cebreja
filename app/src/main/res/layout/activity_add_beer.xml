@@ -143,7 +143,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/beer_Brand"
+            android:id="@+id/brand_Beer"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -157,12 +157,14 @@
             android:hint="Marca da Cerveja"
             >
 
+
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/brandTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 tools:ignore="KeyboardInaccessibleWidget" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

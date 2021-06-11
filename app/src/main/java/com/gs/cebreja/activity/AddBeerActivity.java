@@ -2,16 +2,22 @@ package com.gs.cebreja.activity;
 
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.gs.cebreja.R;
+import com.gs.cebreja.model.StringWithId;
 import com.gs.cebreja.model.User;
 import com.gs.cebreja.util.SetupUI;
 
-
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -19,19 +25,22 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
 public class AddBeerActivity extends MainActivity implements View.OnClickListener {
 
-    private AutoCompleteTextView paisBeerTextView,typeBeerTextView,brandTextView,packageTextView;
+    private AutoCompleteTextView paisBeerTextView,typeBeerTextView,packageTextView,brandTextView;
     private LinearLayout list_Ingredients;
     private Button buttonAdd,addImage, FinishButton;
     private TextView alcholicPercentage;
@@ -88,6 +97,14 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
             }
         });
 
+        List<StringWithId> listBrand = new ArrayList<StringWithId>();
+        listBrand.add(new StringWithId("Marca da Cerveja", 0L));
+        listBrand.add(new StringWithId("Skol", 1L));
+        listBrand.add(new StringWithId("Brahma", 2L));
+        listBrand.add(new StringWithId("Patagonia", 3L));
+        listBrand.add(new StringWithId("Amstel", 4L));
+        listBrand.add(new StringWithId("Polar", 5L));
+
         //select world_beer
         paisBeerTextView = findViewById(R.id.paisBeerTextView);
         ArrayAdapter<String> adapter_world = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line, worlds);
@@ -100,7 +117,7 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
 
         //select brand_beer
         brandTextView = findViewById(R.id.brandTextView);
-        ArrayAdapter<String> adapter_brand = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line, brand_beer);
+        ArrayAdapter<StringWithId> adapter_brand = new ArrayAdapter<StringWithId>(this,android.R.layout.simple_list_item_1, listBrand);
         brandTextView.setAdapter(adapter_brand);
 
         //select package_beer
@@ -111,6 +128,17 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
         addImage = findViewById(R.id.addImage);
         pickedImage = findViewById(R.id.pickedImage);
 
+
+        brandTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                StringWithId m=(StringWithId) parent.getItemAtPosition(position);
+                String name= m.getString();
+                Long idBrand =m.getId();
+
+                System.out.println(idBrand);
+            }
+        });
 
 
         addImage.setOnClickListener(new View.OnClickListener() {
@@ -124,13 +152,12 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
 
         buttonAdd.setOnClickListener(this);
         FinishButton.setOnClickListener(this);
-
-
     }
+
+
 
     private static final String[] worlds = new String[]{"Brazil","Estados Unidos","Argentina"};
     private static final String[] type_beer = new String[]{"Pilsen","Lager","Bock"};
-    private static final String[] brand_beer = new String[]{"Skol","Patagonia","Amstel"};
     private static final String[] package_beer = new String[]{"Engradado","Litro","Latinha"};
 
     @Override
@@ -160,6 +187,18 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
     private boolean checkIfValidAndRead() {
         ingredientList.clear();
         boolean result = true;
+
+
+        packageTextView.getText();
+
+
+        if (list_Ingredients.getChildCount() < 1){
+            Context contexto = getApplicationContext();
+            String texto = "Adicione ao menos um ingrediente";
+            Toast toast = Toast.makeText(contexto,texto,Toast.LENGTH_SHORT);
+            toast.show();
+            result = false;
+        }
 
         for (int i=0; i < list_Ingredients.getChildCount(); i++){
 
