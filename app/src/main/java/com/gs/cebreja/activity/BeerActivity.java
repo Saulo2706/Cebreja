@@ -2,6 +2,7 @@ package com.gs.cebreja.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -17,8 +18,21 @@ public class BeerActivity extends MainActivity {
         setContentView(R.layout.activity_beer);
 
         //Botão voltar
-        ImageButton back_btn;
+        ImageButton back_btn,beer_remove_btn;
         back_btn = findViewById(R.id.beer_back_btn);
+        beer_remove_btn = findViewById(R.id.beer_remove_btn);
+
+        beer_remove_btn.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(BeerActivity.this, DeleteBeer.class);
+                        //intent.putExtra("user", user);
+                        startActivity(intent);
+                    }
+                }
+        );
+
         back_btn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override

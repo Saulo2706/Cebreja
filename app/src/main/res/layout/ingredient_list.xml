@@ -42,7 +42,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_weight="1"
         android:layout_width="300dp"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:hint="Posição"
         android:textColorHint="@color/black"
         app:boxStrokeColor="@color/black"

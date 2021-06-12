@@ -53,6 +53,7 @@
                         <ToggleButton
                             android:layout_width="32dp"
                             android:layout_height="32dp"
+                            android:layout_marginRight="10dp"
                             android:background="@drawable/favorite_toggle"
                             android:onClick="onCustomFavToggleClick"
                             android:textOff=""
@@ -329,7 +330,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:numStars="5"
-                            android:layout_gravity="center"/>
+                            android:layout_gravity="center"
+                            android:backgroundTint="@color/black"/>
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/avaliation_Beer"
@@ -361,6 +363,7 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
 
+
                         <Button
                             android:id="@+id/FinishButton"
                             android:layout_width="match_parent"
@@ -372,6 +375,16 @@
                             android:textColor="@color/white" />
 
                 </LinearLayout>
+
+                <Button
+                    android:id="@+id/descriptionUsers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/colorPrimary"
+                    android:elevation="5dp"
+                    android:text="Ver avaliação dos outros usuarios!!"
+                    android:textColor="@color/black" />
 
 
         </LinearLayout>

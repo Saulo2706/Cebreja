@@ -40,11 +40,9 @@ import java.util.List;
 
 public class AddBeerActivity extends MainActivity implements View.OnClickListener {
 
-    private AutoCompleteTextView paisBeerTextView,typeBeerTextView,packageTextView,brandTextView;
+    private AutoCompleteTextView paisBeerTextView,typeBeerTextView,packageTextView,brandTextView,editTextAlcholicBeer;
     private LinearLayout list_Ingredients;
     private Button buttonAdd,addImage, FinishButton;
-    private TextView alcholicPercentage;
-    private SeekBar barPercentageAlcholic;
     private ImageView pickedImage;
 
     List<String> ingredientList = new ArrayList<>();
@@ -75,44 +73,43 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
         buttonAdd = findViewById(R.id.add_Ingredients);
         FinishButton = findViewById(R.id.FinishButton);
 
-        //seekbar percetage alcholic
-        alcholicPercentage = findViewById(R.id.alcholicPercentage);
-        barPercentageAlcholic = findViewById(R.id.barPercentageAlcholic);
-        barPercentageAlcholic.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            int i =0;
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                i = progress;
-                alcholicPercentage.setText(""+i+" %");
-            }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+        //LISTA PAISES - SELECT
+        List<StringWithId> listWold = new ArrayList<StringWithId>();
+        listWold.add(new StringWithId("Brazil", 0L));
+        listWold.add(new StringWithId("Paraguay", 1L));
+        listWold.add(new StringWithId("EUA", 2L));
+        listWold.add(new StringWithId("Canada", 3L));
+        listWold.add(new StringWithId("Argentina", 4L));
 
-            }
+        //LISTA TIPO - SELECT
+        List<StringWithId> listType = new ArrayList<StringWithId>();
+        listType.add(new StringWithId("Pilsen",0L));
+        listType.add(new StringWithId("Largen",1L));
+        listType.add(new StringWithId("Alcool Puro",2L));
 
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+        //LISTA EMBALAGEM - SELECT
+        List<StringWithId> listPackge = new ArrayList<StringWithId>();
+        listPackge.add(new StringWithId("Engradado",0L));
+        listPackge.add(new StringWithId("Garrafa",1L));
+        listPackge.add(new StringWithId("Latinha",2L));
 
-            }
-        });
-
+        //LISTA MARCAS - SELECT
         List<StringWithId> listBrand = new ArrayList<StringWithId>();
-        listBrand.add(new StringWithId("Marca da Cerveja", 0L));
-        listBrand.add(new StringWithId("Skol", 1L));
-        listBrand.add(new StringWithId("Brahma", 2L));
-        listBrand.add(new StringWithId("Patagonia", 3L));
-        listBrand.add(new StringWithId("Amstel", 4L));
-        listBrand.add(new StringWithId("Polar", 5L));
+        listBrand.add(new StringWithId("Skol", 0L));
+        listBrand.add(new StringWithId("Brahma", 1L));
+        listBrand.add(new StringWithId("Patagonia", 2L));
+        listBrand.add(new StringWithId("Amstel", 3L));
+        listBrand.add(new StringWithId("Polar", 4L));
 
         //select world_beer
         paisBeerTextView = findViewById(R.id.paisBeerTextView);
-        ArrayAdapter<String> adapter_world = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line, worlds);
+        ArrayAdapter<StringWithId> adapter_world = new ArrayAdapter<StringWithId>(this,android.R.layout.simple_dropdown_item_1line, listWold);
         paisBeerTextView.setAdapter(adapter_world);
 
         //select type_beer
         typeBeerTextView = findViewById(R.id.typeBeerTextView);
-        ArrayAdapter<String> adapter_type = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line, type_beer);
+        ArrayAdapter<StringWithId> adapter_type = new ArrayAdapter<StringWithId>(this,android.R.layout.simple_dropdown_item_1line, listType);
         typeBeerTextView.setAdapter(adapter_type);
 
         //select brand_beer
@@ -122,13 +119,33 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
 
         //select package_beer
         packageTextView = findViewById(R.id.packageTextView);
-        ArrayAdapter<String> adapter_package = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line, package_beer);
+        ArrayAdapter<StringWithId> adapter_package = new ArrayAdapter<StringWithId>(this,android.R.layout.simple_dropdown_item_1line, listPackge);
         packageTextView.setAdapter(adapter_package);
 
         addImage = findViewById(R.id.addImage);
         pickedImage = findViewById(R.id.pickedImage);
 
 
+        paisBeerTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                StringWithId m=(StringWithId) parent.getItemAtPosition(position);
+                String name= m.getString();
+                Long idWorld =m.getId();
+
+                System.out.println("id pais: " + idWorld);
+            }
+        });
+        typeBeerTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                StringWithId m=(StringWithId) parent.getItemAtPosition(position);
+                String name= m.getString();
+                Long idType =m.getId();
+
+                System.out.println("id tipo: " + idType);
+            }
+        });
         brandTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -136,7 +153,17 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
                 String name= m.getString();
                 Long idBrand =m.getId();
 
-                System.out.println(idBrand);
+                System.out.println("id brand: " + idBrand);
+            }
+        });
+        packageTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                StringWithId m=(StringWithId) parent.getItemAtPosition(position);
+                String name= m.getString();
+                Long idPackage =m.getId();
+
+                System.out.println("id embalagem: " + idPackage);
             }
         });
 
@@ -155,11 +182,6 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
     }
 
 
-
-    private static final String[] worlds = new String[]{"Brazil","Estados Unidos","Argentina"};
-    private static final String[] type_beer = new String[]{"Pilsen","Lager","Bock"};
-    private static final String[] package_beer = new String[]{"Engradado","Litro","Latinha"};
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -177,9 +199,7 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
 
             case R.id.FinishButton:
                 checkIfValidAndRead();
-
                 break;
-
         }
 
     }
@@ -187,9 +207,6 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
     private boolean checkIfValidAndRead() {
         ingredientList.clear();
         boolean result = true;
-
-
-        packageTextView.getText();
 
 
         if (list_Ingredients.getChildCount() < 1){

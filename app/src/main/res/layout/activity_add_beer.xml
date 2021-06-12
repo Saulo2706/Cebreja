@@ -189,63 +189,36 @@
                 android:clickable="true"
                 tools:ignore="KeyboardInaccessibleWidget" />
         </com.google.android.material.textfield.TextInputLayout>
-            <LinearLayout
-                android:layout_marginTop="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/alcool_icon"/>
-                <TextView
-                    android:id="@+id/alcholicTeor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:includeFontPadding="false"
-                    android:text="Teor Alcolico"
-                    android:overScrollMode="always"
-                    android:scrollbarStyle="insideInset"
-                    android:scrollbars="vertical"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textSize="17dp" />
 
-            </LinearLayout>
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/alcholicBeer"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_marginRight="5dp"
+            android:hint="Teor Alcoólico"
+            android:textColorHint="@color/black"
+            app:boxStrokeColor="@color/black"
+            app:boxStrokeWidthFocused="2dp"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/black"
+            app:hintTextColor="@color/black"
+            app:startIconDrawable="@drawable/alcool_icon"
+            app:startIconTint="@color/black">
 
-            <SeekBar
-                android:id="@+id/barPercentageAlcholic"
-                android:layout_width="234dp"
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextAlcholicBeer"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1">
-
-            </SeekBar>
-
-            <TextView
-                android:id="@+id/alcholicPercentage"
-                android:layout_weight="1"
-                android:layout_width="10dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:includeFontPadding="false"
-                android:text="0 %"
-                android:overScrollMode="always"
-                android:scrollbarStyle="insideInset"
-                android:scrollbars="vertical"
-                android:textAlignment="center"
+                android:fontFamily="@font/muli_semibold"
+                android:inputType="numberDecimal"
                 android:textColor="@color/black"
-                android:textSize="20dp" />
+                android:textCursorDrawable="@null" />
 
-        </LinearLayout>
 
+        </com.google.android.material.textfield.TextInputLayout>
 
 
         <com.google.android.material.textfield.TextInputLayout
