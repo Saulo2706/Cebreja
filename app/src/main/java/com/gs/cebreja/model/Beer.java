@@ -1,16 +1,17 @@
 package com.gs.cebreja.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BeerRanking {
+public class Beer implements Serializable {
     private Long id;
     private String title,description,pais, typeBeer, brandBeer, packegeBeer,status;
     private Boolean isLiked;
     private Long qtdLikes;
     private List<String> ingredients,caminhoPoster = new ArrayList<>();
 
-    public BeerRanking(Long id, String title, String description, Boolean isLiked, Long qtdLikes, List caminhoPoster) {
+    public Beer(Long id, String title, String description, Boolean isLiked, Long qtdLikes, List caminhoPoster) {
         this.id = id;
         this.title = title;
         this.isLiked = isLiked;
@@ -110,5 +111,23 @@ public class BeerRanking {
 
     public String getDescription() {
         return description;
+    }
+
+    @Override
+    public String toString() {
+        return "Beer{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", pais='" + pais + '\'' +
+                ", typeBeer='" + typeBeer + '\'' +
+                ", brandBeer='" + brandBeer + '\'' +
+                ", packegeBeer='" + packegeBeer + '\'' +
+                ", status='" + status + '\'' +
+                ", isLiked=" + isLiked +
+                ", qtdLikes=" + qtdLikes +
+                ", ingredients=" + ingredients +
+                ", caminhoPoster=" + caminhoPoster +
+                '}';
     }
 }

@@ -43,6 +43,7 @@
                             android:src="@drawable/ic_edit" />
 
                         <ToggleButton
+                            android:id="@+id/likeButtonDetails"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
                             android:background="@drawable/toggle_selector"
@@ -82,10 +83,12 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                         <ImageView
+                            android:id="@+id/imageBeer"
                             android:layout_marginTop="20dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/cebreja"/>
+                            android:layout_width="300dp"
+                            android:layout_height="300dp"
+                            android:layout_centerHorizontal="true"
+                            />
 
                 </LinearLayout>
                 <LinearLayout

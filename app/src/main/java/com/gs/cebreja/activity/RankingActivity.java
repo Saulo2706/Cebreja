@@ -6,7 +6,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.gs.cebreja.R;
 import com.gs.cebreja.adapters.MyAdapterRanking;
 import com.gs.cebreja.mapper.BeerRankingMapper;
-import com.gs.cebreja.model.BeerRanking;
+import com.gs.cebreja.model.Beer;
 import com.gs.cebreja.model.User;
 import com.gs.cebreja.network.ApiService;
 import com.gs.cebreja.network.response.BeerRankingResponse;
@@ -33,6 +33,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ImageView menuIcon;
-    private List<BeerRanking> beerRankingList;
+    private List<Beer> beerList;
     private MyAdapterRanking myAdapterRanking;
     private View headerView;
     private Toolbar toolbar;
@@ -59,7 +60,7 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
     private int j = 0;
     private long page_next;
     private long total_pages;
-    public static List<BeerRanking> listBeerRanking;
+    public static List<Beer> listBeer;
     User user;
     
     @Override
@@ -100,7 +101,7 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
 
         navUsername.setText(user.getFirstName());
         navEmail.setText(user.getEmail());
-        beerRankingList = new ArrayList<>();
+        beerList = new ArrayList<>();
         progressBar.setVisibility(View.VISIBLE);
 
         configuraAdapter();
@@ -140,8 +141,8 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
                 if (response.isSuccessful()){
                     page_next = response.body().getPage().getNumber() + 1;
                     total_pages = response.body().getPage().getTotalPages();
-                    listBeerRanking = BeerRankingMapper.deBeerVoesParaDominio(response.body().getEmbedded().getVoes());
-                    beerAdapter.setBeerList(listBeerRanking);
+                    listBeer = BeerRankingMapper.deBeerVoesParaDominio(response.body().getEmbedded().getVoes());
+                    beerAdapter.setBeerList(listBeer);
                     progressBar.setVisibility(View.GONE);
                 }else{
                     System.out.println("Token: "+User.token + " Code response: "+response.code());
@@ -231,9 +232,9 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
                                 if (response.isSuccessful()){
                                     page_next = response.body().getPage().getNumber() + 1;
                                     total_pages = response.body().getPage().getTotalPages();
-                                    BeerRankingMapper.listBeerRankingAdd = new ArrayList<>();
-                                    listBeerRanking = BeerRankingMapper.deBeerVoesParaDominio(response.body().getEmbedded().getVoes());
-                                    beerAdapter.setBeerList(listBeerRanking);
+                                    BeerRankingMapper.listBeerAdd = new ArrayList<>();
+                                    listBeer = BeerRankingMapper.deBeerVoesParaDominio(response.body().getEmbedded().getVoes());
+                                    beerAdapter.setBeerList(listBeer);
                                     progressBar.setVisibility(View.GONE);
                                 }else{
                                     System.out.println("Token: "+User.token + " Code response: "+response.code());
@@ -264,10 +265,10 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
                                 if (response.isSuccessful()){
                                     page_next = response.body().getPage().getNumber() + 1;
                                     total_pages = response.body().getPage().getTotalPages();
-                                    BeerRankingMapper.listBeerRankingAdd = new ArrayList<>();
+                                    BeerRankingMapper.listBeerAdd = new ArrayList<>();
                                     try {
-                                        listBeerRanking = BeerRankingMapper.deBeerVoesParaDominio(response.body().getEmbedded().getVoes());
-                                        beerAdapter.setBeerList(listBeerRanking);
+                                        listBeer = BeerRankingMapper.deBeerVoesParaDominio(response.body().getEmbedded().getVoes());
+                                        beerAdapter.setBeerList(listBeer);
                                         progressBar.setVisibility(View.GONE);
                                         Toast.makeText(RankingActivity.this,"Busca realizada com sucesso!",Toast.LENGTH_LONG).show();
                                     }catch (NullPointerException nexc){
@@ -304,9 +305,9 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
                                 if (response.isSuccessful()){
                                     page_next = response.body().getPage().getNumber() + 1;
                                     total_pages = response.body().getPage().getTotalPages();
-                                    BeerRankingMapper.listBeerRankingAdd = new ArrayList<>();
-                                    listBeerRanking = BeerRankingMapper.deBeerVoesParaDominio(response.body().getEmbedded().getVoes());
-                                    beerAdapter.setBeerList(listBeerRanking);
+                                    BeerRankingMapper.listBeerAdd = new ArrayList<>();
+                                    listBeer = BeerRankingMapper.deBeerVoesParaDominio(response.body().getEmbedded().getVoes());
+                                    beerAdapter.setBeerList(listBeer);
                                     progressBar.setVisibility(View.GONE);
                                 }else{
                                     System.out.println("Token: "+User.token + " Code response: "+response.code());
@@ -385,8 +386,9 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
 
 
     @Override
-    public void onBeerClicked(BeerRanking beerRanking) {
+    public void onBeerClicked(Beer beer) {
         Intent intent = new Intent(this, BeerActivity.class);
+        intent.putExtra("beer", beer);
         startActivity(intent);
     }
 
