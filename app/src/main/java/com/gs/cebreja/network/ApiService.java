@@ -7,6 +7,7 @@ public class ApiService {
     private static String BASE_URL = "http://54.94.67.112:8080/";
     private static BeersRankingService INSTANCE;
     private static UserLoginService INSTANCE_LOGIN;
+    private static UserLikeUnlikeService INSTANCE_LIKE;
 
     public static BeersRankingService getInstace(){
         if(INSTANCE == null){
@@ -32,6 +33,19 @@ public class ApiService {
         }
 
         return INSTANCE_LOGIN;
+    }
+
+    public static UserLikeUnlikeService getInstaceLike(){
+        if(INSTANCE_LIKE == null){
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(MoshiConverterFactory.create())
+                    .build();
+
+            INSTANCE_LIKE = retrofit.create(UserLikeUnlikeService.class);
+        }
+
+        return INSTANCE_LIKE;
     }
 
 

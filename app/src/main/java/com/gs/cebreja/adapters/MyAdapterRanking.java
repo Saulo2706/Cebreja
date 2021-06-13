@@ -3,24 +3,30 @@ package com.gs.cebreja.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gs.cebreja.R;
-import com.gs.cebreja.activity.RankingActivity;
 import com.gs.cebreja.model.Beer;
+import com.gs.cebreja.model.User;
+import com.gs.cebreja.network.ApiService;
+import com.gs.cebreja.network.response.LikeUnlikeResponseGeneric;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.gs.cebreja.activity.RankingActivity.listBeer;
 
 public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyViewHolder> implements Filterable {
 
@@ -63,7 +69,7 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
 
 
 
-    static class MyViewHolder extends RecyclerView.ViewHolder{
+    class MyViewHolder extends RecyclerView.ViewHolder{
         private TextView name_Beer;
         private TextView desc_Beer;
         private TextView qtd_Likes;
@@ -83,12 +89,34 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
                 @Override
                 public void onClick(View v) {
                     if (likeButton.isChecked()){
-                        System.out.println(beer.getId());
-                        System.out.println("Like");
+                        ApiService.getInstaceLike().likeCerveja(beer.getId(),"Bearer "+ User.token).enqueue(new Callback<LikeUnlikeResponseGeneric>() {
+                            @Override
+                            public void onResponse(Call<LikeUnlikeResponseGeneric> call, Response<LikeUnlikeResponseGeneric> response) {
+                            }
+                            @Override
+                            public void onFailure(Call<LikeUnlikeResponseGeneric> call, Throwable t) {
+                            }
+                        });
+                        Long qtdAtual = listBeer.get(getAdapterPosition()).getQtdLikes();
+                        listBeer.get(getAdapterPosition()).setLiked(true);
+                        listBeer.get(getAdapterPosition()).setQtdLikes(qtdAtual + 1);
+                        notifyDataSetChanged();
                     }else{
-                        System.out.println(beer.getId());
-                        System.out.println("Dislike");
+                        ApiService.getInstaceLike().unlikeCerveja(beer.getId(),"Bearer "+ User.token).enqueue(new Callback<LikeUnlikeResponseGeneric>() {
+                            @Override
+                            public void onResponse(Call<LikeUnlikeResponseGeneric> call, Response<LikeUnlikeResponseGeneric> response) {
+                            }
+                            @Override
+                            public void onFailure(Call<LikeUnlikeResponseGeneric> call, Throwable t) {
+                            }
+
+                        });
+                        Long qtdAtual = listBeer.get(getAdapterPosition()).getQtdLikes();
+                        listBeer.get(getAdapterPosition()).setLiked(false);
+                        listBeer.get(getAdapterPosition()).setQtdLikes(qtdAtual - 1);
+                        notifyDataSetChanged();
                     }
+
                 }
             });
 
@@ -106,7 +134,7 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
             this.beer = beer;
             name_Beer.setText(beer.getTitle());
             desc_Beer.setText(beer.getDescription());
-            qtd_Likes.setText(beer.getQtdLikes());
+            qtd_Likes.setText(beer.getQtdLikes().toString());
             likeButton.setChecked(false);
             imagePosterBeer.setImageResource(R.drawable.cebreja);
             if (beer.getLiked() == true){

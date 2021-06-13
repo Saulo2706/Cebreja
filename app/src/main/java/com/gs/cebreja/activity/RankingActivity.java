@@ -63,6 +63,7 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
     private int j = 0;
     private long page_next;
     private long total_pages;
+    public static List<Beer> listBeer;
     User user;
     
     @Override
@@ -134,11 +135,6 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
             }
         });
     }
-
-
-
-
-
     private void obtemCervejas(){
         ApiService.getInstace()
         .obterCervejas(0,"Bearer "+User.token)
@@ -148,7 +144,7 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
                 if (response.isSuccessful()){
                     page_next = response.body().getPage().getNumber() + 1;
                     total_pages = response.body().getPage().getTotalPages();
-                    List<Beer> listBeer = BeerRankingMapper.deBeerVoesParaDominio(response.body().getEmbedded().getVoes());
+                    listBeer = BeerRankingMapper.deBeerVoesParaDominio(response.body().getEmbedded().getVoes());
                     beerAdapter.setBeerList(listBeer);
                     progressBar.setVisibility(View.GONE);
                 }else{
