@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gs.cebreja.R;
-import com.gs.cebreja.model.Beer;
+import com.gs.cebreja.model.BeerRanking;
 import com.gs.cebreja.model.User;
 import com.gs.cebreja.network.ApiService;
 import com.gs.cebreja.network.response.LikeUnlikeResponseGeneric;
@@ -26,18 +26,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.gs.cebreja.activity.RankingActivity.listBeer;
+import static com.gs.cebreja.activity.RankingActivity.listBeerRanking;
 
 public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyViewHolder> implements Filterable {
 
-    private List<Beer> beerList;
+    private List<BeerRanking> beerRankingList;
     private static OnBeerClickedListner onBeerClickedListner;
 
 
 
     public MyAdapterRanking(OnBeerClickedListner onBeerClickedListner){
         this.onBeerClickedListner = onBeerClickedListner;
-        beerList = new ArrayList<>();
+        beerRankingList = new ArrayList<>();
     }
 
     @NonNull
@@ -54,12 +54,12 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.bind(beerList.get(position));
+        holder.bind(beerRankingList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return beerList.size();
+        return beerRankingList.size();
     }
 
     @Override
@@ -75,7 +75,7 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
         private TextView qtd_Likes;
         private ToggleButton likeButton;
         private ImageView imagePosterBeer;
-        private Beer beer;
+        private BeerRanking beerRanking;
 
         public MyViewHolder(@NonNull View itemView){
             super(itemView);
@@ -89,7 +89,7 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
                 @Override
                 public void onClick(View v) {
                     if (likeButton.isChecked()){
-                        ApiService.getInstaceLike().likeCerveja(beer.getId(),"Bearer "+ User.token).enqueue(new Callback<LikeUnlikeResponseGeneric>() {
+                        ApiService.getInstaceLike().likeCerveja(beerRanking.getId(),"Bearer "+ User.token).enqueue(new Callback<LikeUnlikeResponseGeneric>() {
                             @Override
                             public void onResponse(Call<LikeUnlikeResponseGeneric> call, Response<LikeUnlikeResponseGeneric> response) {
                             }
@@ -97,12 +97,12 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
                             public void onFailure(Call<LikeUnlikeResponseGeneric> call, Throwable t) {
                             }
                         });
-                        Long qtdAtual = listBeer.get(getAdapterPosition()).getQtdLikes();
-                        listBeer.get(getAdapterPosition()).setLiked(true);
-                        listBeer.get(getAdapterPosition()).setQtdLikes(qtdAtual + 1);
+                        Long qtdAtual = listBeerRanking.get(getAdapterPosition()).getQtdLikes();
+                        listBeerRanking.get(getAdapterPosition()).setLiked(true);
+                        listBeerRanking.get(getAdapterPosition()).setQtdLikes(qtdAtual + 1);
                         notifyDataSetChanged();
                     }else{
-                        ApiService.getInstaceLike().unlikeCerveja(beer.getId(),"Bearer "+ User.token).enqueue(new Callback<LikeUnlikeResponseGeneric>() {
+                        ApiService.getInstaceLike().unlikeCerveja(beerRanking.getId(),"Bearer "+ User.token).enqueue(new Callback<LikeUnlikeResponseGeneric>() {
                             @Override
                             public void onResponse(Call<LikeUnlikeResponseGeneric> call, Response<LikeUnlikeResponseGeneric> response) {
                             }
@@ -111,9 +111,9 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
                             }
 
                         });
-                        Long qtdAtual = listBeer.get(getAdapterPosition()).getQtdLikes();
-                        listBeer.get(getAdapterPosition()).setLiked(false);
-                        listBeer.get(getAdapterPosition()).setQtdLikes(qtdAtual - 1);
+                        Long qtdAtual = listBeerRanking.get(getAdapterPosition()).getQtdLikes();
+                        listBeerRanking.get(getAdapterPosition()).setLiked(false);
+                        listBeerRanking.get(getAdapterPosition()).setQtdLikes(qtdAtual - 1);
                         notifyDataSetChanged();
                     }
 
@@ -124,37 +124,37 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
                 @Override
                 public void onClick(View v) {
                     if(onBeerClickedListner != null){
-                        onBeerClickedListner.onBeerClicked(beer);
+                        onBeerClickedListner.onBeerClicked(beerRanking);
                     }
                 }
             });
         }
 
-        public void bind(Beer beer){
-            this.beer = beer;
-            name_Beer.setText(beer.getTitle());
-            desc_Beer.setText(beer.getDescription());
-            qtd_Likes.setText(beer.getQtdLikes().toString());
+        public void bind(BeerRanking beerRanking){
+            this.beerRanking = beerRanking;
+            name_Beer.setText(beerRanking.getTitle());
+            desc_Beer.setText(beerRanking.getDescription());
+            qtd_Likes.setText(beerRanking.getQtdLikes().toString());
             likeButton.setChecked(false);
             imagePosterBeer.setImageResource(R.drawable.cebreja);
-            if (beer.getLiked() == true){
+            if (beerRanking.getLiked() == true){
                 likeButton.setChecked(true);
             }
-            if (beer.getCaminhoPoster().size() > 0){
-                Picasso.get().load(beer.getCaminhoPoster().get(0)).into(imagePosterBeer);
+            if (beerRanking.getCaminhoPoster().size() > 0){
+                Picasso.get().load(beerRanking.getCaminhoPoster().get(0)).into(imagePosterBeer);
             }
         }
 
     }
 
-    public void setBeerList(List<Beer> beerList) {
-        this.beerList = beerList;
+    public void setBeerList(List<BeerRanking> beerRankingList) {
+        this.beerRankingList = beerRankingList;
         notifyDataSetChanged();
     }
 
 
     public interface OnBeerClickedListner {
-        void onBeerClicked(Beer beer);
+        void onBeerClicked(BeerRanking beerRanking);
     }
 
 

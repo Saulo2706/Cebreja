@@ -1,6 +1,6 @@
 package com.gs.cebreja.mapper;
 
-import com.gs.cebreja.model.Beer;
+import com.gs.cebreja.model.BeerRanking;
 import com.gs.cebreja.network.response.BeerRankingVoes;
 
 import java.util.ArrayList;
@@ -8,25 +8,25 @@ import java.util.List;
 
 public class BeerRankingMapper {
 
-    public static List<Beer> listBeerAdd = new ArrayList<>();
+    public static List<BeerRanking> listBeerRankingAdd = new ArrayList<>();
 
-    public static List<Beer> deBeerVoesParaDominio(List<BeerRankingVoes> listBeerRankingVoes) {
-        List<Beer> listBeer = new ArrayList<>();
+    public static List<BeerRanking> deBeerVoesParaDominio(List<BeerRankingVoes> listBeerRankingVoes) {
+        List<BeerRanking> listBeerRanking = new ArrayList<>();
         for (BeerRankingVoes beerRankingVoes : listBeerRankingVoes){
-            final Beer beer = new Beer(beerRankingVoes.getId(),beerRankingVoes.getName(),beerRankingVoes.getDescription(),beerRankingVoes.getLiked(),beerRankingVoes.getLikes(),beerRankingVoes.getPhotos());
-            listBeer.add(beer);
+            final BeerRanking beerRanking = new BeerRanking(beerRankingVoes.getId(),beerRankingVoes.getName(),beerRankingVoes.getDescription(),beerRankingVoes.getLiked(),beerRankingVoes.getLikes(),beerRankingVoes.getPhotos());
+            listBeerRanking.add(beerRanking);
         }
-        listBeerAdd = listBeer;
-        return listBeer;
+        listBeerRankingAdd = listBeerRanking;
+        return listBeerRanking;
     }
 
-    public static List<Beer> deBeerVoesParaDominioAdd(List<BeerRankingVoes> listBeerRankingVoes) {
+    public static List<BeerRanking> deBeerVoesParaDominioAdd(List<BeerRankingVoes> listBeerRankingVoes) {
 
         for (BeerRankingVoes beerRankingVoes : listBeerRankingVoes){
-            final Beer beer = new Beer(beerRankingVoes.getId(),beerRankingVoes.getName(),beerRankingVoes.getDescription(),beerRankingVoes.getLiked(),beerRankingVoes.getLikes(),beerRankingVoes.getPhotos());
-            listBeerAdd.add(beer);
+            final BeerRanking beerRanking = new BeerRanking(beerRankingVoes.getId(),beerRankingVoes.getName(),beerRankingVoes.getDescription(),beerRankingVoes.getLiked(),beerRankingVoes.getLikes(),beerRankingVoes.getPhotos());
+            listBeerRankingAdd.add(beerRanking);
         }
 
-        return listBeerAdd;
+        return listBeerRankingAdd;
     }
 }
