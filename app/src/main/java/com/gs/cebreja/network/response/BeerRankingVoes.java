@@ -17,6 +17,8 @@ public class BeerRankingVoes implements Serializable{
     private String description;
     @com.squareup.moshi.Json(name = "liked")
     private Boolean liked;
+    @com.squareup.moshi.Json(name = "likes")
+    private String likes;
     @com.squareup.moshi.Json(name = "photos")
     private List<String> photos = null;
     @com.squareup.moshi.Json(name = "_links")
@@ -38,13 +40,15 @@ public class BeerRankingVoes implements Serializable{
      * @param id
      * @param photos
      * @param liked
+     * @param likes
      */
-    public BeerRankingVoes(Long id, String name, String description, Boolean liked, List<String> photos, Links links) {
+    public BeerRankingVoes(Long id, String name, String description, Boolean liked,String likes, List<String> photos, Links links) {
         super();
         this.id = id;
         this.name = name;
         this.description = description;
         this.liked = liked;
+        this.likes = likes;
         this.photos = photos;
         this.links = links;
     }
@@ -73,6 +77,14 @@ public class BeerRankingVoes implements Serializable{
     public BeerRankingVoes withName(String name) {
         this.name = name;
         return this;
+    }
+
+    public String getLikes() {
+        return likes;
+    }
+
+    public void setLikes(String likes) {
+        this.likes = likes;
     }
 
     public String getDescription() {
@@ -134,6 +146,7 @@ public class BeerRankingVoes implements Serializable{
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", liked=" + liked +
+                ", likes=" + likes +
                 ", photos=" + photos +
                 ", links=" + links +
                 '}';

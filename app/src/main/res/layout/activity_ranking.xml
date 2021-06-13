@@ -54,13 +54,6 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="60dp">
 
-        <ProgressBar
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/progressBar"
-            android:layout_centerHorizontal="true"
-            android:visibility="gone"/>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
@@ -75,6 +68,16 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <ProgressBar
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:theme="@style/Widget.MaterialComponents.CircularProgressIndicator"
+            android:id="@+id/progressBar"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 

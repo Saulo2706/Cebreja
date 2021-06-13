@@ -3,16 +3,19 @@ package com.gs.cebreja.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gs.cebreja.R;
+import com.gs.cebreja.activity.RankingActivity;
 import com.gs.cebreja.model.Beer;
 import com.squareup.picasso.Picasso;
 
@@ -63,18 +66,31 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
     static class MyViewHolder extends RecyclerView.ViewHolder{
         private TextView name_Beer;
         private TextView desc_Beer;
+        private TextView qtd_Likes;
         private ToggleButton likeButton;
         private ImageView imagePosterBeer;
         private Beer beer;
 
         public MyViewHolder(@NonNull View itemView){
             super(itemView);
-
-
             name_Beer = itemView.findViewById(R.id.name_Beer);
             desc_Beer = itemView.findViewById(R.id.desc_Beer);
             likeButton = itemView.findViewById(R.id.likeButton);
+            qtd_Likes = itemView.findViewById(R.id.qtd_Likes);
             imagePosterBeer = itemView.findViewById(R.id.posterBeer);
+
+            likeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (likeButton.isChecked()){
+                        System.out.println(beer.getId());
+                        System.out.println("Like");
+                    }else{
+                        System.out.println(beer.getId());
+                        System.out.println("Dislike");
+                    }
+                }
+            });
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -90,6 +106,7 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
             this.beer = beer;
             name_Beer.setText(beer.getTitle());
             desc_Beer.setText(beer.getDescription());
+            qtd_Likes.setText(beer.getQtdLikes());
             likeButton.setChecked(false);
             imagePosterBeer.setImageResource(R.drawable.cebreja);
             if (beer.getLiked() == true){

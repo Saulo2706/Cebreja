@@ -7,14 +7,32 @@ public class Beer {
     private Long id;
     private String title,description,pais, typeBeer, brandBeer, packegeBeer,status;
     private Boolean isLiked;
+    private String qtdLikes;
     private List<String> ingredients,caminhoPoster = new ArrayList<>();
 
-    public Beer(Long id,String title, String description, Boolean isLiked,List caminhoPoster) {
+    public Beer(Long id,String title, String description, Boolean isLiked,String qtdLikes,List caminhoPoster) {
         this.id = id;
         this.title = title;
         this.isLiked = isLiked;
+        this.qtdLikes = qtdLikes;
         this.description = description;
         this.caminhoPoster = caminhoPoster;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getQtdLikes() {
+        return qtdLikes;
+    }
+
+    public void setQtdLikes(String qtdLikes) {
+        this.qtdLikes = qtdLikes;
     }
 
     public Boolean getLiked() {
