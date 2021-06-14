@@ -17,6 +17,7 @@ import com.gs.cebreja.model.User;
 import com.gs.cebreja.network.ApiService;
 import com.gs.cebreja.network.response.BeerRankingResponse;
 import com.gs.cebreja.network.response.BeerResponse;
+import com.gs.cebreja.network.response.FavoriteUnfavoriteResponseGeneric;
 import com.gs.cebreja.network.response.LikeUnlikeResponseGeneric;
 import com.squareup.picasso.Picasso;
 
@@ -27,9 +28,10 @@ import retrofit2.Response;
 import static com.gs.cebreja.activity.RankingActivity.listBeer;
 
 public class BeerActivity extends MainActivity {
-    TextView titleBeer,brand_Beer,score_Beer,type_Beer,world_Beer,alcohlic_Beer,package_Beer,volume_Beer,description_Beer;
-    ToggleButton likeButtonDetails;
+    TextView titleBeer,brand_Beer,score_Beer,type_Beer,world_Beer,alcohlic_Beer,package_Beer,volume_Beer,description_Beer,ingredients_Beer;
+    ToggleButton likeButtonDetails,favoriteButtonDetails;
     ImageView imageBeer;
+    String ingredients = "";
     Beer beer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class BeerActivity extends MainActivity {
 
         titleBeer = findViewById(R.id.titleBeer);
         likeButtonDetails = findViewById(R.id.likeButtonDetails);
+        favoriteButtonDetails = findViewById(R.id.favoriteButtonDetails);
         brand_Beer = findViewById(R.id.brand_Beer);
         score_Beer = findViewById(R.id.score_Beer);
         type_Beer = findViewById(R.id.type_Beer);
@@ -47,6 +50,7 @@ public class BeerActivity extends MainActivity {
         package_Beer = findViewById(R.id.package_Beer);
         volume_Beer = findViewById(R.id.volume_Beer);
         description_Beer = findViewById(R.id.description_Beer);
+        ingredients_Beer = findViewById(R.id.ingredients_Beer);
         imageBeer = findViewById(R.id.imageBeer);
 
         obtemDetalhes(beer.getId());
@@ -103,6 +107,33 @@ public class BeerActivity extends MainActivity {
             }
         });
 
+        favoriteButtonDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (favoriteButtonDetails.isChecked()){
+                    ApiService.getInstanceFavorite().favoriteCerveja(beer.getId(),"Bearer "+ User.token).enqueue(new Callback<FavoriteUnfavoriteResponseGeneric>() {
+                        @Override
+                        public void onResponse(Call<FavoriteUnfavoriteResponseGeneric> call, Response<FavoriteUnfavoriteResponseGeneric> response) {
+                        }
+                        @Override
+                        public void onFailure(Call<FavoriteUnfavoriteResponseGeneric> call, Throwable t) {
+                        }
+                    });
+                }else {
+                    ApiService.getInstanceFavorite().unfavoriteCerveja(beer.getId(), "Bearer " + User.token).enqueue(new Callback<FavoriteUnfavoriteResponseGeneric>() {
+                        @Override
+                        public void onResponse(Call<FavoriteUnfavoriteResponseGeneric> call, Response<FavoriteUnfavoriteResponseGeneric> response) {
+                        }
+
+                        @Override
+                        public void onFailure(Call<FavoriteUnfavoriteResponseGeneric> call, Throwable t) {
+                        }
+
+                    });
+                }
+            }
+        });
+
     }
 
     private void obtemDetalhes(Long id){
@@ -120,6 +151,19 @@ public class BeerActivity extends MainActivity {
                             package_Beer.setText(response.body().getPacking().getName());
                             volume_Beer.setText(response.body().getVolume());
                             description_Beer.setText(response.body().getDescription());
+
+                            int size = response.body().getIngredientsList().size();
+
+                            for (int i=0; i<size; i++){
+                                if (i == size-1){
+                                    ingredients += response.body().getIngredientsList().get(i).getName();
+                                }else{
+                                    ingredients += response.body().getIngredientsList().get(i).getName() +", ";
+                                }
+
+                            }
+                            ingredients_Beer.setText(ingredients);
+
                             //score_Beer.setText(response.body());
                             if (response.body().getPhotos().size() > 0){
                                 Picasso.get().load(response.body().getPhotos().get(0)).into(imageBeer);
@@ -144,9 +188,4 @@ public class BeerActivity extends MainActivity {
                 });
     }
 
-
-
-    public void onCustomFavToggleClick(View view) {
-        //Toast.makeText(this, "CustomToggle", Toast.LENGTH_SHORT).show();
-    }
 }

@@ -126,6 +126,7 @@ public class LoginActivity extends MainActivity implements ILoginView {
                             dialog.dismiss();
                             startActivity(intent);
                         }else {
+                            dialog.dismiss();
                             showError();
                             System.out.println(response.code());
                         }
@@ -134,7 +135,8 @@ public class LoginActivity extends MainActivity implements ILoginView {
 
                     @Override
                     public void onFailure(Call<UserLoginResponse> call, Throwable t) {
-
+                        dialog.dismiss();
+                        showError();
                     }
                 });
 
@@ -153,6 +155,7 @@ public class LoginActivity extends MainActivity implements ILoginView {
 
     @Override
     public void OnLoginError(String message) {
+        dialog.dismiss();
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 
