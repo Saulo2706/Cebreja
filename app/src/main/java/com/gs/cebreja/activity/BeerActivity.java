@@ -5,21 +5,33 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.gs.cebreja.R;
 import com.gs.cebreja.mapper.BeerRankingMapper;
+import com.gs.cebreja.mapper.UserLoginMapper;
+import com.gs.cebreja.model.AppreciationBeer;
 import com.gs.cebreja.model.Beer;
 import com.gs.cebreja.model.User;
+import com.gs.cebreja.model.UserRole;
 import com.gs.cebreja.network.ApiService;
+import com.gs.cebreja.network.response.AppreciationResponseGeneric;
 import com.gs.cebreja.network.response.BeerRankingResponse;
 import com.gs.cebreja.network.response.BeerResponse;
 import com.gs.cebreja.network.response.FavoriteUnfavoriteResponseGeneric;
 import com.gs.cebreja.network.response.LikeUnlikeResponseGeneric;
+import com.gs.cebreja.network.response.UserLoginResponse;
+import com.gs.cebreja.util.SetupUI;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,11 +44,15 @@ public class BeerActivity extends MainActivity {
     ToggleButton likeButtonDetails,favoriteButtonDetails;
     ImageView imageBeer;
     String ingredients = "";
+    RatingBar ratingBar;
+    EditText editTextAvaliationBeer;
+    Button finishButton;
     Beer beer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beer);
+        SetupUI.set(findViewById(R.id.activityBeer), BeerActivity.this);
         beer = (Beer) getIntent().getSerializableExtra("beer");
 
         titleBeer = findViewById(R.id.titleBeer);
@@ -52,6 +68,9 @@ public class BeerActivity extends MainActivity {
         description_Beer = findViewById(R.id.description_Beer);
         ingredients_Beer = findViewById(R.id.ingredients_Beer);
         imageBeer = findViewById(R.id.imageBeer);
+        finishButton = findViewById(R.id.finishButton);
+        ratingBar = findViewById(R.id.ratingBar);
+        editTextAvaliationBeer = findViewById(R.id.editTextAvaliationBeer);
 
         obtemDetalhes(beer.getId());
 
@@ -59,6 +78,13 @@ public class BeerActivity extends MainActivity {
         ImageButton back_btn,beer_remove_btn;
         back_btn = findViewById(R.id.beer_back_btn);
         beer_remove_btn = findViewById(R.id.beer_remove_btn);
+
+        finishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                post_request(editTextAvaliationBeer.getText().toString(),ratingBar.getRating());
+            }
+        });
 
         beer_remove_btn.setOnClickListener(
                 new View.OnClickListener() {
@@ -134,6 +160,21 @@ public class BeerActivity extends MainActivity {
             }
         });
 
+    }
+
+    private void post_request(String comment, Float score) {
+        AppreciationBeer appreciationBeer = new AppreciationBeer(comment,score);
+        ApiService.getInstanceAppreciation()
+                .saveAppreciation(beer.getId(),"Bearer "+ User.token,appreciationBeer)
+                .enqueue(new Callback<AppreciationResponseGeneric>() {
+                    @Override
+                    public void onResponse(Call<AppreciationResponseGeneric> call, Response<AppreciationResponseGeneric> response) {
+                    }
+
+                    @Override
+                    public void onFailure(Call<AppreciationResponseGeneric> call, Throwable t) {
+                    }
+                });
     }
 
     private void obtemDetalhes(Long id){

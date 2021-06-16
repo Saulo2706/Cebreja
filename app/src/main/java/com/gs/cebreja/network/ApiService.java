@@ -10,6 +10,7 @@ public class ApiService {
     private static UserLoginService INSTANCE_LOGIN;
     private static UserLikeUnlikeService INSTANCE_LIKE;
     private static UserFavoriteUnfavoriteService INSTANCE_FAVORITE;
+    private static BeerAppreciationService INSTANCE_APPRECIATION;
 
     public static BeersRankingService getInstace(){
         if(INSTANCE == null){
@@ -74,6 +75,19 @@ public class ApiService {
         }
 
         return INSTANCE_FAVORITE;
+    }
+
+    public static BeerAppreciationService getInstanceAppreciation(){
+        if(INSTANCE_APPRECIATION == null){
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(MoshiConverterFactory.create())
+                    .build();
+
+            INSTANCE_APPRECIATION = retrofit.create(BeerAppreciationService.class);
+        }
+
+        return INSTANCE_APPRECIATION;
     }
 
 
