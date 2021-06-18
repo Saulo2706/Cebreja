@@ -26,12 +26,15 @@ public class BeerResponse {
     private Country country;
     @com.squareup.moshi.Json(name = "ingredients")
     private List<Ingredients> ingredientsList;
+    @com.squareup.moshi.Json(name = "appreciation")
+    private Appreciation appreciation;
     @com.squareup.moshi.Json(name = "photos")
     private List<String> photos = null;
     @com.squareup.moshi.Json(name = "liked")
     private Boolean liked;
     @com.squareup.moshi.Json(name = "likes")
     private Long likes;
+
 
 
     public BeerResponse() {
@@ -166,6 +169,14 @@ public class BeerResponse {
         this.likes = likes;
     }
 
+    public Appreciation getAppreciation() {
+        return appreciation;
+    }
+
+    public void setAppreciation(Appreciation appreciation) {
+        this.appreciation = appreciation;
+    }
+
     @Override
     public String toString() {
         return "BeerResponse{" +
@@ -180,6 +191,7 @@ public class BeerResponse {
                 ", status=" + status +
                 ", country=" + country +
                 ", ingredientsList=" + ingredientsList +
+                ", appreciation=" + appreciation +
                 ", photos=" + photos +
                 ", liked=" + liked +
                 ", likes=" + likes +

@@ -120,10 +120,30 @@ public class LoginActivity extends MainActivity implements ILoginView {
                         if (response.isSuccessful()){
                             List<UserRole> userRoles = UserLoginMapper.deRolesParaDominio(response.body().getRoles());
                             User user = new User(response.body().getEmail(),response.body().getFirstName(),response.body().getLastName(),response.body().getGender(),response.body().getBirthday(),response.body().getToken(),userRoles);
+                            Intent intent = new Intent();
+                            int j=0;
+                            int admin = 0;
+                            for (int i = 0; i < user.roles.size(); i++){
+                                j = user.getRoles().get(i).getId();
+                                if(j == 1){
+                                    admin = 1;
+                                }
+
+                                if(j == 2){
+                                    System.out.println("Usuario Aprovador");
+                                    intent = new Intent(LoginActivity.this, ApprovalActivity.class);
+                                    intent.putExtra("user", user);
+                                    dialog.dismiss();
+                                }
+                            }
+
+                            if(j > 2 || j<1 || admin == 1){
+                                intent = new Intent(LoginActivity.this, RankingActivity.class);
+                                intent.putExtra("user", user);
+                                dialog.dismiss();
+                            }
+
                             Toast.makeText(LoginActivity.this,"Login efetuado com sucesso",Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(LoginActivity.this, RankingActivity.class);
-                            intent.putExtra("user", user);
-                            dialog.dismiss();
                             startActivity(intent);
                         }else {
                             dialog.dismiss();

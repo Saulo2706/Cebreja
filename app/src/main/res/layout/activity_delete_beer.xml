@@ -7,7 +7,7 @@
     android:background="@color/white"
     android:padding="30dp"
     android:id="@+id/deleteBeer"
-    tools:context=".activity.DeleteBeer">
+    tools:context=".activity.DeleteBeerActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

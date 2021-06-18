@@ -1,5 +1,7 @@
 package com.gs.cebreja.network;
 
+import com.gs.cebreja.network.response.BeerItemResponseGeneric;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
@@ -11,6 +13,8 @@ public class ApiService {
     private static UserLikeUnlikeService INSTANCE_LIKE;
     private static UserFavoriteUnfavoriteService INSTANCE_FAVORITE;
     private static BeerAppreciationService INSTANCE_APPRECIATION;
+    private static BeerItensService INSTANCE_ITEM;
+    private static ItemServiceGeneric INSTANCE_ITEM_GEN;
 
     public static BeersRankingService getInstace(){
         if(INSTANCE == null){
@@ -89,6 +93,34 @@ public class ApiService {
 
         return INSTANCE_APPRECIATION;
     }
+
+    public static BeerItensService getInstanceItem(){
+        if(INSTANCE_ITEM == null){
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(MoshiConverterFactory.create())
+                    .build();
+
+            INSTANCE_ITEM = retrofit.create(BeerItensService.class);
+        }
+
+        return INSTANCE_ITEM;
+    }
+
+    public static ItemServiceGeneric getInstanceItemGen(){
+        if(INSTANCE_ITEM_GEN == null){
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(MoshiConverterFactory.create())
+                    .build();
+
+            INSTANCE_ITEM_GEN = retrofit.create(ItemServiceGeneric.class);
+        }
+
+        return INSTANCE_ITEM_GEN;
+    }
+
+
 
 
 }

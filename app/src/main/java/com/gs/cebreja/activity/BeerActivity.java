@@ -1,7 +1,5 @@
 package com.gs.cebreja.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,38 +9,29 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.gs.cebreja.R;
-import com.gs.cebreja.mapper.BeerRankingMapper;
-import com.gs.cebreja.mapper.UserLoginMapper;
 import com.gs.cebreja.model.AppreciationBeer;
 import com.gs.cebreja.model.Beer;
 import com.gs.cebreja.model.User;
-import com.gs.cebreja.model.UserRole;
 import com.gs.cebreja.network.ApiService;
 import com.gs.cebreja.network.response.AppreciationResponseGeneric;
-import com.gs.cebreja.network.response.BeerRankingResponse;
 import com.gs.cebreja.network.response.BeerResponse;
 import com.gs.cebreja.network.response.FavoriteUnfavoriteResponseGeneric;
 import com.gs.cebreja.network.response.LikeUnlikeResponseGeneric;
-import com.gs.cebreja.network.response.UserLoginResponse;
 import com.gs.cebreja.util.SetupUI;
 import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.gs.cebreja.activity.RankingActivity.listBeer;
-
 public class BeerActivity extends MainActivity {
     TextView titleBeer,brand_Beer,score_Beer,type_Beer,world_Beer,alcohlic_Beer,package_Beer,volume_Beer,description_Beer,ingredients_Beer;
     ToggleButton likeButtonDetails,favoriteButtonDetails;
     ImageView imageBeer;
+    ImageButton back_btn,beer_remove_btn,beer_edit_btn;
     String ingredients = "";
     RatingBar ratingBar;
     EditText editTextAvaliationBeer;
@@ -75,9 +64,9 @@ public class BeerActivity extends MainActivity {
         obtemDetalhes(beer.getId());
 
         //Botão voltar
-        ImageButton back_btn,beer_remove_btn;
         back_btn = findViewById(R.id.beer_back_btn);
         beer_remove_btn = findViewById(R.id.beer_remove_btn);
+        beer_edit_btn = findViewById(R.id.beer_edit_btn);
 
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,12 +79,21 @@ public class BeerActivity extends MainActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(BeerActivity.this, DeleteBeer.class);
+                        Intent intent = new Intent(BeerActivity.this, DeleteBeerActivity.class);
                         //intent.putExtra("user", user);
                         startActivity(intent);
                     }
                 }
         );
+
+        beer_edit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BeerActivity.this, EditBeerActivity.class);
+                intent.putExtra("beer", beer);
+                startActivity(intent);
+            }
+        });
 
         back_btn.setOnClickListener(
                 new View.OnClickListener() {
@@ -193,8 +191,16 @@ public class BeerActivity extends MainActivity {
                             volume_Beer.setText(response.body().getVolume());
                             description_Beer.setText(response.body().getDescription());
 
-                            int size = response.body().getIngredientsList().size();
 
+
+                            try{
+                                editTextAvaliationBeer.setText(response.body().getAppreciation().getComment());
+                                ratingBar.setRating(response.body().getAppreciation().getScore());
+                            } catch (NullPointerException npe) {
+
+                            }
+
+                            int size = response.body().getIngredientsList().size();
                             for (int i=0; i<size; i++){
                                 if (i == size-1){
                                     ingredients += response.body().getIngredientsList().get(i).getName();
