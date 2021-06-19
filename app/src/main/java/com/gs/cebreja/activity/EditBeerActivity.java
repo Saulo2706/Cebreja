@@ -38,12 +38,13 @@ import retrofit2.Response;
 public class EditBeerActivity extends MainActivity implements View.OnClickListener {
     Beer beer;
     private EditText editTextNameBeer,editTextVolumeBeer,editTextAlcholicBeer,editTextDescriptionBeer;
-    private AutoCompleteTextView paisBeerTextView,typeBeerTextView,brandTextView,packageTextView;
+    private AutoCompleteTextView paisBeerTextView,typeBeerTextView,brandTextView,packageTextView,ingrediente;
     private Button buttonAdd,addImage, FinishButton;
     private LinearLayout list_Ingredients;
     private ImageView pickedImage;
     private ImageButton EditBeerBackBtn;
 
+    private List<StringWithId> ingredientList = new ArrayList<>();
     private List<StringWithId> listType = new ArrayList<>();
     private List<StringWithId> listWold = new ArrayList<>();
     private List<StringWithId> listPackge = new ArrayList<>();
@@ -164,9 +165,10 @@ public class EditBeerActivity extends MainActivity implements View.OnClickListen
 
         final View ingredientsView = getLayoutInflater().inflate(R.layout.ingredient_list,null,false);
 
-        EditText ingrediente =  ingredientsView.findViewById(R.id.editTextIngredientBeer);
+        ingrediente =  ingredientsView.findViewById(R.id.editTextIngredientBeer);
         EditText qtd_ingrediente =  ingredientsView.findViewById(R.id.editTextqtdBeer);
         ImageView imgClose = ingredientsView.findViewById(R.id.imageRemove);
+        obtemItensIngredients("ingredient");
 
         imgClose.setOnClickListener(new View.OnClickListener(){;
             @Override
@@ -182,10 +184,10 @@ public class EditBeerActivity extends MainActivity implements View.OnClickListen
 
         final View ingredientsView = getLayoutInflater().inflate(R.layout.ingredient_list,null,false);
 
-        EditText ingrediente =  ingredientsView.findViewById(R.id.editTextIngredientBeer);
+        ingrediente =  ingredientsView.findViewById(R.id.editTextIngredientBeer);
         EditText qtd_ingrediente =  ingredientsView.findViewById(R.id.editTextqtdBeer);
         ImageView imgClose = ingredientsView.findViewById(R.id.imageRemove);
-
+        obtemItensIngredients("ingredient");
         ingrediente.setText(ing);
         qtd_ingrediente.setText(qtdIngrediente);
 
@@ -306,6 +308,35 @@ public class EditBeerActivity extends MainActivity implements View.OnClickListen
                                 Long idBrand =m.getId();
 
                                 System.out.println("id brand: " + idBrand);
+                            }
+                        });
+                    }
+                    @Override
+                    public void onFailure(Call<List<BeerItemResponseGeneric>> call, Throwable t) {
+                        System.out.println("DEU RUIM");
+                    }
+                });
+    }
+    private void obtemItensIngredients(String item){
+        ApiService.getInstanceItemGen()
+                .findItem(item,"Bearer "+User.token)
+                .enqueue(new Callback<List<BeerItemResponseGeneric>>() {
+                    @Override
+                    public void onResponse(Call<List<BeerItemResponseGeneric>> call, Response<List<BeerItemResponseGeneric>> response) {
+                        ingredientList = ItemSelectMapper.deItemParaDominio(response.body());
+
+
+                        ArrayAdapter<StringWithId> adapter_ingredients = new ArrayAdapter<StringWithId>(EditBeerActivity.this,android.R.layout.simple_list_item_1, ingredientList);
+                        ingrediente.setAdapter(adapter_ingredients);
+
+                        ingrediente.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                StringWithId m=(StringWithId) parent.getItemAtPosition(position);
+                                String name= m.getString();
+                                Long idIng =m.getId();
+
+                                System.out.println("id ingredient: " + idIng);
                             }
                         });
                     }

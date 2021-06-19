@@ -15,6 +15,7 @@ public class ApiService {
     private static BeerAppreciationService INSTANCE_APPRECIATION;
     private static BeerItensService INSTANCE_ITEM;
     private static ItemServiceGeneric INSTANCE_ITEM_GEN;
+    private static BeerUploadService INSTANCE_BEER_UPLOAD;
 
     public static BeersRankingService getInstace(){
         if(INSTANCE == null){
@@ -118,6 +119,19 @@ public class ApiService {
         }
 
         return INSTANCE_ITEM_GEN;
+    }
+
+    public static BeerUploadService getInstanceBeerUpload(){
+        if(INSTANCE_BEER_UPLOAD == null){
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(MoshiConverterFactory.create())
+                    .build();
+
+            INSTANCE_BEER_UPLOAD = retrofit.create(BeerUploadService.class);
+        }
+
+        return INSTANCE_BEER_UPLOAD;
     }
 
 

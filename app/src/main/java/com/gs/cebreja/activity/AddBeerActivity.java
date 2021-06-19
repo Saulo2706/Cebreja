@@ -3,10 +3,14 @@ package com.gs.cebreja.activity;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.gs.cebreja.R;
 import com.gs.cebreja.mapper.ItemSelectMapper;
+import com.gs.cebreja.mapper.UserLoginMapper;
 import com.gs.cebreja.model.StringWithId;
 import com.gs.cebreja.model.User;
+import com.gs.cebreja.model.UserRole;
 import com.gs.cebreja.network.ApiService;
 import com.gs.cebreja.network.response.BeerItemResponseGeneric;
+import com.gs.cebreja.network.response.BeerOrderResponse;
+import com.gs.cebreja.network.response.UserLoginResponse;
 import com.gs.cebreja.util.SetupUI;
 
 import android.content.Context;
@@ -26,9 +30,13 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,14 +44,18 @@ import retrofit2.Response;
 
 public class AddBeerActivity extends MainActivity implements View.OnClickListener {
 
-    private AutoCompleteTextView paisBeerTextView,typeBeerTextView,packageTextView,brandTextView,editTextAlcholicBeer;
+    private AutoCompleteTextView paisBeerTextView,typeBeerTextView,packageTextView,brandTextView,editTextAlcholicBee,ingrediente;
+    private EditText editTextNameBeer,editTextVolumeBeer,editTextAlcholicBeer,editTextDescriptionBeer;
     private LinearLayout list_Ingredients;
     private Button buttonAdd,addImage, FinishButton;
     private ImageView pickedImage;
     private ImageButton manage_back_btn;
+    private Uri uri;
 
-    private List<String> ingredientList = new ArrayList<>();
+    private File file;
+    private int idBrand, idType, idPacking, idCountry;
 
+    private List<StringWithId> ingredientList = new ArrayList<>();
     private List<StringWithId> listType = new ArrayList<>();
     private List<StringWithId> listWold = new ArrayList<>();
     private List<StringWithId> listPackge = new ArrayList<>();
@@ -57,6 +69,11 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
 
         User user = getIntent().getParcelableExtra("user");
         user.setToken(User.token);
+
+        editTextNameBeer = findViewById(R.id.editTextNameBeer);
+        editTextVolumeBeer = findViewById(R.id.editTextVolumeBeer);
+        editTextAlcholicBeer = findViewById(R.id.editTextAlcholicBeer);
+        editTextDescriptionBeer =findViewById(R.id.editTextDescriptionBeer);
 
         list_Ingredients = findViewById(R.id.list_Ingredients);
         buttonAdd = findViewById(R.id.add_Ingredients);
@@ -99,7 +116,8 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Uri uri = data.getData();
+        uri = data.getData();
+        file = new File(uri.getPath());
         pickedImage.setImageURI(uri);
     }
 
@@ -111,10 +129,76 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
                 break;
 
             case R.id.FinishButton:
-                checkIfValidAndRead();
+                //checkIfValidAndRead();
+                postBeer();
+                /*System.out.println(editTextNameBeer.getText().toString());
+                System.out.println(editTextDescriptionBeer.getText().toString());
+                System.out.println(editTextVolumeBeer.getText().toString());
+                System.out.println(editTextAlcholicBeer.getText().toString());
+                System.out.println(idBrand);
+                System.out.println(brandTextView.getText().toString());
+                System.out.println(idCountry);
+                System.out.println(paisBeerTextView.getText().toString());
+                System.out.println(idPacking);
+                System.out.println(packageTextView.getText().toString());
+                System.out.println(idType);
+                System.out.println(typeBeerTextView.getText().toString());*/
                 break;
+
         }
 
+    }
+
+    private void postBeer(){
+
+        RequestBody requestNameBeer = RequestBody.create(MediaType.parse("text/plain"),editTextNameBeer.getText().toString());
+        RequestBody requestDescriptionBeer = RequestBody.create(MediaType.parse("text/plain"),editTextDescriptionBeer.getText().toString());
+        RequestBody requestVolumeBeer = RequestBody.create(MediaType.parse("text/plain"),editTextVolumeBeer.getText().toString());
+        RequestBody requestAlcholicBeer = RequestBody.create(MediaType.parse("text/plain"),editTextAlcholicBeer.getText().toString());
+        RequestBody requestIdBrandBeer = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(idBrand));
+        RequestBody requestBrandBeer = RequestBody.create(MediaType.parse("text/plain"),brandTextView.getText().toString());
+        RequestBody requestIdCountryBeer = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(idCountry));
+        RequestBody requestCountryBeer = RequestBody.create(MediaType.parse("text/plain"),paisBeerTextView.getText().toString());
+        RequestBody requestIdPackingBeer = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(idPacking));
+        RequestBody requestPackingBeer = RequestBody.create(MediaType.parse("text/plain"),packageTextView.getText().toString());
+        RequestBody requestIdTypeBeer = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(idType));
+        RequestBody requestTypeBeer = RequestBody.create(MediaType.parse("text/plain"),typeBeerTextView.getText().toString());
+        RequestBody requestIngredientIDBeer = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(1));
+        RequestBody requestIngredientBeer = RequestBody.create(MediaType.parse("text/plain"),"teste");
+        MultipartBody.Part requestImage = null;
+
+        if (file == null){
+            file = new File(uri.getPath());
+        }
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
+        requestImage = MultipartBody.Part.createFormData("photo", file.getName(),requestFile);
+
+
+        ApiService.getInstanceBeerUpload().saveBeer("Bearer "+User.token,
+                requestNameBeer,
+                requestDescriptionBeer,
+                requestVolumeBeer,
+                requestAlcholicBeer,
+                requestIdBrandBeer,
+                requestBrandBeer,
+                requestIdCountryBeer,
+                requestCountryBeer,
+                requestIdPackingBeer,
+                requestPackingBeer,
+                requestIdTypeBeer,
+                requestTypeBeer,
+                requestIngredientIDBeer,
+                requestIngredientBeer,
+                requestImage
+                ).
+                enqueue(new Callback<BeerOrderResponse>() {
+                    @Override
+                    public void onResponse(Call<BeerOrderResponse> call, Response<BeerOrderResponse> response) {
+                    }
+                    @Override
+                    public void onFailure(Call<BeerOrderResponse> call, Throwable t) {
+                    }
+                });
     }
 
     private boolean checkIfValidAndRead() {
@@ -159,9 +243,10 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
 
         final View ingredientsView = getLayoutInflater().inflate(R.layout.ingredient_list,null,false);
 
-        EditText ingrediente =  ingredientsView.findViewById(R.id.editTextIngredientBeer);
+        ingrediente =  ingredientsView.findViewById(R.id.editTextIngredientBeer);
         EditText qtd_ingrediente =  ingredientsView.findViewById(R.id.editTextqtdBeer);
         ImageView imgClose = ingredientsView.findViewById(R.id.imageRemove);
+        obtemItensIngredients("ingredient");
 
         imgClose.setOnClickListener(new View.OnClickListener(){;
            @Override
@@ -196,8 +281,8 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                     StringWithId m=(StringWithId) parent.getItemAtPosition(position);
                                     String name= m.getString();
-                                    Long idType =m.getId();
-
+                                    Long idTypeF =m.getId();
+                                    idType = idTypeF.intValue();
                                     System.out.println("id tipo: " + idType);
                                 }
 
@@ -215,8 +300,8 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
                                     StringWithId m=(StringWithId) parent.getItemAtPosition(position);
                                     String name= m.getString();
                                     Long idPackage =m.getId();
-
-                                    System.out.println("id embalagem: " + idPackage);
+                                    idPacking = idPackage.intValue();
+                                    System.out.println("id embalagem: " + idPacking);
                                 }
                             });
 
@@ -247,8 +332,8 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
                                 StringWithId m=(StringWithId) parent.getItemAtPosition(position);
                                 String name= m.getString();
                                 Long idWorld =m.getId();
-
-                                System.out.println("id pais: " + idWorld);
+                                idCountry = idWorld.intValue();
+                                System.out.println("id pais: " + idCountry);
                             }
                         });
                     }
@@ -276,9 +361,40 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 StringWithId m=(StringWithId) parent.getItemAtPosition(position);
                                 String name= m.getString();
-                                Long idBrand =m.getId();
+                                Long idBrandF =m.getId();
 
+                                idBrand = idBrandF.intValue();
                                 System.out.println("id brand: " + idBrand);
+                            }
+                        });
+                    }
+                    @Override
+                    public void onFailure(Call<List<BeerItemResponseGeneric>> call, Throwable t) {
+                        System.out.println("DEU RUIM");
+                    }
+                });
+    }
+
+    private void obtemItensIngredients(String item){
+        ApiService.getInstanceItemGen()
+                .findItem(item,"Bearer "+User.token)
+                .enqueue(new Callback<List<BeerItemResponseGeneric>>() {
+                    @Override
+                    public void onResponse(Call<List<BeerItemResponseGeneric>> call, Response<List<BeerItemResponseGeneric>> response) {
+                        ingredientList = ItemSelectMapper.deItemParaDominio(response.body());
+
+
+                        ArrayAdapter<StringWithId> adapter_ingredients = new ArrayAdapter<StringWithId>(AddBeerActivity.this,android.R.layout.simple_list_item_1, ingredientList);
+                        ingrediente.setAdapter(adapter_ingredients);
+
+                        ingrediente.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                StringWithId m=(StringWithId) parent.getItemAtPosition(position);
+                                String name= m.getString();
+                                Long idIng =m.getId();
+
+                                System.out.println("id ingredient: " + idIng);
                             }
                         });
                     }

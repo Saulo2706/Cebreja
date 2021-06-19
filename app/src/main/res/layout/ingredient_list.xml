@@ -9,7 +9,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/ingredientBeer"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,21 +18,18 @@
         android:textColorHint="@color/black"
         app:boxStrokeColor="@color/black"
         app:boxStrokeWidthFocused="2dp"
-        app:endIconMode="clear_text"
-        app:endIconTint="@color/black"
         app:hintTextColor="@color/black"
         app:startIconDrawable="@drawable/ingredientes_icon"
         app:startIconTint="@color/black">
 
 
-        <com.google.android.material.textfield.TextInputEditText
+        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
             android:id="@+id/editTextIngredientBeer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clickable="true"
             android:fontFamily="@font/muli_semibold"
-            android:inputType="text"
-            android:textColor="@color/black"
-            android:textCursorDrawable="@null" />
+            android:textColor="@color/black" />
 
 
     </com.google.android.material.textfield.TextInputLayout>
