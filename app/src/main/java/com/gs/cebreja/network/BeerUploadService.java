@@ -3,6 +3,7 @@ package com.gs.cebreja.network;
 import com.gs.cebreja.network.response.BeerOrderResponse;
 
 import java.io.File;
+import java.util.HashMap;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -11,6 +12,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 
 
 public interface BeerUploadService {
@@ -29,8 +31,7 @@ public interface BeerUploadService {
                                      @Part("packing.name") RequestBody namePacking,
                                      @Part("type.id") RequestBody idType,
                                      @Part("type.name") RequestBody typeName,
-                                     @Part("ingredients[0].id") RequestBody idIngredient,
-                                     @Part("ingredients[0].name") RequestBody nameIngredient,
+                                     @PartMap HashMap<String,RequestBody> ingredients,
                                      @Part MultipartBody.Part photo);
 
 }

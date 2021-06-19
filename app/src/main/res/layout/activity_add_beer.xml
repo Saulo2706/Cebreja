@@ -88,7 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/muli_semibold"
-                android:inputType="text"
+                android:inputType="number"
                 android:textColor="@color/black"
                 android:textCursorDrawable="@null" />
 

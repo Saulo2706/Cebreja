@@ -32,7 +32,9 @@ import androidx.annotation.Nullable;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -53,13 +55,16 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
     private Uri uri;
 
     private File file;
-    private int idBrand, idType, idPacking, idCountry;
+    private int idBrand, idType, idPacking, idCountry, contadorIng,contadorIngre;
 
     private List<StringWithId> ingredientList = new ArrayList<>();
     private List<StringWithId> listType = new ArrayList<>();
     private List<StringWithId> listWold = new ArrayList<>();
     private List<StringWithId> listPackge = new ArrayList<>();
     private List<StringWithId> listBrand = new ArrayList<>();
+    private Intent intent = new Intent();
+    private HashMap<String,RequestBody> ingredients = new HashMap<String, RequestBody>();
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +72,10 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
         setContentView(R.layout.activity_add_beer);
         SetupUI.set(findViewById(R.id.addBeer), AddBeerActivity.this);
 
-        User user = getIntent().getParcelableExtra("user");
+        user = getIntent().getParcelableExtra("user");
         user.setToken(User.token);
-
+        contadorIng=0;
+        contadorIngre=0;
         editTextNameBeer = findViewById(R.id.editTextNameBeer);
         editTextVolumeBeer = findViewById(R.id.editTextVolumeBeer);
         editTextAlcholicBeer = findViewById(R.id.editTextAlcholicBeer);
@@ -129,20 +135,12 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
                 break;
 
             case R.id.FinishButton:
-                //checkIfValidAndRead();
-                postBeer();
-                /*System.out.println(editTextNameBeer.getText().toString());
-                System.out.println(editTextDescriptionBeer.getText().toString());
-                System.out.println(editTextVolumeBeer.getText().toString());
-                System.out.println(editTextAlcholicBeer.getText().toString());
-                System.out.println(idBrand);
-                System.out.println(brandTextView.getText().toString());
-                System.out.println(idCountry);
-                System.out.println(paisBeerTextView.getText().toString());
-                System.out.println(idPacking);
-                System.out.println(packageTextView.getText().toString());
-                System.out.println(idType);
-                System.out.println(typeBeerTextView.getText().toString());*/
+                if (checkIfValidAndRead()){
+                    postBeer();
+                    intent = new Intent(AddBeerActivity.this, BeerRegistred.class);
+                    intent.putExtra("user", user);
+                    startActivity(intent);
+                }
                 break;
 
         }
@@ -163,8 +161,6 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
         RequestBody requestPackingBeer = RequestBody.create(MediaType.parse("text/plain"),packageTextView.getText().toString());
         RequestBody requestIdTypeBeer = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(idType));
         RequestBody requestTypeBeer = RequestBody.create(MediaType.parse("text/plain"),typeBeerTextView.getText().toString());
-        RequestBody requestIngredientIDBeer = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(1));
-        RequestBody requestIngredientBeer = RequestBody.create(MediaType.parse("text/plain"),"teste");
         MultipartBody.Part requestImage = null;
 
         if (file == null){
@@ -187,8 +183,7 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
                 requestPackingBeer,
                 requestIdTypeBeer,
                 requestTypeBeer,
-                requestIngredientIDBeer,
-                requestIngredientBeer,
+                ingredients,
                 requestImage
                 ).
                 enqueue(new Callback<BeerOrderResponse>() {
@@ -202,7 +197,6 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
     }
 
     private boolean checkIfValidAndRead() {
-        ingredientList.clear();
         boolean result = true;
 
 
@@ -220,6 +214,8 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
 
             EditText ingrediente =  ingredientsView.findViewById(R.id.editTextIngredientBeer);
             EditText qtd_ingrediente =  ingredientsView.findViewById(R.id.editTextqtdBeer);
+
+            System.out.println(ingredientsView.getId());
 
             if (ingrediente.getText().toString().isEmpty()){
                 Context contexto = getApplicationContext();
@@ -240,7 +236,10 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
     }
 
     private void addView() {
-
+        if (contadorIngre != 0){
+            contadorIng = contadorIng + 1;
+        }
+        contadorIngre = contadorIngre + 1;
         final View ingredientsView = getLayoutInflater().inflate(R.layout.ingredient_list,null,false);
 
         ingrediente =  ingredientsView.findViewById(R.id.editTextIngredientBeer);
@@ -251,6 +250,12 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
         imgClose.setOnClickListener(new View.OnClickListener(){;
            @Override
            public void onClick(View v){
+
+               //ingrediente.getText();
+               ingredients.remove("ingredients["+contadorIng+"].id");
+               ingredients.remove("ingredients["+contadorIng+"].name");
+               contadorIng = contadorIng - 1;
+               contadorIngre = contadorIngre - 1;
                 removeView(ingredientsView);
            }
         });
@@ -394,7 +399,12 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
                                 String name= m.getString();
                                 Long idIng =m.getId();
 
-                                System.out.println("id ingredient: " + idIng);
+                                RequestBody idIngr = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(idIng));
+                                RequestBody nameIng = RequestBody.create(MediaType.parse("text/plain"),name);
+
+                                ingredients.put("ingredients["+contadorIng+"].id",idIngr);
+                                ingredients.put("ingredients["+contadorIng+"].name",nameIng);
+
                             }
                         });
                     }
