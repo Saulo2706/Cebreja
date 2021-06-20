@@ -1,13 +1,16 @@
 package com.gs.cebreja.network;
 
 import com.gs.cebreja.network.response.BeerOrderResponse;
+import com.gs.cebreja.network.response.GetBeerOrderResponse;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -33,5 +36,9 @@ public interface BeerUploadService {
                                      @Part("type.name") RequestBody typeName,
                                      @PartMap HashMap<String,RequestBody> ingredients,
                                      @Part MultipartBody.Part photo);
+
+
+    @GET("api/beer/order")
+    Call <List<GetBeerOrderResponse>> getOrders(@Header("Authorization") String token);
 
 }

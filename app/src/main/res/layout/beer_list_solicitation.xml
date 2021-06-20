@@ -35,17 +35,30 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/posterBeer"
             android:orientation="horizontal"
-            android:id="@+id/ly"/>
+            android:id="@+id/ly">
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:id="@+id/statusOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_below="@id/ly"
+                android:text="Aguardando Aprovação" />
+
+        </LinearLayout>
 
 
         <TextView
             android:layout_marginTop="5dp"
-            android:id="@+id/desc_Beer"
+            android:id="@+id/typeOrder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_below="@id/ly"
-            android:text="Descricao" />
+            android:text="Tipo de Solicitação" />
+
+
 
     </RelativeLayout>
 

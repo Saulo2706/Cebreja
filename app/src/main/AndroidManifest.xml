@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Cebreja"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.AvaliationsBeerActivity"></activity>
+        <activity android:name=".activity.DatailedOrderActivity"></activity>
+        <activity android:name=".activity.AvaliationsBeerActivity" />
         <activity android:name=".activity.BeerRegistred" />
         <activity android:name=".activity.ApprovalActivity" />
         <activity android:name=".activity.EditBeerActivity" />
