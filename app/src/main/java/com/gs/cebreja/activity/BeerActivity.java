@@ -35,7 +35,7 @@ public class BeerActivity extends MainActivity {
     String ingredients = "";
     RatingBar ratingBar;
     EditText editTextAvaliationBeer;
-    Button finishButton;
+    Button finishButton,descriptionUsers;
     Beer beer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,7 @@ public class BeerActivity extends MainActivity {
         ingredients_Beer = findViewById(R.id.ingredients_Beer);
         imageBeer = findViewById(R.id.imageBeer);
         finishButton = findViewById(R.id.finishButton);
+        descriptionUsers = findViewById(R.id.descriptionUsers);
         ratingBar = findViewById(R.id.ratingBar);
         editTextAvaliationBeer = findViewById(R.id.editTextAvaliationBeer);
 
@@ -155,6 +156,15 @@ public class BeerActivity extends MainActivity {
 
                     });
                 }
+            }
+        });
+
+        descriptionUsers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (BeerActivity.this, AvaliationsBeerActivity.class);
+                intent.putExtra("beer", beer);
+                startActivity(intent);
             }
         });
 

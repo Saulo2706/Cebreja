@@ -3,6 +3,8 @@ package com.gs.cebreja.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.gs.cebreja.R;
 import com.gs.cebreja.model.User;
@@ -18,5 +20,20 @@ public class ApprovalActivity extends MainActivity {
         user = getIntent().getExtras().getParcelable("user");
         user.setToken(User.token);
         user.setRoles(User.roles);
+        ImageButton manage_back_btn;
+
+
+
+        //Botão voltar
+        manage_back_btn = findViewById(R.id.manage_back_btn);
+        manage_back_btn.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onBackPressed();
+                    }
+                }
+        );
+
     }
 }
