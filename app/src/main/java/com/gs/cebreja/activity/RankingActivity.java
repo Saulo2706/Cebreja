@@ -72,6 +72,8 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
         user.setToken(User.token);
         user.setRoles(User.roles);
 
+        System.out.println(user);
+
         likeButton =(ToggleButton) findViewById(R.id.likeButton);
         progressBar = findViewById(R.id.progressBar);
         drawerLayout = findViewById(R.id.rankingPage);

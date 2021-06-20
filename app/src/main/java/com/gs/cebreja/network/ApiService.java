@@ -10,6 +10,8 @@ public class ApiService {
     private static BeersRankingService INSTANCE;
     private static BeerDetailService INSTANCE_BEER;
     private static UserLoginService INSTANCE_LOGIN;
+    private static UserSignUpService INSTANCE_REGISTER;
+    private static UserUpdateService INSTANCE_UPDATE_USER;
     private static UserLikeUnlikeService INSTANCE_LIKE;
     private static UserFavoriteUnfavoriteService INSTANCE_FAVORITE;
     private static BeerAppreciationService INSTANCE_APPRECIATION;
@@ -41,6 +43,31 @@ public class ApiService {
         }
 
         return INSTANCE_LOGIN;
+    }
+    public static UserSignUpService getInstanceRegister(){
+        if(INSTANCE_REGISTER == null){
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(MoshiConverterFactory.create())
+                    .build();
+
+            INSTANCE_REGISTER = retrofit.create(UserSignUpService.class);
+        }
+
+        return INSTANCE_REGISTER;
+    }
+
+    public static UserUpdateService getInstanceUpdateUser(){
+        if(INSTANCE_UPDATE_USER == null){
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(MoshiConverterFactory.create())
+                    .build();
+
+            INSTANCE_UPDATE_USER = retrofit.create(UserUpdateService.class);
+        }
+
+        return INSTANCE_UPDATE_USER;
     }
 
     public static UserLikeUnlikeService getInstaceLike(){

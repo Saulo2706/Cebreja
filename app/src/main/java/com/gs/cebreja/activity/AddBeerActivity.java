@@ -135,6 +135,18 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
                 break;
 
             case R.id.FinishButton:
+
+                for (int i=0; i < list_Ingredients.getChildCount(); i++){
+
+                    View ingredientsView = list_Ingredients.getChildAt(i);
+
+                    EditText ingrediente =  ingredientsView.findViewById(R.id.editTextIngredientBeer);
+
+                    RequestBody nameIng = RequestBody.create(MediaType.parse("text/plain"),ingrediente.getText().toString());
+                    ingredients.put("ingredients["+i+"].name",nameIng);
+
+                }
+
                 if (checkIfValidAndRead()){
                     postBeer();
                     intent = new Intent(AddBeerActivity.this, BeerRegistred.class);
@@ -400,10 +412,10 @@ public class AddBeerActivity extends MainActivity implements View.OnClickListene
                                 Long idIng =m.getId();
 
                                 RequestBody idIngr = RequestBody.create(MediaType.parse("text/plain"),String.valueOf(idIng));
-                                RequestBody nameIng = RequestBody.create(MediaType.parse("text/plain"),name);
+                                //RequestBody nameIng = RequestBody.create(MediaType.parse("text/plain"),name);
 
                                 ingredients.put("ingredients["+contadorIng+"].id",idIngr);
-                                ingredients.put("ingredients["+contadorIng+"].name",nameIng);
+                                //ingredients.put("ingredients["+contadorIng+"].name",nameIng);
 
                             }
                         });
