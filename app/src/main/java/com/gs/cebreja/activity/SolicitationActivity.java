@@ -6,6 +6,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -44,6 +46,7 @@ public class SolicitationActivity extends MainActivity implements NavigationView
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private MyAdapterSolicitations solicitationsAdapter;
+    private ProgressDialog dialog;
     User user;
 
     @Override
@@ -52,6 +55,14 @@ public class SolicitationActivity extends MainActivity implements NavigationView
         setContentView(R.layout.activity_solicitation);
         user = getIntent().getParcelableExtra("user");
         user.setToken(User.token);
+
+
+        dialog = new ProgressDialog(SolicitationActivity.this);
+        dialog.setTitle("Carregando");
+        dialog.setMessage("Carregando Solicitação");
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
 
         drawerLayout = findViewById(R.id.solicitationsPage);
         navigationView = findViewById(R.id.nav_view);
@@ -120,16 +131,20 @@ public class SolicitationActivity extends MainActivity implements NavigationView
                     @Override
                     public void onResponse(Call<List<GetBeerOrderResponse>> call, Response<List<GetBeerOrderResponse>> response) {
                         if (response.isSuccessful()){
+
                             solicitations = OrdersMapper.deOrderParaDominio(response.body());
                             solicitationsAdapter.setSolicitations(solicitations);
+                            dialog.dismiss();
                             //System.out.println("DEU BOA "+ solicitations.get(0));
                         }else{
-                            System.out.println("ERRO 1");
+                            Toast.makeText(SolicitationActivity.this,"Erro ao obter lista!! - Codigo: "+response.code(),Toast.LENGTH_LONG).show();
+                            dialog.dismiss();
                         }
                     }
                     @Override
                     public void onFailure(Call<List<GetBeerOrderResponse>> call, Throwable t) {
-                        System.out.println("ERRO 2");
+                        Toast.makeText(SolicitationActivity.this,"Erro ao obter lista!!",Toast.LENGTH_LONG).show();
+                        dialog.dismiss();
                     }
                 });
     }

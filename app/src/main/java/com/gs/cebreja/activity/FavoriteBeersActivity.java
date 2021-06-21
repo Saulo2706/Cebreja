@@ -14,10 +14,12 @@ import com.gs.cebreja.network.ApiService;
 import com.gs.cebreja.network.response.GetBeerOrderResponse;
 import com.gs.cebreja.network.response.GetListFavoriteResponse;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,11 +36,20 @@ public class FavoriteBeersActivity extends MainActivity implements MyAdapterFavo
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private MyAdapterFavoriteBeers solicitationsAdapter;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_beers);
+
+
+        dialog = new ProgressDialog(FavoriteBeersActivity.this);
+        dialog.setTitle("Carregando");
+        dialog.setMessage("Carregando Solicitação");
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
 
         ImageButton manage_back_btn;
 
@@ -77,13 +88,16 @@ public class FavoriteBeersActivity extends MainActivity implements MyAdapterFavo
                         if (response.isSuccessful()){
                             favorites = FavoriteMapper.deFavoriteParaDominio(response.body());
                             solicitationsAdapter.setFavorites(favorites);
+                            dialog.dismiss();
                         }else{
-                            System.out.println("ERRO 1");
+                            dialog.dismiss();
+                            Toast.makeText(FavoriteBeersActivity.this,"Erro ao obter lista!!",Toast.LENGTH_LONG).show();
                         }
                     }
                     @Override
                     public void onFailure(Call<List<GetListFavoriteResponse>> call, Throwable t) {
-                        System.out.println("ERRO 2");
+                        dialog.dismiss();
+                        Toast.makeText(FavoriteBeersActivity.this,"Erro ao obter lista!!",Toast.LENGTH_LONG).show();
                     }
                 });
     }

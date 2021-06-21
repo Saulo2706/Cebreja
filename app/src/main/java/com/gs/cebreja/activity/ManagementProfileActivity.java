@@ -2,6 +2,7 @@ package com.gs.cebreja.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -24,9 +25,10 @@ import retrofit2.Response;
 
 public class ManagementProfileActivity extends AppCompatActivity {
 
-    String oldEmail, birthday,newPassword;
-    User user;
-    EditText etEmail;
+    private String oldEmail, birthday,newPassword;
+    private User user;
+    private EditText etEmail;
+    private ProgressDialog dialog;
 
 
     @Override
@@ -39,6 +41,12 @@ public class ManagementProfileActivity extends AppCompatActivity {
 
         oldEmail = user.getEmail();
         birthday = user.getBirthDate() + "T03:00:00Z";
+
+        dialog = new ProgressDialog(ManagementProfileActivity.this);
+        dialog.setTitle("Realizando Alteração");
+        dialog.setMessage("Carregando Solicitação");
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
 
 
         ImageButton manage_back_btn;
@@ -68,6 +76,7 @@ public class ManagementProfileActivity extends AppCompatActivity {
         set_new_password_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.show();
                 if (etNewPassword2.getText().toString().equals(etNewPassword1.getText().toString())){
                     if (etNewPassword1.getText().toString().isEmpty()){
                         newPassword = null;
@@ -78,6 +87,7 @@ public class ManagementProfileActivity extends AppCompatActivity {
                     UserRequest userRequest = new UserRequest(birthday,etFirstName.getText().toString(),etLastName.getText().toString(),user.getGender(),etEmail.getText().toString(),newPassword);
                     post_request(userRequest);
                 }else{
+                    dialog.dismiss();
                     Toast.makeText(ManagementProfileActivity.this,"Senhas não conferem!!",Toast.LENGTH_LONG).show();
                 }
 
@@ -101,13 +111,16 @@ public class ManagementProfileActivity extends AppCompatActivity {
                                 user.setLastName(response.body().getLastName());
                                 intent.putExtra("user", user);
                                 Toast.makeText(ManagementProfileActivity.this,"Perfil alterado com sucesso!",Toast.LENGTH_LONG).show();
+                                dialog.dismiss();
                                 startActivity(intent);
                             }else{
+                                dialog.dismiss();
                                 Intent intent = new Intent(ManagementProfileActivity.this, LoginActivity.class);
                                 Toast.makeText(ManagementProfileActivity.this,"Perfil alterado com sucesso, por favor realize o login novamente!",Toast.LENGTH_LONG).show();
                                 startActivity(intent);
                             }
                         }else {
+                            dialog.dismiss();
                             Toast.makeText(ManagementProfileActivity.this,"Email já cadastrado ou invalido, ou senha não atinge os criterios mínimos de 9 caracteres!",Toast.LENGTH_LONG).show();
                         }
 
@@ -115,7 +128,8 @@ public class ManagementProfileActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<UserUpdateResponse> call, Throwable t) {
-                        System.out.println("Deu ruim 2");
+                        dialog.dismiss();
+                        Toast.makeText(ManagementProfileActivity.this,"Erro ao requisitar a API - verifique sua conexão com a internet!",Toast.LENGTH_LONG).show();
                     }
                 });
 

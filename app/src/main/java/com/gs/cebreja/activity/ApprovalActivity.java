@@ -3,10 +3,12 @@ package com.gs.cebreja.activity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.gs.cebreja.R;
 import com.gs.cebreja.adapters.MyAdapterSolicitations;
@@ -29,6 +31,7 @@ public class ApprovalActivity extends MainActivity implements MyAdapterSolicitat
 
     private LinearLayoutManager layoutManager;
     private MyAdapterSolicitations solicitationsAdapter;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,13 @@ public class ApprovalActivity extends MainActivity implements MyAdapterSolicitat
         user.setToken(User.token);
         user.setRoles(User.roles);
         ImageButton manage_back_btn;
+
+        dialog = new ProgressDialog(ApprovalActivity.this);
+        dialog.setTitle("Carregando");
+        dialog.setMessage("Carregando Solicitação");
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
 
         configuraAdapter();
         obtemDetalhes();
@@ -73,14 +83,17 @@ public class ApprovalActivity extends MainActivity implements MyAdapterSolicitat
                         if (response.isSuccessful()){
                             solicitations = OrdersMapper.deOrderParaDominio(response.body());
                             solicitationsAdapter.setSolicitations(solicitations);
+                            dialog.dismiss();
                             //System.out.println("DEU BOA "+ solicitations.get(0));
                         }else{
-                            System.out.println("ERRO 1");
+                            dialog.dismiss();
+                            Toast.makeText(ApprovalActivity.this,"Erro ao obter lista!! - Codigo: "+response.code(),Toast.LENGTH_LONG).show();
                         }
                     }
                     @Override
                     public void onFailure(Call<List<GetBeerOrderResponse>> call, Throwable t) {
-                        System.out.println("ERRO 2");
+                        dialog.dismiss();
+                        Toast.makeText(ApprovalActivity.this,"Erro ao obter lista!!",Toast.LENGTH_LONG).show();
                     }
                 });
     }
