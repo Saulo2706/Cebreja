@@ -1,6 +1,8 @@
 package com.gs.cebreja.network.response;
 
-public class OrderStatus {
+import java.io.Serializable;
+
+public class OrderStatus implements Serializable {
     private Long id;
     private String name;
 

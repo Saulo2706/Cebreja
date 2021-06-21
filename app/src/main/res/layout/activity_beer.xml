@@ -43,14 +43,6 @@
                             android:src="@drawable/ic_edit" />
 
                         <ToggleButton
-                            android:id="@+id/likeButtonDetails"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:background="@drawable/toggle_selector"
-                            android:textOff=""
-                            android:textOn="" />
-
-                        <ToggleButton
                             android:id="@+id/favoriteButtonDetails"
                             android:layout_width="32dp"
                             android:layout_height="32dp"

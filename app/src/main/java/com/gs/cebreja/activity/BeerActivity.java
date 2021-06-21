@@ -19,7 +19,6 @@ import com.gs.cebreja.network.ApiService;
 import com.gs.cebreja.network.response.AppreciationResponseGeneric;
 import com.gs.cebreja.network.response.BeerResponse;
 import com.gs.cebreja.network.response.FavoriteUnfavoriteResponseGeneric;
-import com.gs.cebreja.network.response.LikeUnlikeResponseGeneric;
 import com.gs.cebreja.util.SetupUI;
 import com.squareup.picasso.Picasso;
 
@@ -29,7 +28,7 @@ import retrofit2.Response;
 
 public class BeerActivity extends MainActivity {
     TextView titleBeer,brand_Beer,score_Beer,type_Beer,world_Beer,alcohlic_Beer,package_Beer,volume_Beer,description_Beer,ingredients_Beer;
-    ToggleButton likeButtonDetails,favoriteButtonDetails;
+    ToggleButton favoriteButtonDetails;
     ImageView imageBeer;
     ImageButton back_btn,beer_remove_btn,beer_edit_btn;
     String ingredients = "";
@@ -45,7 +44,6 @@ public class BeerActivity extends MainActivity {
         beer = (Beer) getIntent().getSerializableExtra("beer");
 
         titleBeer = findViewById(R.id.titleBeer);
-        likeButtonDetails = findViewById(R.id.likeButtonDetails);
         favoriteButtonDetails = findViewById(R.id.favoriteButtonDetails);
         brand_Beer = findViewById(R.id.brand_Beer);
         score_Beer = findViewById(R.id.score_Beer);
@@ -105,32 +103,6 @@ public class BeerActivity extends MainActivity {
                 }
         );
 
-        likeButtonDetails.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (likeButtonDetails.isChecked()){
-                    ApiService.getInstaceLike().likeCerveja(beer.getId(),"Bearer "+ User.token).enqueue(new Callback<LikeUnlikeResponseGeneric>() {
-                        @Override
-                        public void onResponse(Call<LikeUnlikeResponseGeneric> call, Response<LikeUnlikeResponseGeneric> response) {
-                        }
-                        @Override
-                        public void onFailure(Call<LikeUnlikeResponseGeneric> call, Throwable t) {
-                        }
-                    });
-                }else {
-                    ApiService.getInstaceLike().unlikeCerveja(beer.getId(), "Bearer " + User.token).enqueue(new Callback<LikeUnlikeResponseGeneric>() {
-                        @Override
-                        public void onResponse(Call<LikeUnlikeResponseGeneric> call, Response<LikeUnlikeResponseGeneric> response) {
-                        }
-
-                        @Override
-                        public void onFailure(Call<LikeUnlikeResponseGeneric> call, Throwable t) {
-                        }
-
-                    });
-                }
-            }
-        });
 
         favoriteButtonDetails.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -226,11 +198,6 @@ public class BeerActivity extends MainActivity {
                                 Picasso.get().load(response.body().getPhotos().get(0)).into(imageBeer);
                             }else{
                                 imageBeer.setImageResource(R.drawable.cebreja);
-                            }
-                            if(response.body().getLiked() == true){
-                                likeButtonDetails.setChecked(true);
-                            }else{
-                                likeButtonDetails.setChecked(false);
                             }
                         }else{
 

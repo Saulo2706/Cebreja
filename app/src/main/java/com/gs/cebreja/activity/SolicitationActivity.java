@@ -32,7 +32,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class SolicitationActivity extends MainActivity implements NavigationView.OnNavigationItemSelectedListener  {
+public class SolicitationActivity extends MainActivity implements NavigationView.OnNavigationItemSelectedListener, MyAdapterSolicitations.ItemBeerOrderClickListner{
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -106,7 +106,7 @@ public class SolicitationActivity extends MainActivity implements NavigationView
 
     private void configuraAdapter(){
         recyclerView = findViewById(R.id.recyclerview);
-        solicitationsAdapter = new MyAdapterSolicitations();
+        solicitationsAdapter = new MyAdapterSolicitations(this);
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
@@ -184,5 +184,10 @@ public class SolicitationActivity extends MainActivity implements NavigationView
                 break;
         }
         return false;
+    }
+
+    @Override
+    public void onItemBeerOrderClicado(OrderSolicitations order) {
+
     }
 }

@@ -1,6 +1,7 @@
 package com.gs.cebreja.network;
 
 import com.gs.cebreja.network.response.BeerOrderResponse;
+import com.gs.cebreja.network.response.GetBeerOrderDetailedResponse;
 import com.gs.cebreja.network.response.GetBeerOrderResponse;
 
 import java.io.File;
@@ -16,6 +17,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
+import retrofit2.http.Path;
 
 
 public interface BeerUploadService {
@@ -40,5 +42,8 @@ public interface BeerUploadService {
 
     @GET("api/beer/order")
     Call <List<GetBeerOrderResponse>> getOrders(@Header("Authorization") String token);
+
+    @GET("api/beer/order/{id}")
+    Call <GetBeerOrderDetailedResponse> getOrderDetailed(@Path("id") Long id, @Header("Authorization") String token);
 
 }

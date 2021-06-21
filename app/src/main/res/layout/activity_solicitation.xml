@@ -47,20 +47,12 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="60dp">
 
-
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/swipeRefreshLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <ProgressBar
                 android:layout_width="50dp"

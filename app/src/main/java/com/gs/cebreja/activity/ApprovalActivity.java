@@ -1,22 +1,19 @@
 package com.gs.cebreja.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
 import com.gs.cebreja.R;
-import com.gs.cebreja.adapters.MyAdapterAvaliationsBeer;
 import com.gs.cebreja.adapters.MyAdapterSolicitations;
-import com.gs.cebreja.mapper.AppreciationsMapper;
 import com.gs.cebreja.mapper.OrdersMapper;
 import com.gs.cebreja.model.OrderSolicitations;
 import com.gs.cebreja.model.User;
 import com.gs.cebreja.network.ApiService;
-import com.gs.cebreja.network.response.GetAppreciationResponse;
 import com.gs.cebreja.network.response.GetBeerOrderResponse;
 
 import java.util.List;
@@ -25,11 +22,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ApprovalActivity extends MainActivity {
+public class ApprovalActivity extends MainActivity implements MyAdapterSolicitations.ItemBeerOrderClickListner{
 
     private User user;
     private List<OrderSolicitations> solicitations;
-    private RecyclerView recyclerView;
+
     private LinearLayoutManager layoutManager;
     private MyAdapterSolicitations solicitationsAdapter;
 
@@ -59,8 +56,8 @@ public class ApprovalActivity extends MainActivity {
     }
 
     private void configuraAdapter(){
-        recyclerView = findViewById(R.id.recyclerview);
-        solicitationsAdapter = new MyAdapterSolicitations();
+        final RecyclerView recyclerView = findViewById(R.id.recyclerview);
+        solicitationsAdapter = new MyAdapterSolicitations(this);
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
@@ -86,5 +83,13 @@ public class ApprovalActivity extends MainActivity {
                         System.out.println("ERRO 2");
                     }
                 });
+    }
+
+    @Override
+    public void onItemBeerOrderClicado(OrderSolicitations order) {
+        Intent intent = new Intent(this, DetailedOrderActivity.class);
+        intent.putExtra("order",order);
+        //intent.putExtra("order", order);
+        startActivity(intent);
     }
 }

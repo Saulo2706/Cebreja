@@ -10,20 +10,24 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gs.cebreja.R;
-import com.gs.cebreja.model.Beer;
 import com.gs.cebreja.model.OrderSolicitations;
-import com.gs.cebreja.model.UserApreciation;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyAdapterSolicitations  extends RecyclerView.Adapter<MyAdapterSolicitations.ListSolicitationsViewHolder>{
 
-    List<OrderSolicitations> solicitations;
+    private List<OrderSolicitations> solicitations;
+    private static ItemBeerOrderClickListner itemBeerOrderClickListner;
 
-    public MyAdapterSolicitations() {
-        solicitations = solicitations;
+
+    public MyAdapterSolicitations(ItemBeerOrderClickListner itemBeerOrderClickListner) {
+        solicitations = new ArrayList<>();
+        this.itemBeerOrderClickListner = itemBeerOrderClickListner;
+
     }
+
 
     @NonNull
     @Override
@@ -51,6 +55,7 @@ public class MyAdapterSolicitations  extends RecyclerView.Adapter<MyAdapterSolic
 
         private TextView name_Beer,statusOrder,typeOrder;
         private ImageView imagePosterBeer;
+        private OrderSolicitations solicitations;
 
         public ListSolicitationsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -58,9 +63,20 @@ public class MyAdapterSolicitations  extends RecyclerView.Adapter<MyAdapterSolic
             imagePosterBeer = itemView.findViewById(R.id.posterBeer);
             statusOrder = itemView.findViewById(R.id.statusOrder);
             typeOrder = itemView.findViewById(R.id.typeOrder);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (itemBeerOrderClickListner != null){
+                        itemBeerOrderClickListner.onItemBeerOrderClicado(solicitations);
+                    }
+                }
+            });
+
         }
 
         public void bind(OrderSolicitations solicitations){
+            this.solicitations = solicitations;
             name_Beer.setText(solicitations.getName());
             statusOrder.setText(solicitations.getOrderStatus().getName());
             typeOrder.setText(solicitations.getOrderType().getName() +" - "+solicitations.getWhenChanged());
@@ -73,4 +89,10 @@ public class MyAdapterSolicitations  extends RecyclerView.Adapter<MyAdapterSolic
 
 
     }
+    public interface  ItemBeerOrderClickListner{
+
+        void onItemBeerOrderClicado(OrderSolicitations order);
+
+    }
+
 }

@@ -1,12 +1,15 @@
 package com.gs.cebreja.network.response;
 
-import java.io.Serializable;
-
-public class OrderType implements Serializable {
+public class GetListFavoriteResponse {
     private Long id;
     private String name;
 
-    public OrderType() {
+    public GetListFavoriteResponse() {
+    }
+
+    public GetListFavoriteResponse(Long id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public Long getId() {
@@ -27,7 +30,7 @@ public class OrderType implements Serializable {
 
     @Override
     public String toString() {
-        return "OrderType{" +
+        return "GetListFavoriteResponse{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

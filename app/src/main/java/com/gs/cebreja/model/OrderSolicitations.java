@@ -3,9 +3,10 @@ package com.gs.cebreja.model;
 import com.gs.cebreja.network.response.OrderStatus;
 import com.gs.cebreja.network.response.OrderType;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class OrderSolicitations {
+public class OrderSolicitations implements Serializable {
     private Long id;
     private String name;
     private String whenChanged;
