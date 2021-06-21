@@ -173,7 +173,9 @@ public class BeerActivity extends MainActivity {
                             volume_Beer.setText(response.body().getVolume());
                             description_Beer.setText(response.body().getDescription());
 
-
+                            if (response.body().getFavorited()){
+                                favoriteButtonDetails.setChecked(true);
+                            }
 
                             try{
                                 editTextAvaliationBeer.setText(response.body().getAppreciation().getComment());

@@ -32,6 +32,8 @@ public class BeerResponse {
     private List<String> photos = null;
     @com.squareup.moshi.Json(name = "liked")
     private Boolean liked;
+    @com.squareup.moshi.Json(name = "favorited")
+    private Boolean favorited;
     @com.squareup.moshi.Json(name = "likes")
     private Long likes;
 
@@ -40,7 +42,7 @@ public class BeerResponse {
     public BeerResponse() {
     }
 
-    public BeerResponse(Long id, String name, String description, String volume, String alcholicPercentage, Packing packing, Type type, Brand brand, Status status, Country country, List<Ingredients> ingredientsList, List<String> photos, Boolean liked, Long likes) {
+    public BeerResponse(Long id, String name, String description, String volume, String alcholicPercentage, Packing packing, Type type, Brand brand, Status status, Country country, List<Ingredients> ingredientsList, Appreciation appreciation, List<String> photos, Boolean liked, Boolean favorited, Long likes) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -52,8 +54,10 @@ public class BeerResponse {
         this.status = status;
         this.country = country;
         this.ingredientsList = ingredientsList;
+        this.appreciation = appreciation;
         this.photos = photos;
         this.liked = liked;
+        this.favorited = favorited;
         this.likes = likes;
     }
 
@@ -177,6 +181,14 @@ public class BeerResponse {
         this.appreciation = appreciation;
     }
 
+    public Boolean getFavorited() {
+        return favorited;
+    }
+
+    public void setFavorited(Boolean favorited) {
+        this.favorited = favorited;
+    }
+
     @Override
     public String toString() {
         return "BeerResponse{" +
@@ -194,6 +206,7 @@ public class BeerResponse {
                 ", appreciation=" + appreciation +
                 ", photos=" + photos +
                 ", liked=" + liked +
+                ", favorited=" + favorited +
                 ", likes=" + likes +
                 '}';
     }

@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyAdapterSolicitations  extends RecyclerView.Adapter<MyAdapterSolicitations.ListSolicitationsViewHolder>{
+public class MyAdapterSolicitations extends RecyclerView.Adapter<MyAdapterSolicitations.ListSolicitationsViewHolder>{
 
     private List<OrderSolicitations> solicitations;
     private static ItemBeerOrderClickListner itemBeerOrderClickListner;

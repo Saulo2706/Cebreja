@@ -11,6 +11,9 @@ public class Beer implements Serializable {
     private Long qtdLikes;
     private List<String> ingredients,caminhoPoster = new ArrayList<>();
 
+    public Beer() {
+    }
+
     public Beer(Long id, String title, String description, Boolean isLiked, Long qtdLikes, List caminhoPoster) {
         this.id = id;
         this.title = title;
