@@ -285,29 +285,7 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                ApiService.getInstace()
-                        .obterCervejas(0,"Bearer "+User.token)
-                        .enqueue(new Callback<BeerRankingResponse>() {
-                            @Override
-                            public void onResponse(Call<BeerRankingResponse> call, Response<BeerRankingResponse> response) {
-                                if (response.isSuccessful()){
-                                    page_next = response.body().getPage().getNumber() + 1;
-                                    total_pages = response.body().getPage().getTotalPages();
-                                    BeerRankingMapper.listBeerAdd = new ArrayList<>();
-                                    listBeer = BeerRankingMapper.deBeerVoesParaDominio(response.body().getEmbedded().getVoes());
-                                    beerAdapter.setBeerList(listBeer);
-                                    progressBar.setVisibility(View.GONE);
-                                }else{
-                                    System.out.println("Token: "+User.token + " Code response: "+response.code());
-                                    showError();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<BeerRankingResponse> call, Throwable t) {
-                                showError();
-                            }
-                        });
+                refreshRecycler();
 
                 return false;
             }
