@@ -71,6 +71,8 @@ public class BeerActivity extends MainActivity {
             @Override
             public void onClick(View v) {
                 post_request(editTextAvaliationBeer.getText().toString(),ratingBar.getRating());
+                Intent intent = new Intent(BeerActivity.this, SuccessAvaliationActivity.class);
+                startActivity(intent);
             }
         });
 

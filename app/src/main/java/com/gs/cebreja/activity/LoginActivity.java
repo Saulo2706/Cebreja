@@ -56,8 +56,6 @@ public class LoginActivity extends MainActivity implements ILoginView {
         password = (EditText)findViewById(R.id.editTextPassword);
         loginPresenter = new LoginController(this);
 
-        email.setText("saulojr02@outlook.com");
-        password.setText("123456789");
 
         //Botão Login
         btnLogin =(Button) findViewById(R.id.btnLogin);

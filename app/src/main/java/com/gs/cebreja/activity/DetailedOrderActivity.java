@@ -2,6 +2,7 @@ package com.gs.cebreja.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import com.gs.cebreja.R;
 import com.gs.cebreja.model.OrderSolicitations;
 import com.gs.cebreja.model.User;
 import com.gs.cebreja.network.ApiService;
+import com.gs.cebreja.network.response.ApproveOrderResponse;
 import com.gs.cebreja.network.response.BeerResponse;
 import com.gs.cebreja.network.response.GetBeerOrderDetailedResponse;
 import com.gs.cebreja.network.response.GetBeerOrderResponse;
@@ -25,6 +27,7 @@ public class DetailedOrderActivity extends MainActivity {
     TextView titleBeer,brand_Beer,type_Beer,world_Beer,alcohlic_Beer,package_Beer,volume_Beer,description_Beer,ingredients_Beer;
     ImageView imageBeer;
     String ingredients = "";
+    Button yesApprove,noApprove;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +44,8 @@ public class DetailedOrderActivity extends MainActivity {
         description_Beer = findViewById(R.id.description_Beer);
         ingredients_Beer = findViewById(R.id.ingredients_Beer);
         imageBeer = findViewById(R.id.imageBeer);
+        noApprove = findViewById(R.id.noApprove);
+        yesApprove = findViewById(R.id.yesApprove);
 
         ImageButton order_back_btn;
         //Botão voltar
@@ -54,9 +59,40 @@ public class DetailedOrderActivity extends MainActivity {
                 }
         );
 
+        yesApprove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                postApprove(order.getId());
+            }
+        });
+
+        noApprove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
         obtemDetalhes(order.getId());
 
     }
+
+    private void postApprove(Long id){
+        ApiService.postApproveOrder()
+                .postApproveOrder(id,"Bearer "+ User.token)
+                .enqueue(new Callback<ApproveOrderResponse>() {
+                    @Override
+                    public void onResponse(Call<ApproveOrderResponse> call, Response<ApproveOrderResponse> response) {
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApproveOrderResponse> call, Throwable t) {
+                    }
+                });
+    }
+
+
     private void obtemDetalhes(Long id){
         ApiService.getInstanceBeerUpload()
                 .getOrderDetailed(id,"Bearer "+ User.token)

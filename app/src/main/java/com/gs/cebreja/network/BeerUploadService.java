@@ -1,5 +1,6 @@
 package com.gs.cebreja.network;
 
+import com.gs.cebreja.network.response.ApproveOrderResponse;
 import com.gs.cebreja.network.response.BeerOrderResponse;
 import com.gs.cebreja.network.response.GetBeerOrderDetailedResponse;
 import com.gs.cebreja.network.response.GetBeerOrderResponse;
@@ -45,5 +46,8 @@ public interface BeerUploadService {
 
     @GET("api/beer/order/{id}")
     Call <GetBeerOrderDetailedResponse> getOrderDetailed(@Path("id") Long id, @Header("Authorization") String token);
+
+    @POST("api/beer/order/{id}/approve")
+    Call <ApproveOrderResponse> postApproveOrder(@Path("id") Long id, @Header("Authorization") String token);
 
 }

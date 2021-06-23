@@ -121,7 +121,7 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
     }
     private void obtemCervejas(){
         ApiService.getInstace()
-        .obterCervejas(0,"Bearer "+User.token)
+        .obterCervejas(0,20,"Bearer "+User.token)
         .enqueue(new Callback<BeerRankingResponse>() {
             @Override
             public void onResponse(Call<BeerRankingResponse> call, Response<BeerRankingResponse> response) {
@@ -165,12 +165,9 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
                 if (!recyclerView.canScrollVertically(1) && newState==RecyclerView.SCROLL_STATE_IDLE) {
                     if (page_next < total_pages){
                         progressBar.setVisibility(View.VISIBLE);
-                        System.out.println("pagina atual"+page_next);
-                        page_next++;
-                        System.out.println("proxima pagina"+page_next);
                         loadNextPage(page_next);
                     }else {
-                        Toast.makeText(RankingActivity.this,"Fim do Ranking!!",Toast.LENGTH_LONG).show();
+                        //Toast.makeText(RankingActivity.this,"Fim do Ranking!!",Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -181,7 +178,7 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
 
     private void loadNextPage(Long prox) {
         ApiService.getInstace()
-                .obterCervejas(prox,"Bearer "+User.token)
+                .obterCervejas(prox,20,"Bearer "+User.token)
                 .enqueue(new Callback<BeerRankingResponse>() {
                     @Override
                     public void onResponse(Call<BeerRankingResponse> call, Response<BeerRankingResponse> response) {
@@ -189,6 +186,7 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
                             progressBar.setVisibility(View.GONE);
                             if (page_next < total_pages){
                                 beerAdapter.setBeerList(BeerRankingMapper.deBeerVoesParaDominioAdd(response.body().getEmbedded().getVoes()));
+                                page_next++;
                             }else {
                                 progressBar.setVisibility(View.GONE);
                             }
@@ -212,7 +210,7 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
                 @Override
                 public void onRefresh() {
                     ApiService.getInstace()
-                            .obterCervejas(0,"Bearer "+User.token)
+                            .obterCervejas(0,20,"Bearer "+User.token)
                             .enqueue(new Callback<BeerRankingResponse>() {
                                 @Override
                                 public void onResponse(Call<BeerRankingResponse> call, Response<BeerRankingResponse> response) {
@@ -258,7 +256,6 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
                                         listBeer = BeerRankingMapper.deBeerVoesParaDominio(response.body().getEmbedded().getVoes());
                                         beerAdapter.setBeerList(listBeer);
                                         progressBar.setVisibility(View.GONE);
-                                        Toast.makeText(RankingActivity.this,"Busca realizada com sucesso!",Toast.LENGTH_LONG).show();
                                     }catch (NullPointerException nexc){
                                         Toast.makeText(RankingActivity.this,"Nenhum resultado encontrado!",Toast.LENGTH_LONG).show();
                                     }
@@ -285,8 +282,10 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                refreshRecycler();
-
+                //refreshRecycler();
+                Intent intent = new Intent(RankingActivity.this, RankingActivity.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
                 return false;
             }
         });

@@ -12,7 +12,7 @@ import retrofit2.http.Query;
 public interface BeersRankingService {
 
     @GET("api/beer")
-    Call<BeerRankingResponse> obterCervejas(@Query ("page") long page,@Header("Authorization") String token);
+    Call<BeerRankingResponse> obterCervejas(@Query ("page") long page,@Query("size") long size,@Header("Authorization") String token);
 
     @GET("api/beer/findByName/{name}")
     Call<BeerRankingResponse> findCervejas(@Path("name") String nome,@Header("Authorization") String token);
