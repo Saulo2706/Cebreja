@@ -132,7 +132,18 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
 
         public void bind(Beer beer){
             this.beer = beer;
-            name_Beer.setText(beer.getTitle());
+            try {
+                double score;
+                if (beer.getScore() == null){
+                    score = 0.0;
+                }else {
+                    score = beer.getScore();
+                }
+                name_Beer.setText(beer.getTitle()+ " - " + score + " / 5.0");
+            } catch (NullPointerException npe) {
+                name_Beer.setText(beer.getTitle() + " - 0.0 / 5.0");
+            }
+
             desc_Beer.setText(beer.getDescription());
             qtd_Likes.setText(beer.getQtdLikes().toString());
             likeButton.setChecked(false);

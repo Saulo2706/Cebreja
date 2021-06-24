@@ -24,6 +24,8 @@ public class BeerResponse {
     private Status status;
     @com.squareup.moshi.Json(name = "country")
     private Country country;
+    @com.squareup.moshi.Json(name = "score")
+    private Float score;
     @com.squareup.moshi.Json(name = "ingredients")
     private List<Ingredients> ingredientsList;
     @com.squareup.moshi.Json(name = "appreciation")
@@ -42,7 +44,7 @@ public class BeerResponse {
     public BeerResponse() {
     }
 
-    public BeerResponse(Long id, String name, String description, String volume, String alcholicPercentage, Packing packing, Type type, Brand brand, Status status, Country country, List<Ingredients> ingredientsList, Appreciation appreciation, List<String> photos, Boolean liked, Boolean favorited, Long likes) {
+    public BeerResponse(Long id, String name, String description, String volume, String alcholicPercentage, Packing packing, Type type, Brand brand, Status status, Country country, List<Ingredients> ingredientsList, Appreciation appreciation, List<String> photos, Boolean liked, Boolean favorited, Long likes, Float score) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -59,6 +61,7 @@ public class BeerResponse {
         this.liked = liked;
         this.favorited = favorited;
         this.likes = likes;
+        this.score = score;
     }
 
     public List<Ingredients> getIngredientsList() {
@@ -67,6 +70,14 @@ public class BeerResponse {
 
     public void setIngredientsList(List<Ingredients> ingredientsList) {
         this.ingredientsList = ingredientsList;
+    }
+
+    public Float getScore() {
+        return score;
+    }
+
+    public void setScore(Float score) {
+        this.score = score;
     }
 
     public Long getId() {

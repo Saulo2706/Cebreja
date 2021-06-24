@@ -121,7 +121,7 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
     }
     private void obtemCervejas(){
         ApiService.getInstace()
-        .obterCervejas(0,20,"Bearer "+User.token)
+        .obterCervejas(0,10,"Bearer "+User.token)
         .enqueue(new Callback<BeerRankingResponse>() {
             @Override
             public void onResponse(Call<BeerRankingResponse> call, Response<BeerRankingResponse> response) {
@@ -166,6 +166,7 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
                     if (page_next < total_pages){
                         progressBar.setVisibility(View.VISIBLE);
                         loadNextPage(page_next);
+
                     }else {
                         //Toast.makeText(RankingActivity.this,"Fim do Ranking!!",Toast.LENGTH_LONG).show();
                     }
@@ -178,15 +179,15 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
 
     private void loadNextPage(Long prox) {
         ApiService.getInstace()
-                .obterCervejas(prox,20,"Bearer "+User.token)
+                .obterCervejas(prox,10,"Bearer "+User.token)
                 .enqueue(new Callback<BeerRankingResponse>() {
                     @Override
                     public void onResponse(Call<BeerRankingResponse> call, Response<BeerRankingResponse> response) {
                         if (response.isSuccessful()){
                             progressBar.setVisibility(View.GONE);
                             if (page_next < total_pages){
-                                beerAdapter.setBeerList(BeerRankingMapper.deBeerVoesParaDominioAdd(response.body().getEmbedded().getVoes()));
                                 page_next++;
+                                beerAdapter.setBeerList(BeerRankingMapper.deBeerVoesParaDominioAdd(response.body().getEmbedded().getVoes()));
                             }else {
                                 progressBar.setVisibility(View.GONE);
                             }
@@ -210,7 +211,7 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
                 @Override
                 public void onRefresh() {
                     ApiService.getInstace()
-                            .obterCervejas(0,20,"Bearer "+User.token)
+                            .obterCervejas(0,10,"Bearer "+User.token)
                             .enqueue(new Callback<BeerRankingResponse>() {
                                 @Override
                                 public void onResponse(Call<BeerRankingResponse> call, Response<BeerRankingResponse> response) {

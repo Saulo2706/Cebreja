@@ -9,18 +9,29 @@ public class Beer implements Serializable {
     private String title,description,pais, typeBeer, brandBeer, packegeBeer,status;
     private Boolean isLiked;
     private Long qtdLikes;
+    private Float score;
     private List<String> ingredients,caminhoPoster = new ArrayList<>();
 
     public Beer() {
     }
 
-    public Beer(Long id, String title, String description, Boolean isLiked, Long qtdLikes, List caminhoPoster) {
+    public Beer(Long id, String title, String description, Boolean isLiked, Long qtdLikes, List caminhoPoster,Float score) {
         this.id = id;
         this.title = title;
         this.isLiked = isLiked;
         this.qtdLikes = qtdLikes;
         this.description = description;
+        this.description = description;
         this.caminhoPoster = caminhoPoster;
+        this.score = score;
+    }
+
+    public Float getScore() {
+        return score;
+    }
+
+    public void setScore(Float score) {
+        this.score = score;
     }
 
     public Long getId() {

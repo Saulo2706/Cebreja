@@ -174,6 +174,12 @@ public class BeerActivity extends MainActivity {
                             package_Beer.setText(response.body().getPacking().getName());
                             volume_Beer.setText(response.body().getVolume());
                             description_Beer.setText(response.body().getDescription());
+                            try {
+                                score_Beer.setText(response.body().getScore().toString()+" / 5,0");
+                            } catch (NullPointerException npe) {
+                                score_Beer.setText("0.0 / 5,0");
+                            }
+                            //System.out.println(response.body().getScore());
 
                             if (response.body().getFavorited()){
                                 favoriteButtonDetails.setChecked(true);
@@ -197,7 +203,7 @@ public class BeerActivity extends MainActivity {
                             }
                             ingredients_Beer.setText(ingredients);
 
-                            //score_Beer.setText(response.body());
+
                             if (response.body().getPhotos().size() > 0){
                                 Picasso.get().load(response.body().getPhotos().get(0)).into(imageBeer);
                             }else{

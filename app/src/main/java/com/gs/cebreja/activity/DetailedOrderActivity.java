@@ -106,7 +106,7 @@ public class DetailedOrderActivity extends MainActivity {
 
     private void postDisapprove(Long id){
         ApiService.postDisapproveOrder()
-                .postApproveOrder(id,"Bearer "+ User.token)
+                .postDisapproveOrder(id,"Bearer "+ User.token)
                 .enqueue(new Callback<ApproveOrderResponse>() {
                     @Override
                     public void onResponse(Call<ApproveOrderResponse> call, Response<ApproveOrderResponse> response) {
