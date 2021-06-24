@@ -7,8 +7,8 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="30dp"
-    android:id="@+id/activity_SuccessAvaliationActivity"
-    tools:context=".activity.SuccessAvaliationActivity"
+    android:id="@+id/activity_forget_password_message"
+    tools:context=".activity.ForgetPasswordMessageActivity"
     >
 
 
@@ -20,7 +20,7 @@
         android:layout_marginTop="-50dp"
         android:fontFamily="@font/muli_black"
         android:gravity="center"
-        android:text="Avaliação Enviada"
+        android:text="Decisão Registrada "
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="@color/black"
@@ -36,7 +36,7 @@
 
 
     <Button
-        android:id="@+id/btn_goto_ranking"
+        android:id="@+id/btn_goto_orders"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"

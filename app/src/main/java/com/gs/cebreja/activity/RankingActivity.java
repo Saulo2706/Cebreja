@@ -335,6 +335,11 @@ public class RankingActivity extends MainActivity implements NavigationView.OnNa
                 intent.putExtra("user", user);
                 startActivity(intent);
                 break;
+            case R.id.nav_about:
+                intent = new Intent (RankingActivity.this,AboutActivity.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
+                break;
             case R.id.nav_logout:
                 intent = new Intent (RankingActivity.this,IndexActivity.class);
                 intent.putExtra("user", user);

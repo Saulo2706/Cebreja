@@ -39,7 +39,6 @@ public class ApprovalActivity extends MainActivity implements MyAdapterSolicitat
         setContentView(R.layout.activity_approval);
         user = getIntent().getExtras().getParcelable("user");
         user.setToken(User.token);
-        user.setRoles(User.roles);
         ImageButton manage_back_btn;
 
         dialog = new ProgressDialog(ApprovalActivity.this);
@@ -58,7 +57,7 @@ public class ApprovalActivity extends MainActivity implements MyAdapterSolicitat
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        onBackPressed();
+                        startActivity(new Intent(ApprovalActivity.this , IndexActivity.class));
                     }
                 }
         );
@@ -102,6 +101,7 @@ public class ApprovalActivity extends MainActivity implements MyAdapterSolicitat
     public void onItemBeerOrderClicado(OrderSolicitations order) {
         Intent intent = new Intent(this, DetailedOrderActivity.class);
         intent.putExtra("order",order);
+        intent.putExtra("user",user);
         //intent.putExtra("order", order);
         startActivity(intent);
     }

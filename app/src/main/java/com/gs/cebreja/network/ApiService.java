@@ -20,6 +20,7 @@ public class ApiService {
     private static BeerUploadService INSTANCE_BEER_UPLOAD;
     private static BeerFavoriteService INSTANCE_BEER_FAVORITE;
     private static BeerUploadService INSTANCE_BEER_APPROVE_ORDER;
+    private static BeerUploadService INSTANCE_BEER_DISAPPROVE_ORDER;
 
     public static BeersRankingService getInstace(){
         if(INSTANCE == null){
@@ -187,6 +188,20 @@ public class ApiService {
         }
 
         return INSTANCE_BEER_APPROVE_ORDER;
+    }
+
+
+    public static BeerUploadService postDisapproveOrder(){
+        if(INSTANCE_BEER_DISAPPROVE_ORDER == null){
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(BASE_URL)
+                    .addConverterFactory(MoshiConverterFactory.create())
+                    .build();
+
+            INSTANCE_BEER_DISAPPROVE_ORDER = retrofit.create(BeerUploadService.class);
+        }
+
+        return INSTANCE_BEER_DISAPPROVE_ORDER;
     }
 
 

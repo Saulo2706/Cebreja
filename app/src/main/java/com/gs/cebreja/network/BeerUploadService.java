@@ -50,4 +50,7 @@ public interface BeerUploadService {
     @POST("api/beer/order/{id}/approve")
     Call <ApproveOrderResponse> postApproveOrder(@Path("id") Long id, @Header("Authorization") String token);
 
+    @POST("api/beer/order/{id}/disapprove")
+    Call <ApproveOrderResponse> postDisapproveOrder(@Path("id") Long id, @Header("Authorization") String token);
+
 }

@@ -1,5 +1,6 @@
 package com.gs.cebreja.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,16 +24,19 @@ import retrofit2.Response;
 
 
 public class DetailedOrderActivity extends MainActivity {
-    OrderSolicitations order;
-    TextView titleBeer,brand_Beer,type_Beer,world_Beer,alcohlic_Beer,package_Beer,volume_Beer,description_Beer,ingredients_Beer;
-    ImageView imageBeer;
-    String ingredients = "";
-    Button yesApprove,noApprove;
+    private OrderSolicitations order;
+    private TextView titleBeer,brand_Beer,type_Beer,world_Beer,alcohlic_Beer,package_Beer,volume_Beer,description_Beer,ingredients_Beer;
+    private ImageView imageBeer;
+    private String ingredients = "";
+    private Button yesApprove,noApprove;
+    private User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_order);
         order = (OrderSolicitations) getIntent().getSerializableExtra("order");
+        user = (User) getIntent().getSerializableExtra("user");
+        user.setToken(User.token);
 
         titleBeer = findViewById(R.id.titleBeer);
         brand_Beer = findViewById(R.id.brand_Beer);
@@ -63,13 +67,21 @@ public class DetailedOrderActivity extends MainActivity {
             @Override
             public void onClick(View v) {
                 postApprove(order.getId());
+                Intent intent = new Intent(DetailedOrderActivity.this, ApproveOrderSuccesActivity.class);
+                intent.putExtra("user",user);
+                startActivity(intent);
+
             }
         });
 
         noApprove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                postDisapprove(order.getId());
+                startActivity(new Intent(DetailedOrderActivity.this , ApproveOrderSuccesActivity.class));
+                Intent intent = new Intent(DetailedOrderActivity.this, ApproveOrderSuccesActivity.class);
+                intent.putExtra("user",user);
+                startActivity(intent);
             }
         });
 
@@ -80,6 +92,20 @@ public class DetailedOrderActivity extends MainActivity {
 
     private void postApprove(Long id){
         ApiService.postApproveOrder()
+                .postApproveOrder(id,"Bearer "+ User.token)
+                .enqueue(new Callback<ApproveOrderResponse>() {
+                    @Override
+                    public void onResponse(Call<ApproveOrderResponse> call, Response<ApproveOrderResponse> response) {
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApproveOrderResponse> call, Throwable t) {
+                    }
+                });
+    }
+
+    private void postDisapprove(Long id){
+        ApiService.postDisapproveOrder()
                 .postApproveOrder(id,"Bearer "+ User.token)
                 .enqueue(new Callback<ApproveOrderResponse>() {
                     @Override

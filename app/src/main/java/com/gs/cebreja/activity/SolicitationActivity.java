@@ -192,6 +192,11 @@ public class SolicitationActivity extends MainActivity implements NavigationView
                 intent.putExtra("user", user);
                 startActivity(intent);
                 break;
+            case R.id.nav_about:
+                intent = new Intent (SolicitationActivity.this,AboutActivity.class);
+                intent.putExtra("user", user);
+                startActivity(intent);
+                break;
             case R.id.nav_logout:
                 intent = new Intent (SolicitationActivity.this,IndexActivity.class);
                 intent.putExtra("user", user);
