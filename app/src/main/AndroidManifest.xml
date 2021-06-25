@@ -13,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Cebreja"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.ApproveOrderSuccesActivity"></activity>
+        <activity android:name=".activity.ApproveOrderSuccessAdminActivity"></activity>
+        <activity android:name=".activity.DetailedOrderAdminActivity" />
+        <activity android:name=".activity.ApproveOrderSuccesActivity" />
         <activity android:name=".activity.AboutActivity" />
         <activity android:name=".activity.SuccessAvaliationActivity" />
         <activity android:name=".activity.DetailedOrderActivity" />

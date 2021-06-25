@@ -243,6 +243,7 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/muli_semibold"
                 android:lines="6"
+                android:maxLength="500"
                 android:inputType="textMultiLine"
                 android:textColor="@color/black"
                 android:textCursorDrawable="@null" />

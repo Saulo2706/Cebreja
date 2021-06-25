@@ -55,6 +55,9 @@ public class SolicitationActivity extends MainActivity implements NavigationView
         setContentView(R.layout.activity_solicitation);
         user = getIntent().getParcelableExtra("user");
         user.setToken(User.token);
+//        user.setRoles(User.roles);
+
+        System.out.println(user);
 
 
         dialog = new ProgressDialog(SolicitationActivity.this);
@@ -208,6 +211,11 @@ public class SolicitationActivity extends MainActivity implements NavigationView
 
     @Override
     public void onItemBeerOrderClicado(OrderSolicitations order) {
-
+        if (user.getRoles().get(0).getAuthority().equals("Admin")){
+            Intent intent = new Intent(this, DetailedOrderAdminActivity.class);
+            intent.putExtra("order",order);
+            intent.putExtra("user",user);
+            startActivity(intent);
+        }
     }
 }

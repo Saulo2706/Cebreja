@@ -13,9 +13,7 @@ import com.gs.cebreja.model.OrderSolicitations;
 import com.gs.cebreja.model.User;
 import com.gs.cebreja.network.ApiService;
 import com.gs.cebreja.network.response.ApproveOrderResponse;
-import com.gs.cebreja.network.response.BeerResponse;
 import com.gs.cebreja.network.response.GetBeerOrderDetailedResponse;
-import com.gs.cebreja.network.response.GetBeerOrderResponse;
 import com.squareup.picasso.Picasso;
 
 import retrofit2.Call;
@@ -23,7 +21,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class DetailedOrderActivity extends MainActivity {
+public class DetailedOrderAdminActivity extends MainActivity {
     private OrderSolicitations order;
     private TextView titleBeer,brand_Beer,type_Beer,world_Beer,alcohlic_Beer,package_Beer,volume_Beer,description_Beer,ingredients_Beer;
     private ImageView imageBeer;
@@ -33,10 +31,12 @@ public class DetailedOrderActivity extends MainActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detailed_order);
+        setContentView(R.layout.activity_detailed_order_admin);
         order = (OrderSolicitations) getIntent().getSerializableExtra("order");
-        user = (User) getIntent().getSerializableExtra("user");
+        user = getIntent().getParcelableExtra("user");
         user.setToken(User.token);
+
+        System.out.println(user);
 
         titleBeer = findViewById(R.id.titleBeer);
         brand_Beer = findViewById(R.id.brand_Beer);
@@ -67,7 +67,7 @@ public class DetailedOrderActivity extends MainActivity {
             @Override
             public void onClick(View v) {
                 postApprove(order.getId());
-                Intent intent = new Intent(DetailedOrderActivity.this, ApproveOrderSuccesActivity.class);
+                Intent intent = new Intent(DetailedOrderAdminActivity.this, ApproveOrderSuccessAdminActivity.class);
                 intent.putExtra("user",user);
                 startActivity(intent);
 
@@ -78,7 +78,7 @@ public class DetailedOrderActivity extends MainActivity {
             @Override
             public void onClick(View v) {
                 postDisapprove(order.getId());
-                Intent intent = new Intent(DetailedOrderActivity.this, ApproveOrderSuccesActivity.class);
+                Intent intent = new Intent(DetailedOrderAdminActivity.this, ApproveOrderSuccessAdminActivity.class);
                 intent.putExtra("user",user);
                 startActivity(intent);
             }
