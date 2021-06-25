@@ -211,11 +211,13 @@ public class SolicitationActivity extends MainActivity implements NavigationView
 
     @Override
     public void onItemBeerOrderClicado(OrderSolicitations order) {
-        if (user.getRoles().get(0).getAuthority().equals("Admin")){
-            Intent intent = new Intent(this, DetailedOrderAdminActivity.class);
-            intent.putExtra("order",order);
-            intent.putExtra("user",user);
-            startActivity(intent);
+        if (user.getRoles().size() > 0){
+            if (user.getRoles().get(0).getAuthority().equals("Admin")){
+                Intent intent = new Intent(this, DetailedOrderAdminActivity.class);
+                intent.putExtra("order",order);
+                intent.putExtra("user",user);
+                startActivity(intent);
+            }
         }
     }
 }
