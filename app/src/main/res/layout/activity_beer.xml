@@ -25,6 +25,7 @@
                             android:id="@+id/beer_back_btn"
                             android:padding="5dp"
                             android:src="@drawable/general_back_icon" />
+
                         <ImageButton
                             android:layout_width="30dp"
                             android:layout_height="30dp"

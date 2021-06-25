@@ -19,6 +19,7 @@ import com.gs.cebreja.network.ApiService;
 import com.gs.cebreja.network.response.LikeUnlikeResponseGeneric;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -139,7 +140,7 @@ public class MyAdapterRanking extends RecyclerView.Adapter<MyAdapterRanking.MyVi
                 }else {
                     score = beer.getScore();
                 }
-                name_Beer.setText(beer.getTitle()+ " - " + score + " / 5.0");
+                name_Beer.setText(beer.getTitle()+ " - " + new DecimalFormat("#,##0.0").format(score) + " / 5.0");
             } catch (NullPointerException npe) {
                 name_Beer.setText(beer.getTitle() + " - 0.0 / 5.0");
             }
